@@ -3,6 +3,7 @@ package controller;
 import java.util.Map;
 
 import service.BoardService;
+import service.MyService;
 import service.UserService;
 import util.ScanUtil;
 import util.View;
@@ -26,6 +27,7 @@ public class Controller {
 	
 	private UserService userService = UserService.getInstance();
 	private BoardService boardService = BoardService.getInstance();
+	private MyService myService = MyService.getInstance();
 
 	private void start() {
 		int view = View.HOME;
@@ -35,6 +37,7 @@ public class Controller {
 				case View.HOME: view = home(); break;
 				case View.LOGIN: view = userService.login(); break;
 				case View.JOIN: view = userService.join(); break;
+				case View.MY: view = myService.start(); break;
 				case View.BOARD_LIST: view = boardService.boardList(); break;
 			}
 		}
@@ -42,7 +45,7 @@ public class Controller {
 
 	private int home() {
 		System.out.println("--------------------------------------");
-		System.out.println("1.로그인\t2.회원가입\t3.1:1 문의");
+		System.out.println("1.로그인\t2.회원가입\t3.1:1 문의\t4.종료");
 		System.out.println("--------------------------------------");
 		System.out.print("번호 입력>");
 		
@@ -51,7 +54,8 @@ public class Controller {
 		switch (input) {
 			case 1: return View.LOGIN;
 			case 2: return View.JOIN;
-			case 0:
+			case 3: return View.MY;
+			case 4:
 				System.out.println("프로그램이 종료되었습니다.");
 				System.exit(0);
 		}
