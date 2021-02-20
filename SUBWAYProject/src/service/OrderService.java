@@ -3,7 +3,7 @@ package service;
 import dao.OrderDao;
 import util.ScanUtil;
 import util.View;
-
+// 주문 서비스 
 public class OrderService {
 //	생성자 만듬(private)
 	private OrderService(){}

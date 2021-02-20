@@ -9,7 +9,7 @@ import util.View;
 import dao.UserDao;
 
 public class UserService {
-
+// 유저 서비스 
 	private UserService(){}
 	private static UserService instance;
 	public static UserService getInstance(){
