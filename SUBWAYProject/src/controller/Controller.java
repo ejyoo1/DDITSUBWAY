@@ -37,7 +37,7 @@ public class Controller {
 				case View.HOME: view = home(); break;
 				case View.LOGIN: view = userService.login(); break;
 				case View.JOIN: view = userService.join(); break;
-				case View.MY: view = myService.start(); break;
+				case View.MYPAGE_MENU: view = myService.start(); break;
 				case View.BOARD_LIST: view = boardService.boardList(); break;
 			}
 		}
@@ -54,7 +54,7 @@ public class Controller {
 		switch (input) {
 			case 1: return View.LOGIN;
 			case 2: return View.JOIN;
-			case 3: return View.MY;
+			case 3: return View.MYPAGE_MENU;
 			case 4:
 				System.out.println("프로그램이 종료되었습니다.");
 				System.exit(0);
