@@ -14,7 +14,7 @@ public class MyService {
 	}
 	
 	public int start() {
-		
+		//마이페이지 시작
 		return View.MY;
 	}
 }
