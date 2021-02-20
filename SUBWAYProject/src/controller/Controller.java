@@ -44,9 +44,9 @@ public class Controller {
 	}
 
 	private int home() {
-		System.out.println("--------------------------------------");
-		System.out.println("1.로그인\t2.회원가입\t3.1:1 문의\t4.종료");
-		System.out.println("--------------------------------------");
+		System.out.println("------------------------------------------------");
+		System.out.println("1.로그인 \t 2.회원가입 \t 3.1:1 문의 \t 4.종료");
+		System.out.println("------------------------------------------------");
 		System.out.print("번호 입력>");
 		
 		int input = ScanUtil.nextInt();
@@ -58,8 +58,9 @@ public class Controller {
 			case 4:
 				System.out.println("프로그램이 종료되었습니다.");
 				System.exit(0);
+			default:
+				System.out.println("잘못입력하셨습니다.");
 		}
-		
 		return View.HOME;
 	}
 
