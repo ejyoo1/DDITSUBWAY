@@ -35,8 +35,8 @@ public class JDBCUtil {
 	
 	
 //	JDBC 연결
-	String url 	= "jdbc:oracle:thin:@localhost:1521:xe";
-	String id	= "pc19";
+	String url 	= "jdbc:oracle:thin:@192.168.43.174:1521:xe";
+	String id	= "admin";
 	String pw	= "java";
 	
 	Connection con = null;
