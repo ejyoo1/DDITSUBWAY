@@ -42,7 +42,7 @@ public class Controller {
 
 	private int home() {
 		System.out.println("--------------------------------------");
-		System.out.println("1.로그인\t2.회원가입\t0.프로그램 종료");
+		System.out.println("1.로그인\t2.회원가입\t3.1:1 문의");
 		System.out.println("--------------------------------------");
 		System.out.print("번호 입력>");
 		
