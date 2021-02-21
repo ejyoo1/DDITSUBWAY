@@ -30,8 +30,9 @@ public class UserDao {
 		return jdbc.update(sql, p);
 	}
 
-	public Map<String, Object> selectUser(String userId, String password) {
-		String sql = "select * from tb_jdbc_user where user_id = ? and password = ?";
+	public Map<String, Object> selectUser(String userId, String password, String table, String idColumn, String pwColumn) {
+		String sql = "select * from "+ table +" where "+idColumn+" = ? and "+pwColumn+" = ?";
+		System.out.println(sql);
 		List<Object> param = new ArrayList<>();
 		param.add(userId);
 		param.add(password);

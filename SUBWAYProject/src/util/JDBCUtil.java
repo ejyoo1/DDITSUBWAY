@@ -38,6 +38,7 @@ public class JDBCUtil {
 	String url 	= "jdbc:oracle:thin:@192.168.43.174:1521:xe";
 	String id	= "admin";
 	String pw	= "java";
+	String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	
 	Connection con = null;
 	PreparedStatement ps = null;
@@ -94,7 +95,7 @@ public class JDBCUtil {
 					row.put (metaData.getColumnName (i), rs.getObject (i));//접근 시 1번부터 시작함.
 				}//close for
 			}//close if
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 //			객체 반환

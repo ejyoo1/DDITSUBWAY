@@ -50,13 +50,27 @@ public class UserService {
 	}
 
 	public int login() {
-		System.out.println("========== 로그인 =============");
+		System.out.println("========== 로그인 (대소문자 구분)=============");
 		System.out.print("아이디>");
 		String userId = ScanUtil.nextLine();
 		System.out.print("비밀번호>");
 		String password = ScanUtil.nextLine();
+		String table = "오류";
+		String idColumn = "MEM_ID";
+		String pwColumn = "MEM_PW";
+		while(table.equals("오류")) {
+			System.out.println("로그인 타입 입력 > 1. 고객\t2. 가맹점\t3. 관리자");
+			int loginType = ScanUtil.nextInt();
+			switch(loginType) {
+				case 1: table = "MEMBER"; idColumn = "MEM_ID"; pwColumn="MEM_PW"; break;
+				case 2: table = "BUYER"; idColumn = "BUYER_ID"; pwColumn="BUYER_PW"; break;
+				case 3: table = "MANAGER"; idColumn = "MANAGER_ID"; pwColumn="MANAGER_PW"; break;
+				default:
+					System.out.println("다시입력"); table = "오류"; break;
+			}
+		}
 		
-		Map<String, Object> user = userDao.selectUser(userId, password);
+		Map<String, Object> user = userDao.selectUser(userId, password, table, idColumn, pwColumn);
 		
 		if(user == null){
 			System.out.println("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
