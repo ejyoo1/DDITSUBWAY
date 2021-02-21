@@ -4,6 +4,7 @@ import java.util.Map;
 
 import service.BoardService;
 import service.LoginMainMenuService;
+import service.MenuService;
 import service.MyService;
 import service.UserService;
 import util.ScanUtil;
@@ -30,6 +31,8 @@ public class Controller {
 	private BoardService boardService = BoardService.getInstance();
 	private MyService myService = MyService.getInstance();
 	private LoginMainMenuService loginMainMenuService = LoginMainMenuService.getInstance();
+	private MenuService menuService = MenuService.getInstance();
+
 
 	private void start() {
 		int view = View.HOME;
@@ -40,6 +43,7 @@ public class Controller {
 				case View.LOGIN: view = userService.login(); break;
 				case View.JOIN: view = userService.join(); break;
 				case View.LOGIN_MAIN_MENU: view = loginMainMenuService.loginMainHome(); break;
+				case View.MENU: view = menuService.menuHome();break;
 				case View.MYPAGE_MENU: view = myService.start(); break;
 				case View.BOARD_LIST: view = boardService.boardList(); break;
 			}
