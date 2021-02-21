@@ -45,9 +45,9 @@ public class TestCode {
 			System.out.println ("==회원가입2==");
 			System.out.print ("회원명 > ");
 			String userName = ScanUtil.nextLine ();
-			int userCodeInput;
+			int userCodeInput = 0;
 			
-			while(true) {
+			while(userCodeInput == 0) {
 				System.out.println ("회원 코드 선택 : 1. 고객\t2. 가맹점주");
 				userCodeInput = ScanUtil.nextInt ();//입력한 내용이 숫자인지 문자인지 판별
 				if(userCodeInput != ScanUtil.ERROR) {
@@ -60,11 +60,13 @@ public class TestCode {
 							break;
 						default :
 							System.out.println ("잘못입력하셨습니다.");
+							userCodeInput = 0;
 					}
 				}else {
 					System.out.println ("숫자가 아님 재입력");
 				}
 			}
+			System.out.println("test");
 		}
 		
 		
