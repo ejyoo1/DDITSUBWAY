@@ -13,7 +13,7 @@ public class MyService {
 		return instance;
 	}
 	
-	public int start() {
+	public int myPageHome() {
 		//마이페이지 시작
 		return View.MYPAGE_MENU;
 	}

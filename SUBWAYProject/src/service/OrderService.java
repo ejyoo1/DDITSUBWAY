@@ -21,7 +21,7 @@ public class OrderService {
 	
 	private OrderDao orderDao = OrderDao.getInstance();
 	
-	public int orderhome(){
+	public int orderHome(){
 		
 		System.out.println("--------------------------------------");
 		System.out.println("1.주문목록 조회\t2.주문등록\t3.이전으로");
