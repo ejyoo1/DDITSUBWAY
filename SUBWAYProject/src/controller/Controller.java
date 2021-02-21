@@ -3,9 +3,14 @@ package controller;
 import java.util.Map;
 
 import service.BoardService;
+import service.EventService;
+import service.FrancService;
+import service.InquService;
 import service.LoginMainMenuService;
 import service.MenuService;
 import service.MyService;
+import service.NotiService;
+import service.OrderService;
 import service.UserService;
 import util.ScanUtil;
 import util.View;
@@ -29,10 +34,14 @@ public class Controller {
 	
 	private UserService userService = UserService.getInstance();
 	private BoardService boardService = BoardService.getInstance();
-	private MyService myService = MyService.getInstance();
 	private LoginMainMenuService loginMainMenuService = LoginMainMenuService.getInstance();
 	private MenuService menuService = MenuService.getInstance();
-
+	private NotiService noticeService = NotiService.getInstance();
+	private EventService eventService = EventService.getInstance();
+	private OrderService orderService = OrderService.getInstance();
+	private MyService myPageService = MyService.getInstance();
+	private FrancService francService = FrancService.getInstance();
+	private InquService inquService = InquService.getInstance();
 
 	private void start() {
 		int view = View.HOME;
@@ -44,7 +53,13 @@ public class Controller {
 				case View.JOIN: view = userService.join(); break;
 				case View.LOGIN_MAIN_MENU: view = loginMainMenuService.loginMainHome(); break;
 				case View.MENU: view = menuService.menuHome();break;
-				case View.MYPAGE_MENU: view = myService.start(); break;
+				case View.NOTICE_LIST: view = noticeService.noticeHome(); break;
+				case View.EVENT_LIST: view = eventService.eventList(); break;
+				case View.ORDER_MENU: view = orderService.orderHome(); break;
+				case View.MYPAGE_MENU: view = myPageService.myPageHome(); break;
+				case View.FRANC_LIST: view = francService.francList(); break;
+				case View.INQU_LIST: view = inquService.inquList(); break;
+				
 				case View.BOARD_LIST: view = boardService.boardList(); break;
 			}
 		}
