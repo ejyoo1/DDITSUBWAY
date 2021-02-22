@@ -32,7 +32,6 @@ public class UserDao {
 
 	public Map<String, Object> selectUser(String userId, String password, String table, String idColumn, String pwColumn) {
 		String sql = "select * from "+ table +" where "+idColumn+" = ? and "+pwColumn+" = ?";
-		System.out.println(sql);
 		List<Object> param = new ArrayList<>();
 		param.add(userId);
 		param.add(password);

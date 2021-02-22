@@ -35,9 +35,11 @@ public class LoginMainMenuService {
 		}else if(Controller.loginUser.get("LOGIN_CODE").equals(2)) {
 			System.out.println("가맹점 메뉴 출력");///////////////////////////////////////////////////////////////////////나중에 제거할 라인
 			System.out.println("[1. 메뉴소개   2. 공지사항   3. 이벤트   4. 주문   5. 마이페이지   6. 로그아웃]");
+			int userInput = ScanUtil.nextInt();
 		}else if(Controller.loginUser.get("LOGIN_CODE").equals(3)) {
 			System.out.println("관리자 메뉴 출력");///////////////////////////////////////////////////////////////////////나중에 제거할 라인
 			System.out.println("[1. 메뉴관리   2. 공지관리   3. 이벤트 관리   4. 가맹점 관리   5. 고객 센터 관리   6. 로그아웃]");
+			int userInput = ScanUtil.nextInt();
 		}else {
 			System.out.println("로그인 코드 정보없음");
 		}
