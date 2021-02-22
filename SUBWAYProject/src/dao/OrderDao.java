@@ -27,7 +27,7 @@ public class OrderDao {
 
 	public List<Map<String, Object>> selectOrderList() {
 		String sql = "SELECT A.ORDER_NO"
-				+ "        , (SELECT B.BUYER_NAME FORM BUYER B B.BUYER_ID = A.BUYER_ID)"
+				+ "        , (SELECT B.BUYER_NAME FROM WHERE BUYER B B.BUYER_ID = A.BUYER_ID)"
 				+ "        , D.MENU_NM"
 				+ "        , A.ORDER,MEMBER_DATE "
 				+ " FROM ORDER A INNER JOIN INFO_ORDER C ON (C.ORDER_NO = A.ORDER_NO)"
@@ -36,14 +36,11 @@ public class OrderDao {
 	}
 	
 	public Map<String, Object> selectOrderOne(){//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
-		String sql = "SELECT A.ORDER_NO"
+		String sql = "SELECT ORDER_NO"
 				+ "        , (SELECT B.BUYER_NAME FORM BUYER B B.BUYER_ID = A.BUYER_ID)"
-				+ "        , D.MENU_NM"
-				+ "        , A.ORDER,MEMBER_DATE "
-				+ " FROM ORDER A INNER JOIN INFO_ORDER C ON (C.ORDER_NO = A.ORDER_NO)"
-				+ "              INNER JOIN MENU D ON (D.MENU_NO = C.MENU_NO)"
-				+ " WHERE ORDER_NO = ?";
+				+ "        , (SELECT MENU_NM FROM ORD,";
 		List<Object> param = new ArrayList<>();
+		param.add("ORDER_NO");
 		return jdbc.selectOne(sql, param);
 	}
 
