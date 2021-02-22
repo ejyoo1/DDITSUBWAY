@@ -30,7 +30,6 @@ public class Controller {
 		new Controller().start();
 	}
 	
-	//로그인 된 유저의 모든 정보가 저장됨.(테이블 기준)
 	public static Map<String, Object> loginUser;
 	
 	private UserService userService = UserService.getInstance();
@@ -86,5 +85,7 @@ public class Controller {
 		}
 		return View.HOME;
 	}
+	
+	
 
 }
