@@ -49,7 +49,6 @@ public class UserDao {
 			System.out.println("정보없음");
 		}
 		
-		
 		return jdbc.update(sql, p);
 	}
 
