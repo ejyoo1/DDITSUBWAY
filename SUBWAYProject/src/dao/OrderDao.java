@@ -36,8 +36,6 @@ public class OrderDao {
 	}
 	
 	public Map<String, Object> selectOrderOne(){//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
-		int input = ScanUtil.nextInt();
-		int orderNo = input;
 		String sql = "SELECT A.ORDER_NO"
 				+ "        , (SELECT B.BUYER_NAME FORM BUYER B B.BUYER_ID = A.BUYER_ID)"
 				+ "        , D.MENU_NM"
@@ -46,7 +44,6 @@ public class OrderDao {
 				+ "              INNER JOIN MENU D ON (D.MENU_NO = C.MENU_NO)"
 				+ " WHERE ORDER_NO = ?";
 		List<Object> param = new ArrayList<>();
-		param.add(orderNo);
 		return jdbc.selectOne(sql, param);
 	}
 
