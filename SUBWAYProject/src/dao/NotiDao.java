@@ -16,5 +16,13 @@ public class NotiDao {
 	}
 	
 	private JDBCUtil jdbc = JDBCUtil.getInstance();
+	public List<Map<String, Object>> selectImportantNotiList() {
+		String sql = " SELECT * FROM NOTICE WHERE NOTICE_IMPOR_CODE = 0";
+		return jdbc.selectList(sql);
+	}
+	public List<Map<String, Object>> selectNotiList() {
+		String sql = "SELECT * FROM NOTICE WHERE NOTICE_IMPOR_CODE = 1";
+		return jdbc.selectList(sql);
+	}
 
 }
