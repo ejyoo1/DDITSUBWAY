@@ -84,10 +84,12 @@ public class OrderService {
 	}
 
 	private void orderDetail() {
-		System.out.println("주문번호를 입력해주세요");
-		int input = ScanUtil.nextInt();
-		int orderNo = input;
-		
+		Map<String, Object> orderOne = orderDao.selectOrderOne();{
+			System.out.println("주문번호를 입력해주세요");
+			int input = ScanUtil.nextInt();
+			int orderNo = input;
+			
+		}
 		System.out.println("주문번호\t가맹점명\t메뉴이름\t재료(선택)\t주문일(회원)\t주문일(가맹점확인)");
 		
 		System.out.println("1.이전으로");
