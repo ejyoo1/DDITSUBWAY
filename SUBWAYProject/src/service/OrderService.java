@@ -1,5 +1,6 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,13 +84,22 @@ public class OrderService {
 
 	}
 
-	private void orderDetail() {
-		Map<String, Object> orderOne = orderDao.selectOrderOne();{
+	private void orderDetail() {//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
+		
 			System.out.println("주문번호를 입력해주세요");
-			int input = ScanUtil.nextInt();
-			int orderNo = input;
+			int orderNo = ScanUtil.nextInt();
+			Map<String, Object> param = new HashMap<>();
+			param.put("ORDER_NO", orderNo);
+			Map<String, Object> orderOne = orderDao.selectOrderOne();
 			
-		}
+			System.out.println(orderOne.get("ORDER_NO")
+					+ "\t" + orderOne.get("BUYER_NAME")
+					+ "\t" + orderOne.get("MENU_NM")
+					+ "\t" + orderOne.get("INGR_NAME")
+					+ "\t" + orderOne.get("CART_QTY")
+					+ "\t" + orderOne.get("ORDER_MEMBER_DATE")
+					+ "\t" + orderOne.get("ORDER_BUYER_CHOICE"));
+		
 		System.out.println("주문번호\t가맹점명\t메뉴이름\t재료(선택)\t주문일(회원)\t주문일(가맹점확인)");
 		
 		System.out.println("1.이전으로");
