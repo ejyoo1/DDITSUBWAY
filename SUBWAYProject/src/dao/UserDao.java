@@ -19,13 +19,36 @@ public class UserDao {
 	
 	private JDBCUtil jdbc = JDBCUtil.getInstance();
 	
-	public int insertUser(Map<String, Object> param){
-		String sql = "insert into tb_jdbc_user values (?, ?, ?)";
-		
+	public int insertUser(Map<String, Object> param,String table){
+		String sql ="";
 		List<Object> p = new ArrayList<>();
-		p.add(param.get("USER_ID"));
-		p.add(param.get("PASSWORD"));
-		p.add(param.get("USER_NAME"));
+		if(table.equals("MEMBER")) {
+			sql = " INSERT INTO "+ table
+					+ "(MEM_ID, MEM_PW, MEM_NM, MEM_REGNO, MEM_NUMBER, MEMBER_ZIP, MEMBER_ADD)"
+					+ " VALUES(?, ?, ?, ?, ?, ?,?)";
+			
+			p.add(param.get("MEM_ID"));
+			p.add(param.get("MEM_PW"));
+			p.add(param.get("MEM_NM"));
+			p.add(param.get("MEM_REGNO"));
+			p.add(param.get("MEM_NUMBER"));
+			p.add(param.get("MEMBER_ZIP"));
+			p.add(param.get("MEMBER_ADD"));
+		}else if(table.equals("BUYER")) {
+			sql = " INSERT INTO "+ table
+					+ "(BUYER_ID, BUYER_PW, BUYER_NAME, BUYER_COMTEL, BUYER_ZIP, BUYER_ADD)"
+					+ " VALUES(?, ?, ?, ?, ?, ?)";
+			
+			p.add(param.get("BUYER_ID"));
+			p.add(param.get("BUYER_PW"));
+			p.add(param.get("BUYER_NAME"));
+			p.add(param.get("BUYER_COMTEL"));
+			p.add(param.get("BUYER_ZIP"));
+			p.add(param.get("BUYER_ADD"));
+		}else {
+			System.out.println("정보없음");
+		}
+		
 		
 		return jdbc.update(sql, p);
 	}
