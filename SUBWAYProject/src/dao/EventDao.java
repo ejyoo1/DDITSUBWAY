@@ -31,9 +31,11 @@ public class EventDao {
 	public List<Map<String, Object>> selectNowEventList() {
 		String sql = " SELECT EVENT_ID, "
 				+ "EVENT_TITLE, "
-				+ "TO_CHAR(EVENT_STARTDATE,'YYYY-MM-DD') AS EVENT_STARTDATE, "
-				+ "TO_CHAR(EVENT_ENDDATE,'YYYY-MM-DD') AS EVENT_ENDDATE "
-				+ "FROM EVENT WHERE EVENT_ENDDATE >= SYSDATE ORDER BY EVENT_ID";
+				+ "EVENT_STARTDATE, "
+				+ "EVENT_ENDDATE "
+				+ "FROM (SELECT EVENT_ID, EVENT_TITLE, TO_CHAR(EVENT_STARTDATE,'YYYY-MM-DD') AS EVENT_STARTDATE, "
+				+ "TO_CHAR(NVL(EVENT_ENDDATE,SYSDATE+1),'YYYY-MM-DD') AS EVENT_ENDDATE FROM EVENT) "
+				+ "WHERE EVENT_ENDDATE >= SYSDATE";
 		return jdbc.selectList(sql);
 	}
 
@@ -78,5 +80,31 @@ public class EventDao {
 		p.add (param.get("EVENT_ENDDATE"));
 		p.add (param.get("EVENT_CONTENTS"));
 		return jdbc.update(sql, p);
+	}
+
+	public int updateEvent(Map<String, Object> param) {
+		String sql = " UPDATE EVENT SET "
+				+ "EVENT_TITLE = ?, "
+				+ "EVENT_STARTDATE = ?, "
+				+ "EVENT_ENDDATE = ?, "
+				+ "EVENT_CONTENTS = ?, "
+				+ "MANAGER_ID = ? "
+				+ "WHERE EVENT_ID = ?";
+		
+		List<Object> p = new ArrayList<>();
+		p.add (param.get ("EVENT_TITLE"));
+		p.add (param.get ("EVENT_STARTDATE"));
+		p.add (param.get ("EVENT_ENDDATE"));
+		p.add (param.get("EVENT_CONTENTS"));
+		p.add (param.get("MANAGER_ID"));
+		p.add (param.get ("EVENT_ID"));
+		return jdbc.update(sql, p);
+	}
+
+	public int deleteEvent(Map<String, Object> param) {
+		String sql = " DELETE FROM EVENT WHERE EVENT_ID = ?";
+		List<Object> p = new ArrayList<>();
+		p.add (param.get ("EVENT_ID"));
+		return jdbc.update (sql, p);
 	}
 }
