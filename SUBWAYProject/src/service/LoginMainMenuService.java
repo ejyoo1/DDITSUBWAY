@@ -27,7 +27,7 @@ public class LoginMainMenuService {
 				case 1: return View.MENU;
 				case 2: return View.NOTICE_LIST;
 				case 3: return View.EVENT_LIST;
-				case 4: return View.ORDER_MENU;
+				case 4: return View.ORDER_MEMBER_MENU;
 				case 5: return View.MYPAGE_MENU;
 				case 6: Controller.loginUser = null; return View.HOME;
 				default : System.out.println("잘못입력"); break;
@@ -41,7 +41,7 @@ public class LoginMainMenuService {
 				case 1: return View.MENU;
 				case 2: return View.NOTICE_LIST;
 				case 3: return View.EVENT_LIST;
-				case 4: return View.ORDER_MENU;
+				case 4: return View.ORDER_BUYER_MENU;
 				case 5: return View.MYPAGE_MENU;
 				case 6: Controller.loginUser = null; return View.HOME;
 				default : System.out.println("잘못입력"); break;
