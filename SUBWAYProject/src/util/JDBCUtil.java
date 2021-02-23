@@ -275,7 +275,12 @@ public class JDBCUtil {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}finally {
+//			객체 반환
+//			if( rs != null ) try { rs.close (); } catch(Exception e) {}
+			if( ps != null ) try { ps.close (); } catch(Exception e) {}
+			if( con != null ) try { con.close (); } catch(Exception e) {}
+		}//close finally
 		return result;
 	}
 }
