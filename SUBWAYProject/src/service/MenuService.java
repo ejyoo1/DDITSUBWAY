@@ -161,4 +161,30 @@ public class MenuService {
 		
 		}
 	}
+	
+	
+	public int menumanage() {
+		
+		System.out.println("==============================");
+		System.out.println("1. 샌드위치 조회\t 2. 랩 조회\t 3. 샐러드 조회\t 0. 이전(메인)으로");
+		System.out.println("==============================");
+		System.out.print("입력 >");
+		
+		int subMenuInput = ScanUtil.nextInt();
+		
+		switch (subMenuInput){
+		case 0:
+			return View.LOGIN_MAIN_MENU;
+		case 1:
+			selSandMenuList();
+			break;
+		case 2:
+			selWrapMenuList();
+			break;
+		case 3:
+			selSallMenuList();
+			break;
+		}//switch mainMenuInput
+		return View.MENU;
+	}
 }
