@@ -58,10 +58,11 @@ public class NotiService {
 //		조회할 게시글 데이터 가져옴
 		Map<String, Object> noticeList = notiDao.selectNotiList(param);
 //		출력
-		System.out.println ("공지사항 번호 : " + noticeList.get ("NOTICE_NO"));
-		System.out.println ("공지사항 제목 : " + noticeList.get ("NOTICE_TITLE"));
-		System.out.println ("공지사항 내용 : " + noticeList.get ("NOTICE_CONTENTS"));
-		System.out.println ("공지 작성 일자 : " + noticeList.get ("NOTICE_REG_DATE"));
+		System.out.println ("> 공지사항 번호 : " + noticeList.get ("NOTICE_NO"));
+		System.out.println ("> 공지사항 제목 : " + noticeList.get ("NOTICE_TITLE"));
+		System.out.println ("> 공지사항 내용 "); 
+		System.out.println(noticeList.get ("NOTICE_CONTENTS"));
+		System.out.println ("> 공지 작성 일자 : " + noticeList.get ("NOTICE_REG_DATE"));
 		
 		System.out.println("1. 이전으로");
 		System.out.print ("입력>");
