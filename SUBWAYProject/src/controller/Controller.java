@@ -60,6 +60,7 @@ public class Controller {
 				case View.FRANC_LIST: view = francService.francList(); break;
 				case View.INQU_LIST: view = inquService.inquList(); break;
 				case View.NOTICE_LIST_INFO: view = noticeService.notilistup(); break;
+				case View.EVENT_LIST_INFO: view = eventService.eventlistup(); break;
 				
 				case View.BOARD_LIST: view = boardService.boardList(); break;
 			}

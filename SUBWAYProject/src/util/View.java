@@ -14,6 +14,7 @@ public class View {
 	public static final int FRANC_LIST = 9;//가맹점 관리 페이지 
 	public static final int INQU_LIST = 10;//고객센터 관리 페이지 
 	public static final int NOTICE_LIST_INFO = 11;//공지사항 상세 페이지
+	public static final int EVENT_LIST_INFO = 12;//이벤트 상세 페이지
 	public static final int BOARD_LIST = 3333;
 	public static final int BOARD_UPDATE = 4444;
 
