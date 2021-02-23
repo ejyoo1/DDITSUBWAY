@@ -26,6 +26,7 @@ public class OrderDao {
 	private JDBCUtil jdbc = JDBCUtil.getInstance();
 
 	public List<Map<String, Object>> selectOrderList() {
+		//[주문번호, 가맹점명, 메뉴이름, 주문일(회원)]
 		String sql = "SELECT A.ORDER_NO"
 				+ "        , B.BUYER_NAME"
 				+ "        , D.MENU_NM"
@@ -36,7 +37,8 @@ public class OrderDao {
 		return jdbc.selectList(sql);
 	}
 	
-	public List<Map<String, Object>> selectOrderList2(String orderNo){//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
+	public List<Map<String, Object>> selectOrderList2(String orderNo){
+		//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
 		String sql = "SELECT  A.ORDER_NO "
 				+ "        ,  B.BUYER_NAME "
 				+ "        ,  F.MENU_NM "
@@ -59,6 +61,14 @@ public class OrderDao {
 		String sql = "SELECT BUYER_NAME"
 				+ "   FROM   BUYER";
 		return jdbc.selectList(sql);
+	}
+
+	public static int insertOrder(Map<String, Object> param) {
+		String sql = "";
+		List<Object> p = new ArrayList<>();
+		p.add(param.get("BUYER_ID"));
+		P.add(param.get("MEM_ID"));
+		return 0;
 	}
 
 }
