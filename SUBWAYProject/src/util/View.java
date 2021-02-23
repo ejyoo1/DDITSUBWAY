@@ -18,6 +18,8 @@ public class View {
 	public static final int EVENT_LIST_INFO = 13;//이벤트 상세 페이지
 	public static final int BOARD_LIST = 3333;
 	public static final int BOARD_UPDATE = 4444;
+	public static final int MENU_MANA = 41;
+	
 
 	
 	

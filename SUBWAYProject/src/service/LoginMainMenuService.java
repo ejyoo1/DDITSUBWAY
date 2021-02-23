@@ -52,7 +52,7 @@ public class LoginMainMenuService {
 			System.out.print("입력>");
 			int userInput = ScanUtil.nextInt();
 			switch(userInput) {
-				case 1: return View.MENU;
+				case 1: return View.MENU_MANA;
 				case 2: return View.NOTICE_LIST;
 				case 3: return View.EVENT_LIST;
 				case 4: return View.FRANC_LIST;

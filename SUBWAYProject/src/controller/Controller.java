@@ -53,6 +53,7 @@ public class Controller {
 				case View.JOIN: view = userService.join(); break;
 				case View.LOGIN_MAIN_MENU: view = loginMainMenuService.loginMainHome(); break;
 				case View.MENU: view = menuService.menuselect();break;
+				case View.MENU_MANA: view = menuService.menumanage();break;
 				case View.NOTICE_LIST: view = noticeService.noticeHome(); break;
 				case View.EVENT_LIST: view = eventService.eventList(); break;
 				case View.ORDER_MEMBER_MENU: view = orderService.orderMemberHome(); break;
