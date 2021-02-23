@@ -1,5 +1,8 @@
 package util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class TestCode {
 //	유효성 검사 서비스 객체 생성
 	private VerifiedUtil verifiedUtil = VerifiedUtil.getInstance ();
@@ -9,6 +12,7 @@ public class TestCode {
 	}
 	
 	private void start() {
+		nowTime();
 		commaTest();
 		System.out.println ("회원가입 메서드 호출");
 		join();
@@ -74,6 +78,14 @@ public class TestCode {
 			String input = "써브웨이와 함께하는 KBS '오!삼광빌라' 하하";
 			String inputM = input.replaceAll("'", "\'");
 			System.out.println(inputM);
+		}
+		
+		private void nowTime() {
+//		오늘 날짜 가져오는 소스
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			String datestr = sdf.format(cal.getTime());
+			System.out.println(datestr);
 		}
 		
 		
