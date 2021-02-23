@@ -13,6 +13,7 @@ public class View {
 	public static final int MYPAGE_MENU = 8;//마이페이지 페이지 로그인 정보 판별 후 메뉴 다르게 주어야 함.
 	public static final int FRANC_LIST = 9;//가맹점 관리 페이지 
 	public static final int INQU_LIST = 10;//고객센터 관리 페이지 
+	public static final int NOTICE_LIST_INFO = 11;//공지사항 상세 페이지
 	public static final int BOARD_LIST = 3333;
 	public static final int BOARD_UPDATE = 4444;
 
