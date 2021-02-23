@@ -216,6 +216,47 @@ public class OrderDao {
 		param.add(orderNo);
 		return jdbc.selectList(sql,param);
 	}
+    
+	//점주 미등록 주문리스트
+	public List<Map<String, Object>> notAcceptOrderList() {
+		String sql = "SELECT A.ORDER_NO\r\n"
+				+ "     , B.BUYER_NAME\r\n"
+				+ "     , D.MENU_NM\r\n"
+				+ "     , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')\r\n"
+				+ "FROM ORDERS A INNER JOIN BUYER B ON(A.BUYER_ID = B.BUYER_ID)\r\n"
+				+ "              INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)\r\n"
+				+ "              INNER JOIN MENU D       ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ)\r\n"
+				+ "WHERE A.ORDER_BUYER_CHOICE IS NULL";
+		return jdbc.selectList(sql);
+	}
+	
+	//점주 등록 승인
+	public int regUpdate(String orderNo) {
+		String sql = "UPDATE ORDERS\r\n"
+				+ "   SET    ORDER_BUYER_CHOICE = SYSDATE\r\n"
+				+ "   WHERE  ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(orderNo);
+		return jdbc.update(sql, param);
+	}
+	
+	//점주 미등록 주문리스트 상세 조회
+	public List<Map<String, Object>> notAcceptOrderDetail() {
+		String sql = "SELECT A.ORDER_NO      \r\n"
+				+ "        , B.BUYER_NAME    \r\n"
+				+ "        , F.MENU_NM       \r\n"
+				+ "        , E.INGR_NAME     \r\n"
+				+ "        , C.INFO_CART_QTY \r\n"
+				+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')\r\n"
+				+ "        , TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')\r\n"
+				+ "  FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID)\r\n"
+				+ "                  INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)\r\n"
+				+ "                  INNER JOIN ADD_INGR D   ON(C.INFO_ORDER_NO = D.INFO_ORDER_NO)\r\n"
+				+ "                  INNER JOIN INGR E       ON(D.INGR_NO = E.INGR_NO)\r\n"
+				+ "                  INNER JOIN MENU F       ON(C.MENU_NO_SEQ = F.MENU_NO_SEQ)\r\n"
+				+ "  WHERE A.ORDER_BUYER_CHOICE IS NULL";
+		return jdbc.selectList(sql);
+	}
 
 	
 
