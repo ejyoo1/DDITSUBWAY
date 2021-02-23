@@ -53,9 +53,11 @@ public class Controller {
 				case View.JOIN: view = userService.join(); break;
 				case View.LOGIN_MAIN_MENU: view = loginMainMenuService.loginMainHome(); break;
 				case View.MENU: view = menuService.menuselect();break;
+				case View.MENU_MANA: view = menuService.menumanage();break;
 				case View.NOTICE_LIST: view = noticeService.noticeHome(); break;
 				case View.EVENT_LIST: view = eventService.eventList(); break;
-				case View.ORDER_MENU: view = orderService.orderHome(); break;
+				case View.ORDER_MEMBER_MENU: view = orderService.orderMemberHome(); break;
+				case View.ORDER_BUYER_MENU: view = orderService.orderBuyerHome(); break;
 				case View.MYPAGE_MENU: view = myPageService.myPageHome(); break;
 				case View.FRANC_LIST: view = francService.francList(); break;
 				case View.INQU_LIST: view = inquService.inquList(); break;
