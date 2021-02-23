@@ -1,11 +1,14 @@
 package dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import service.MenuService;
 import util.JDBCUtil;
 import util.ScanUtil;
+import util.View;
 
 public class MenuDao {
 	//switch문에 default 꼭 입력 
@@ -17,64 +20,50 @@ public class MenuDao {
 		}
 		return instance;
 	}
-	
+
 	private JDBCUtil jdbc = JDBCUtil.getInstance();
 	
-	public List<Map<String, Object>> selectsandList(){
-		String sql = "select menu_no_seq, menu_gu, menu_gu_seq, menu_nm,"
+	public List<Map<String, Object>> selectMenuList(String menuGu){
+		String sql = "select MENU_NO_SEQ, MENU_GU, MENU_GU_SEQ, MENU_NM,"
 				+ "MENU_INGR, MENU_PRICE from menu "
-				+ "where menu_gu like 'sd%'";
-		
-		return jdbc.selectList(sql);
-	}
-	
-	public List<Map<String, Object>> selectwrapList(){
-		String sql = "select menu_no_seq, menu_gu, menu_gu_seq, menu_nm, "
-				+ "MENU_INGR, MENU_PRICE from menu "
-				+ "where menu_gu like 'wr%'";
-		
-		return jdbc.selectList(sql);
-	}
-	
-	public List<Map<String, Object>> selectsallList(){
-		String sql = "select menu_no_seq, menu_gu, menu_gu_seq, menu_nm, "
-				+ "MENU_INGR, MENU_PRICE from menu "
-				+ "where menu_gu like 'sl%'";
-		
-		return jdbc.selectList(sql);
-	}
-	
-	public List<Map<String, Object>> selectsandDeList(){
-		String sql = "select menu_no_seq, menu_gu, menu_gu_seq, menu_nm, "
-				+ "MENU_INGR, MENU_PRICE from menu "
-				+ "where menu_gu like 'sa%' and menu_gu = '?'";
-		System.out.println("샌드위치 메뉴 번호 입력 > ");
-		int sandNum = ScanUtil.nextInt();
+				+ "where MENU_GU = ?";
 		
 		List<Object> param = new ArrayList<>();
-		param.add(sandNum);
+		param.add(menuGu);
 		return jdbc.selectList(sql, param);
 	}
-	public List<Map<String, Object>> selectwrapDeList(){
-		String sql = "select menu_no_seq, menu_gu, menu_gu_seq, menu_nm, "
-				+ "MENU_INGR, MENU_PRICE from menu "
-				+ "where menu_gu like 'sa%' and menu_gu = '?'";
-		System.out.println("랩 메뉴 번호 입력 > ");
-		int sandNum = ScanUtil.nextInt();
+	
+	public Map<String, Object> selectsandDet(int detSDNum){
+		
+		String sql = " select MENU_NO_SEQ, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
+				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
+				+ "from menu "
+				+ "where MENU_GU = 'SD' and MENU_GU_SEQ = ?";
 		
 		List<Object> param = new ArrayList<>();
-		param.add(sandNum);
-		return jdbc.selectList(sql, param);
+		param.add(detSDNum);
+		return jdbc.selectOne(sql, param);
 	}
-	public List<Map<String, Object>> selectsallDeList(){
-		String sql = "select menu_no_seq, menu_gu, menu_gu_seq, menu_nm, "
-				+ "MENU_INGR, MENU_PRICE from menu "
-				+ "where menu_gu like 'sa%' and menu_gu = '?'";
-		System.out.println("샐러드 메뉴 번호 입력 > ");
-		int sandNum = ScanUtil.nextInt();
-		
+	
+	public Map<String, Object> selectwrapDet(int detWRNum){
+		String sql = " select MENU_NO_SEQ, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
+				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
+				+ "from menu "
+				+ "where MENU_GU = 'WR' and MENU_GU_SEQ = ?";
+
 		List<Object> param = new ArrayList<>();
-		param.add(sandNum);
-		return jdbc.selectList(sql, param);
+		param.add(detWRNum);
+		return jdbc.selectOne(sql, param);
+	}
+	
+	public Map<String, Object> selectsallDet(int detSLNum){
+		String sql = " select MENU_NO_SEQ, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
+				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
+				+ "from menu "
+				+ "where MENU_GU = 'SL' and MENU_GU_SEQ = ?";
+
+		List<Object> param = new ArrayList<>();
+		param.add(detSLNum);
+		return jdbc.selectOne(sql, param);
 	}
 }
