@@ -76,10 +76,10 @@ public class EventService {
 	public int eventInfo() {
 		System.out.println("==이벤트조회==");
 		System.out.print ("조회할 게시글 번호 입력>");
-		int eventNo = ScanUtil.nextInt ();
+		int eventId = ScanUtil.nextInt ();
 		
 		Map<String, Object> param = new HashMap<>();
-		param.put ("EVENT_NO", eventNo);
+		param.put ("EVENT_ID", eventId);
 		
 //		조회할 이벤트 게시글 데이터 가져옴
 		Map<String, Object> eventInfo = eventDao.selectInfo(param);
@@ -94,6 +94,12 @@ public class EventService {
 		System.out.println ("> 이벤트 작성 일자 : " + eventInfo.get ("EVENT_REG_DATE"));
 		
 		System.out.println("1. 이전으로");
+		System.out.print("입력>");
+		int userInput = ScanUtil.nextInt();
+		switch(userInput) {
+			case 1: return View.EVENT_LIST;
+			default: System.out.println("잘못입력");
+		}
 		
 		return View.EVENT_LIST_INFO;
 	}

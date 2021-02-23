@@ -48,10 +48,10 @@ public class EventDao {
 	public Map<String, Object> selectInfo(Map<String, Object> param) {
 		String sql = " SELECT EVENT_ID, "
 				+ "EVENT_TITLE, "
-				+ "EVENT_STARTDATE, "
-				+ "EVENT_ENDDATE, "
+				+ "TO_CHAR(EVENT_STARTDATE,'YYYY-MM-DD') EVENT_STARTDATE, "
+				+ "TO_CHAR(EVENT_ENDDATE,'YYYY-MM-DD') EVENT_ENDDATE, "
 				+ "EVENT_CONTENTS, "
-				+ "EVENT_REG_DATE "
+				+ "TO_CHAR(EVENT_REG_DATE,'YYYY-MM-DD') EVENT_REG_DATE "
 				+ "FROM EVENT "
 				+ "WHERE EVENT_ID = ?";
 		List<Object> p = new ArrayList<>();
