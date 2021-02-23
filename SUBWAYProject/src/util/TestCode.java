@@ -9,6 +9,7 @@ public class TestCode {
 	}
 	
 	private void start() {
+		commaTest();
 		System.out.println ("회원가입 메서드 호출");
 		join();
 		join2();
@@ -67,6 +68,12 @@ public class TestCode {
 				}
 			}
 			System.out.println("test");
+		}
+		
+		private void commaTest() {
+			String input = "써브웨이와 함께하는 KBS '오!삼광빌라' 하하";
+			String inputM = input.replaceAll("'", "\'");
+			System.out.println(inputM);
 		}
 		
 		
