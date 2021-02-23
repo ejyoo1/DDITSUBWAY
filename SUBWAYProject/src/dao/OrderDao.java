@@ -40,7 +40,7 @@ public class OrderDao {
 		return jdbc.selectList(sql,param);
 	}
 	
-	public List<Map<String, Object>> selectOrderList2(String orderNo){
+	public List<Map<String, Object>> selectOrderList2(Object member, String orderNo){
 		//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
 		String sql = "SELECT  A.ORDER_NO "
 				+ "        ,  B.BUYER_NAME "
@@ -54,8 +54,10 @@ public class OrderDao {
 				+ "                   INNER JOIN ADD_INGR D   ON(C.INFO_ORDER_NO = D.INFO_ORDER_NO) "
 				+ "                   INNER JOIN INGR E       ON(D.INGR_NO = E.INGR_NO) "
 				+ "                   INNER JOIN MENU F       ON(C.MENU_NO_SEQ = F.MENU_NO_SEQ)"
-				+ "   WHERE A.ORDER_NO = ?";
+				+ "   WHERE A.MEM_ID = ?"
+				+ "   AND   A.ORDER_NO = ?";
 		List<Object> param = new ArrayList<>();
+		param.add(member);
 		param.add(orderNo);
 		return jdbc.selectList(sql, param);
 	}
