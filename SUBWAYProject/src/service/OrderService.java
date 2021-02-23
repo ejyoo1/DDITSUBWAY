@@ -26,6 +26,7 @@ public class OrderService {
 	
 	private OrderDao orderDao = OrderDao.getInstance();
 	
+	//주문메뉴 메인홈
 	public int orderHome(){// 고객용
 		
 		System.out.println("--------------------------------------");
@@ -52,7 +53,9 @@ public class OrderService {
 		
 		}
 		return View.ORDER_MENU;
-}
+}   
+	
+	//주문목록 리스트
 	public void orderList() {
 		List<Map<String, Object>> orderList = orderDao.selectOrderList(); // 주문목록 조회
 			System.out.println("--------------------------------------");
@@ -84,8 +87,9 @@ public class OrderService {
 		
 
 	}
-
-	private void orderDetail() {//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
+	
+    //주문목록 상세
+ 	private void orderDetail() {//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
 
 				System.out.println("--------------------------------------");
 				
@@ -123,20 +127,37 @@ public class OrderService {
 
 			}
 	
-	public void orderReg() {// 주문등록
+ 	//주문등록 메인메뉴
+	public void orderReg() {
 		buyerSelect();
-		
-		System.out.println("가맹점을 선택해주세요");
+		System.out.println("가맹점을 입력해주세요");
+		String buyer = ScanUtil.nextLine();
+		Map<String, Object> param = new HashMap<>();
+		param.put("BUYER_ID", buyer);
+		int result = OrderDao.insertOrder(param);
+		System.out.println("1.주문하기\t2.이전으로");
 		int input = ScanUtil.nextInt();
+		switch(input) {
+		case 1:
+			order();
+			break;
+		case 2:
+			break;
+		
+		default:
+			System.out.println("잘못입력하였습니다.");
+			break;
+		}
+		
+		
 	}
 	
+	//가맹점목록 리스트
 	public void buyerSelect() {
 		List<Map<String, Object>> buyerList = orderDao.slectBuyerList();{
 			for(int i = 0; i < buyerList.size(); i++) {
 				Map<String, Object> list = buyerList.get(i);
 				System.out.print(i+1 + ". " + list.get("BUYER_NAME") + "\t");
-				
-				
 			}
 			System.out.println();
 
@@ -144,8 +165,119 @@ public class OrderService {
 
 	}
 	
-	public static void main(String[] args) {
+	//메뉴선택
+	public void order() {
+		System.out.println("주문메뉴를 선택해주세요");
+		System.out.println("1.샌드위치\t2.샐러드\t3.랩");
+		int input = ScanUtil.nextInt();
+		switch(input) {
+		case 1:
+			sandewitch();
+			break;
+		case 2:
+			salad();
+			break;
+		case 3:
+			rap();
+			break;
+		}
 		
 	}
+	
+	//샌드위치-재료선택
+	public int sandewitch() {
+		System.out.println("1. 에그마요 베이컨\t 2. 에그마요 페퍼로니\t 3. 이전으로");
+		System.out.println("빵을 입력해주세요");
+		System.out.println("1.화이트\t 2.파마산");
+		String bread = ScanUtil.nextLine();
+		
+		System.out.println("치즈를 입력해주세요");
+		System.out.println("1.아메리칸\t 2.슈레드 ");
+		String cheese = ScanUtil.nextLine();
+		
+		System.out.println("야채를 입력해주세요");
+		System.out.println("1.양상추\t 2.토마토");
+		String vegetable = ScanUtil.nextLine();
+		
+		System.out.println("소스를 입력해주세요");
+		System.out.println("1.머스타드\t 2.칠리");
+		String source = ScanUtil.nextLine();
+		
+		System.out.println("최종결과 출력");
+		// [가맹점명, 메뉴이름, 빵선택, 치즈선택, 야채선택, 소스선택]
+		System.out.println("1.주문등록하기 2. 취소");
+		int input = ScanUtil.nextInt();
+		switch(input) {
+		case 1: 
+			
+			break;
+		case 2:
+			
+			break;
+		default :
+			System.out.println("잘못입력하였습니다.");
+			break;
+		}
+		return View.ORDER_MENU;
+	}
+	
+	//샐러드-재료선택
+	public int salad() {
+		System.out.println("1. K-바베큐\t 2. 쉬림프\t 3. 이전으로");
+		
+		System.out.println("치즈를 선택해주세요");
+		System.out.println("1.아메리칸\t 2.슈레드 ");
+		
+		System.out.println("야채를 선택해주세요");
+		System.out.println("1.양상추\t 2.토마토");
+		
+		System.out.println("소스를 선택해주세요");
+		System.out.println("1.머스타드\t 2.칠리");
+		
+		System.out.println("최종결과 출력");
+		// [가맹점명, 메뉴이름, 빵선택, 치즈선택, 야채선택, 소스선택]
+		System.out.println("1.주문등록하기 2. 취소");
+		int input = ScanUtil.nextInt();
+		switch(input) {
+		case 1: 
+			
+			break;
+		case 2:
+			break;
+		default :
+			System.out.println("잘못입력하였습니다.");
+			break;
+		}
+		return View.ORDER_MENU;
+	}
+	
+	//랩-재료x
+	public int rap() {
+		System.out.println("1. 쉬림프 에그 그릴드 랩\t 2. 스테이크 & 치즈 아보카도 그릴드 랩\t 3. 이전으로");
+		System.out.println("최종결과 출력");
+		// [가맹점명, 메뉴이름, 빵선택, 치즈선택, 야채선택, 소스선택]
+		System.out.println("1.주문등록하기 2. 취소");
+		int input = ScanUtil.nextInt();
+		switch(input) {
+		case 1: 
+			
+			break;
+		case 2:
+			
+			break;
+		default :
+			
+			break;
+		}
+		return View.ORDER_MENU;
+		
+	}
+
+	
+
+	
+
+	
+	
 	
 }
