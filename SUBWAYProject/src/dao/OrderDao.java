@@ -63,12 +63,108 @@ public class OrderDao {
 		return jdbc.selectList(sql);
 	}
 
-	public static int insertOrder(Map<String, Object> param) {
-		String sql = "";
-		List<Object> p = new ArrayList<>();
-		p.add(param.get("BUYER_ID"));
-		P.add(param.get("MEM_ID"));
-		return 0;
+	public int buyerInsert(String buyer, Object member) {
+		String sql = "INSERT INTO ORDERS(ORDER_NO, BUYER_ID, MEM_ID, ORDER_MEMBER_DATE ) "
+				+ "               VALUES(TO_CHAR(SYSDATE,'YYYYMMDDHHMISS'),?, ?,SYSDATE)";
+		List<Object> param = new ArrayList<>();
+		param.add(buyer);
+		param.add(member);
+		return jdbc.update(sql, param);
 	}
+
+	public List<Map<String, Object>> orderNoSelectList(String buyer) {
+		String sql = " SELECT ORDER_NO "
+				+ "    FROM ORDERS"
+				+ "    WHERE BUYER_ID = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(buyer);
+		return jdbc.selectList(sql,param);
+	}
+
+	public int menuInsert(int menu, String orderNo, int qty) {
+		String sql = "INSERT INTO INFO_ORDER(INFO_ORDER_NO,MENU_NO_SEQ,ORDER_NO,INFO_CART_QTY) "
+				+ "               VALUES(INFO_ORDER_NO_SEQ.NEXTVAL,?,?,?)";
+		List<Object> param = new ArrayList<>();
+		param.add(menu);
+		param.add(orderNo);
+		param.add(qty);
+		return jdbc.update(sql, param);
+	}
+
+	public List<Map<String, Object>> infoOrderNoSelectList(String orderNo) {
+		String sql = " SELECT INFO_ORDER_NO"
+				+ "    FROM INFO_ORDER"
+				+ "    WHERE ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(orderNo);
+		return jdbc.selectList(sql, param);
+	}
+
+	public int insertBread(int infoOrderNo,String bread) {
+		String sql = "INSERT INTO ADD_INGR(ADD_INGR_NO,INFO_ORDER_NO,INGR_NO)\r\n"
+				+ "            VALUES(ADD_INGR_NO_SEQ.NEXTVAL,?,?)";
+		List<Object> param = new ArrayList<>();
+		param.add(infoOrderNo);
+		param.add(bread);
+		return jdbc.update(sql, param);
+	}
+
+	public int insertCheese(int infoOrderNo, String cheese) {
+		String sql = "INSERT INTO ADD_INGR(ADD_INGR_NO,INFO_ORDER_NO,INGR_NO)\r\n"
+				+ "            VALUES(ADD_INGR_NO_SEQ.NEXTVAL,?,?)";
+		List<Object> param = new ArrayList<>();
+		param.add(infoOrderNo);
+		param.add(cheese);
+		return jdbc.update(sql, param);
+	}
+
+	public int insertVegetable(int infoOrderNo, String vegetable) {
+		String sql = "INSERT INTO ADD_INGR(ADD_INGR_NO,INFO_ORDER_NO,INGR_NO)\r\n"
+				+ "            VALUES(ADD_INGR_NO_SEQ.NEXTVAL,?,?)";
+		List<Object> param = new ArrayList<>();
+		param.add(infoOrderNo);
+		param.add(vegetable);
+		return jdbc.update(sql, param);
+	}
+
+	public int insertSource(int infoOrderNo, String source) {
+		String sql = "INSERT INTO ADD_INGR(ADD_INGR_NO,INFO_ORDER_NO,INGR_NO)\r\n"
+				+ "            VALUES(ADD_INGR_NO_SEQ.NEXTVAL,?,?)";
+		List<Object> param = new ArrayList<>();
+		param.add(infoOrderNo);
+		param.add(source);
+		return jdbc.update(sql, param);
+	}
+
+	public List<Map<String, Object>> regOrderList(int infoOrderNo) {
+		String sql = "SELECT A.BUYER_NAME "
+				+ "        , D.MENU_NM "
+				+ "        , F.INGR_NAME "
+				+ "        , C.INFO_CART_QTY"
+				+ "   FROM BUYER A INNER JOIN ORDERS B ON(B.BUYER_ID = A.BUYER_ID) "
+				+ "                INNER JOIN INFO_ORDER C ON(B.ORDER_NO = C.ORDER_NO) "
+				+ "                INNER JOIN MENU D ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ) "
+				+ "                INNER JOIN ADD_INGR E ON(C.INFO_ORDER_NO = E.INFO_ORDER_NO) "
+				+ "                INNER JOIN INGR F ON(E.INGR_NO = F.INGR_NO) "
+				+ "   WHERE C.INFO_ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(infoOrderNo);
+		return jdbc.selectList(sql, param);
+	}
+
+	public List<Map<String, Object>> regOrderList2(int infoOrderNo) {
+		String sql = "SELECT A.BUYER_NAME "
+				+ "        , D.MENU_NM "
+				+ "        , C.INFO_CART_QTY"
+				+ "   FROM BUYER A INNER JOIN ORDERS B ON(B.BUYER_ID = A.BUYER_ID) "
+				+ "                INNER JOIN INFO_ORDER C ON(B.ORDER_NO = C.ORDER_NO) "
+				+ "                INNER JOIN MENU D ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ) "
+				+ "   WHERE C.INFO_ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(infoOrderNo);
+		return jdbc.selectList(sql, param);
+	}
+
+	
 
 }
