@@ -53,7 +53,7 @@ public class OrderService {
 
 		
 		}
-		return View.ORDER_MENU;
+		return View.ORDER_MEMBER_MENU;
 }   
 	
 	//주문목록 리스트
