@@ -15,8 +15,6 @@ public class LoginMainMenuService {
 	}
 //	로그인 성공 시 메뉴 출력되는 메서드
 	public int loginMainHome() {
-		
-		System.out.println("입력>");
 		System.out.println(Controller.loginUser);
 		System.out.println("==MAIN MENU==");
 //		로그인 코드 별로 메뉴 출력
@@ -32,6 +30,7 @@ public class LoginMainMenuService {
 				case 4: return View.ORDER_MENU;
 				case 5: return View.MYPAGE_MENU;
 				case 6: Controller.loginUser = null; return View.HOME;
+				default : System.out.println("잘못입력"); break;
 			}
 		}else if(Controller.loginUser.get("LOGIN_CODE").equals(2)) {
 			System.out.println("가맹점 메뉴 출력");///////////////////////////////////////////////////////////////////////나중에 제거할 라인
@@ -45,6 +44,7 @@ public class LoginMainMenuService {
 				case 4: return View.ORDER_MENU;
 				case 5: return View.MYPAGE_MENU;
 				case 6: Controller.loginUser = null; return View.HOME;
+				default : System.out.println("잘못입력"); break;
 			}
 		}else if(Controller.loginUser.get("LOGIN_CODE").equals(3)) {
 			System.out.println("관리자 메뉴 출력");///////////////////////////////////////////////////////////////////////나중에 제거할 라인
@@ -58,6 +58,7 @@ public class LoginMainMenuService {
 				case 4: return View.FRANC_LIST;
 				case 5: return View.INQU_LIST;
 				case 6: Controller.loginUser = null; return View.HOME;
+				default : System.out.println("잘못입력"); break;
 			}
 		}else {
 			System.out.println("로그인 코드 정보없음");
