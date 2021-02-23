@@ -27,8 +27,8 @@ public class OrderService {
 	
 	private OrderDao orderDao = OrderDao.getInstance();
 	
-	//주문메뉴 메인홈
-	public int orderHome(){// 고객용
+	//고객 주문메뉴 메인홈
+	public int orderMemberHome(){// 고객용
 		
 		System.out.println("--------------------------------------");
 		System.out.println("1.주문목록 조회\t2.주문등록 \t3.이전으로");
@@ -37,7 +37,7 @@ public class OrderService {
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
-			orderList(); // 주문목록 조회
+			orderList(Controller.loginUser.get("MEM_ID")); // 고객 주문목록 조회
 			break;
 			
 		case 2:
@@ -54,11 +54,40 @@ public class OrderService {
 		
 		}
 		return View.ORDER_MEMBER_MENU;
-}   
+	} 
 	
+	private void orderAllList() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//점주 주문메뉴 메인홈
+	public int orderBuyerHome() {
+		
+		System.out.println("--------------------------------------");
+		System.out.println("1.주문전체 조회\t2.이전으로");
+		System.out.println("--------------------------------------");
+		System.out.print("번호 입력> ");
+		int input = ScanUtil.nextInt();
+		switch (input) {
+		case 1:
+//			orderList(); // 주문목록 조회
+			break;
+			
+		case 2:
+			return View.LOGIN_MAIN_MENU; //소분류 메뉴로
+			
+		default :
+			System.out.println("잘못입력하였습니다.");
+			break;
+		}
+		
+		return View.ORDER_BUYER_MENU;
+	}
+
 	//주문목록 리스트
-	public void orderList() {
-		List<Map<String, Object>> orderList = orderDao.selectOrderList(); // 주문목록 조회
+	public void orderList(Object member) {
+		List<Map<String, Object>> orderList = orderDao.selectOrderList(member); // 주문목록 조회
 			System.out.println("--------------------------------------");
 			System.out.println("주문번호   \t가맹점명   \t메뉴이름   \t주문일");
 			for(Map<String, Object> list : orderList) {
@@ -90,7 +119,7 @@ public class OrderService {
 	}
 	
     //주문목록 상세
- 	private void orderDetail() {//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
+ 	private void orderDetail() {
 
 				System.out.println("--------------------------------------");
 				
@@ -98,10 +127,10 @@ public class OrderService {
 				System.out.print("주문번호를 입력해주세요> ");
 				
 				
-				//1. 사용자 입력
+				
 				String orderNo = ScanUtil.nextLine();
 				System.out.println("--------------------------------------");
-				//2.DB 데이터 접근 -> 출력할 것 가져옴.
+				
 				List<Map<String, Object>> orderList2 = orderDao.selectOrderList2(orderNo); 
 				System.out.println("주문번호   \t가맹점명   \t메뉴이름   \t재료(선택)\t수량 \t주문일(회원) \t주문일(가맹점확인)");
 				for(Map<String, Object> list : orderList2) {
@@ -118,7 +147,7 @@ public class OrderService {
 				int input = ScanUtil.nextInt();
 				switch (input) {
 				case 1:
-					orderList();
+//					orderList();
 					break;
 
 				default:
@@ -161,7 +190,7 @@ public class OrderService {
 			buyer = "DEMOBUYER3";
 		}else {
 			buyer = "subway1";
-		}System.out.println(buyer);
+		}
 				
 		System.out.println("메뉴를 선택해주세요");
 		System.out.println("1.에그마요 베이컨\t 2.에그마요 페퍼로니");
@@ -238,7 +267,7 @@ public class OrderService {
 			System.out.println("잘못입력하였습니다.");
 			break;
 		}
-		return View.ORDER_MENU;
+		return View.ORDER_MEMBER_MENU;
 	}
 	
 	//샐러드-재료선택
@@ -321,7 +350,7 @@ public class OrderService {
 			System.out.println("잘못입력하였습니다.");
 			break;
 		}
-		return View.ORDER_MENU;
+		return View.ORDER_MEMBER_MENU;
 	}
 	
 	//랩-재료x
@@ -372,7 +401,7 @@ public class OrderService {
 			System.out.println("잘못입력하였습니다.");
 			break;
 		}
-		return View.ORDER_MENU;
+		return View.ORDER_MEMBER_MENU;
 		
 	}
 	
@@ -384,7 +413,8 @@ public class OrderService {
 			System.out.println(list.get("BUYER_NAME")
 					+ "\t" + list.get("INGR_NAME")
 					+ "\t" + list.get("MENU_NM")
-					+ "\t" + list.get("INFO_CART_QTY"));
+					+ "\t" + list.get("INFO_CART_QTY")
+					+ "\t" + list.get("TO_CHAR(B.ORDER_MEMBER_DATE,'YY-MM-DD')"));
 		}
 		System.out.println("--------------------------------------");
 	}
@@ -394,7 +424,8 @@ public class OrderService {
 		for(Map<String, Object> list : regOrderList2) {
 			System.out.println(list.get("BUYER_NAME")
 					+ "\t" + list.get("MENU_NM")
-					+ "\t" + list.get("INFO_CART_QTY"));
+					+ "\t" + list.get("INFO_CART_QTY")
+					+ "\t" + list.get("TO_CHAR(B.ORDER_MEMBER_DATE,'YY-MM-DD')"));
 		}
 		System.out.println("--------------------------------------");
 		
@@ -477,6 +508,7 @@ public class OrderService {
 		}
 
 	}
+	
 	
 		
 	

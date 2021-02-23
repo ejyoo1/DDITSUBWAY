@@ -25,7 +25,7 @@ public class OrderDao {
 	
 	private JDBCUtil jdbc = JDBCUtil.getInstance();
 
-	public List<Map<String, Object>> selectOrderList() {
+	public List<Map<String, Object>> selectOrderList(Object member) {
 		//[주문번호, 가맹점명, 메뉴이름, 주문일(회원)]
 		String sql = "SELECT A.ORDER_NO"
 				+ "        , B.BUYER_NAME"
@@ -33,8 +33,11 @@ public class OrderDao {
 				+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')"
 				+ "   FROM ORDERS A INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID)"
 				+ "                 INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)"
-				+ "                 INNER JOIN MENU D       ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ)";
-		return jdbc.selectList(sql);
+				+ "                 INNER JOIN MENU D       ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ)"
+				+ "   WHERE MEM_ID = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(member);
+		return jdbc.selectList(sql,param);
 	}
 	
 	public List<Map<String, Object>> selectOrderList2(String orderNo){
@@ -141,6 +144,7 @@ public class OrderDao {
 				+ "        , D.MENU_NM "
 				+ "        , F.INGR_NAME "
 				+ "        , C.INFO_CART_QTY"
+				+ "        , TO_CHAR(B.ORDER_MEMBER_DATE,'YY-MM-DD')"
 				+ "   FROM BUYER A INNER JOIN ORDERS B ON(B.BUYER_ID = A.BUYER_ID) "
 				+ "                INNER JOIN INFO_ORDER C ON(B.ORDER_NO = C.ORDER_NO) "
 				+ "                INNER JOIN MENU D ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ) "
@@ -156,6 +160,7 @@ public class OrderDao {
 		String sql = "SELECT A.BUYER_NAME "
 				+ "        , D.MENU_NM "
 				+ "        , C.INFO_CART_QTY"
+				+ "        , TO_CHAR(B.ORDER_MEMBER_DATE,'YY-MM-DD')"
 				+ "   FROM BUYER A INNER JOIN ORDERS B ON(B.BUYER_ID = A.BUYER_ID) "
 				+ "                INNER JOIN INFO_ORDER C ON(B.ORDER_NO = C.ORDER_NO) "
 				+ "                INNER JOIN MENU D ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ) "
