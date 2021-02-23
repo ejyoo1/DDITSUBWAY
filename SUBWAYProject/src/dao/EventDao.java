@@ -23,7 +23,8 @@ public class EventDao {
 				+ "EVENT_TITLE, "
 				+ "TO_CHAR(EVENT_STARTDATE,'YYYY-MM-DD') AS EVENT_STARTDATE, "
 				+ "TO_CHAR(EVENT_ENDDATE,'YYYY-MM-DD') AS EVENT_ENDDATE "
-				+ "FROM EVENT";
+				+ "FROM EVENT "
+				+ "ORDER BY EVENT_ID";
 		return jdbc.selectList(sql);
 	}
 
@@ -32,7 +33,7 @@ public class EventDao {
 				+ "EVENT_TITLE, "
 				+ "TO_CHAR(EVENT_STARTDATE,'YYYY-MM-DD') AS EVENT_STARTDATE, "
 				+ "TO_CHAR(EVENT_ENDDATE,'YYYY-MM-DD') AS EVENT_ENDDATE "
-				+ "FROM EVENT WHERE EVENT_ENDDATE > SYSDATE";
+				+ "FROM EVENT WHERE EVENT_ENDDATE >= SYSDATE ORDER BY EVENT_ID";
 		return jdbc.selectList(sql);
 	}
 
@@ -41,7 +42,7 @@ public class EventDao {
 				+ "EVENT_TITLE, "
 				+ "TO_CHAR(EVENT_STARTDATE,'YYYY-MM-DD') AS EVENT_STARTDATE, "
 				+ "TO_CHAR(EVENT_ENDDATE,'YYYY-MM-DD') AS EVENT_ENDDATE "
-				+ "FROM EVENT WHERE EVENT_ENDDATE < SYSDATE";
+				+ "FROM EVENT WHERE EVENT_ENDDATE <= SYSDATE ORDER BY EVENT_ID";
 		return jdbc.selectList(sql);
 	}
 
@@ -57,5 +58,25 @@ public class EventDao {
 		List<Object> p = new ArrayList<>();
 		p.add (param.get ("EVENT_ID"));
 		return jdbc.selectOne(sql, p);
+	}
+//이벤트 등록
+	public int insertEvent(Map<String, Object> param) {
+		String sql = " INSERT INTO EVENT ("
+				+ "EVENT_ID, MANAGER_ID, EVENT_TITLE, EVENT_STARTDATE, EVENT_ENDDATE, EVENT_CONTENTS, EVENT_REG_DATE) "
+				+ "VALUES("
+				+ "EVENT_ID_SEQ.NEXTVAL, "//EVENT_ID
+				+ "?, "//MANAGER_ID
+				+ "?, "//EVENT_TITLE
+				+ "?, "//EVENT_STARTDATE
+				+ "?, "//EVENT_ENDDATE
+				+ "?, "//EVENT_CONTENTS
+				+ "SYSDATE)";//EVENT_REG_DATE
+		List<Object> p = new ArrayList<>();
+		p.add (param.get("MANAGER_ID"));
+		p.add (param.get ("EVENT_TITLE"));
+		p.add (param.get ("EVENT_STARTDATE"));
+		p.add (param.get("EVENT_ENDDATE"));
+		p.add (param.get("EVENT_CONTENTS"));
+		return jdbc.update(sql, p);
 	}
 }
