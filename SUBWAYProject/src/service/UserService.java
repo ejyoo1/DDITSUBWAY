@@ -46,17 +46,17 @@ public class UserService {
 					System.out.print("고객 회원 전화 번호(ex.000-0000-0000)>");
 					String memNumber = ScanUtil.nextLine();
 					System.out.print("고객 회원 우편 번호(ex.0000-0000)>");
-					String memberZIP = ScanUtil.nextLine();
+					String memZIP = ScanUtil.nextLine();
 					System.out.print("고객 회원 주소(ex. 대전시 중구 선화동 199-23 대덕아파트 2동 1023호)");
-					String memberADD = ScanUtil.nextLine();
+					String memADD = ScanUtil.nextLine();
 					
 					param.put("MEM_ID", memID);
 					param.put("MEM_PW", memPW);
 					param.put("MEM_NM", memNM);
 					param.put("MEM_REGNO", memREGNO);
 					param.put("MEM_NUMBER", memNumber);
-					param.put("MEMBER_ZIP", memberZIP);
-					param.put("MEMBER_ADD", memberADD);
+					param.put("MEM_ZIP", memZIP);
+					param.put("MEM_ADD", memADD);
 					break;
 				case 2: 
 					table = "BUYER"; 

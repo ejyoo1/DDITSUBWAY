@@ -24,7 +24,7 @@ public class UserDao {
 		List<Object> p = new ArrayList<>();
 		if(table.equals("MEMBER")) {
 			sql = " INSERT INTO "+ table
-					+ "(MEM_ID, MEM_PW, MEM_NM, MEM_REGNO, MEM_NUMBER, MEMBER_ZIP, MEMBER_ADD)"
+					+ "(MEM_ID, MEM_PW, MEM_NM, MEM_REGNO, MEM_NUMBER, MEM_ZIP, MEM_ADD)"
 					+ " VALUES(?, ?, ?, ?, ?, ?,?)";
 			
 			p.add(param.get("MEM_ID"));
@@ -32,8 +32,8 @@ public class UserDao {
 			p.add(param.get("MEM_NM"));
 			p.add(param.get("MEM_REGNO"));
 			p.add(param.get("MEM_NUMBER"));
-			p.add(param.get("MEMBER_ZIP"));
-			p.add(param.get("MEMBER_ADD"));
+			p.add(param.get("MEM_ZIP"));
+			p.add(param.get("MEM_ADD"));
 		}else if(table.equals("BUYER")) {
 			sql = " INSERT INTO "+ table
 					+ "(BUYER_ID, BUYER_PW, BUYER_NAME, BUYER_COMTEL, BUYER_ZIP, BUYER_ADD)"
