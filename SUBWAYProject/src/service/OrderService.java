@@ -31,7 +31,7 @@ public class OrderService {
 	public int orderBuyerHome() {
 		
 		System.out.println("--------------------------------------");
-		System.out.println("1.주문전체 조회\t2.이전으로");
+		System.out.println("1.주문전체 조회   \t2.주문등록승인   \t3.주문등록삭제   \t4.이전으로");
 		System.out.println("--------------------------------------");
 		System.out.print("번호 입력> ");
 		int input = ScanUtil.nextInt();
@@ -39,8 +39,13 @@ public class OrderService {
 		case 1:
 			buyerOrderList(); // 점주 주문조회
 			break;
-			
 		case 2:
+			buyerOrderRegAccept();
+			break;
+		case 3:
+			buyerOrderRegDelete();
+			break;		
+		case 4:
 			return View.LOGIN_MAIN_MENU; //소분류 메뉴로
 			
 		default :
@@ -63,15 +68,15 @@ public class OrderService {
 					+ "\t" + list.get("MENU_NM")
 					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')"));
 			    System.out.println("--------------------------------------");
-			    System.out.println("1.주문상세   \t2.이전으로");
+			    System.out.println("1.주문상세   \t2이전으로");
 			    System.out.print("번호를 입력해주세요.> ");
 			    int input = ScanUtil.nextInt();
 			    switch(input) {
 			    case 1:
-			    	 buyerOrderDetail();
-				     break;
+			    	buyerOrderDetail();
+				    break;
 			    case 2:
-				     break list;
+				    break list;
 				default :
 					System.out.println("잘못입력하였습니다.");
 					break;
@@ -100,25 +105,104 @@ public class OrderService {
 		}
 		System.out.println("--------------------------------------");
 			
-			System.out.println("1.주문등록승인\t2.주문등록삭제\t3.이전으로");
+			System.out.println("1.이전으로");
 			int input = ScanUtil.nextInt();
-			switch(input) {
+			switch (input) {
 			case 1:
-				
+				System.out.println("고객 주문목록을 출력합니다.");
 				break;
-			case 2:
-				
-				break;
-			case 3:
-				System.out.println("점주 주문목록을 출력합니다.");
-				break;
-			default :
+
+			default:
 				System.out.println("잘못입력하였습니다.");
 				break;
-			
 			}
 		}
 	
+	//점주 주문등록 삭제
+	public void buyerOrderRegDelete() {
+		
+		
+	}
+	
+	
+    //점주 주문등록 승인
+	public void buyerOrderRegAccept() {
+		System.out.println("점주주문목록에서 미등록된 주문목록을 출력합니다.");
+		list : while(true) {
+		//점주 미등록 주문리스트 출력
+		notAcceptOrderList();
+		
+		System.out.println("1.상세조회\t2.이전으로");
+		int input = ScanUtil.nextInt();
+		
+		if(input == 1) {
+			//점주 미등록 주문리스트 상세 조회
+			notAcceptOrderDetail();
+		}else {
+			break list;
+		}
+				
+		//점주 등록 승인
+		regUpdate();
+		
+		System.out.println("1.미등록 주문리스트 2.점주 주문메뉴");
+		input = ScanUtil.nextInt();
+		switch (input) {
+		case 1:
+			break;
+		
+		case 2:
+			System.out.println("점주 주문메뉴를 출력합니다.");
+			break list;
+
+		default:
+			System.out.println("잘못입력하였습니다.");
+			break;
+		}
+		}
+		
+	}
+	
+	//점주 미등록 주문리스트 상세 조회
+	public void notAcceptOrderDetail() {
+		List<Map<String, Object>> orderList = orderDao.notAcceptOrderDetail();
+		for (Map<String, Object> list : orderList) {
+			System.out.println(list.get("ORDER_NO") 
+					+ "\t" + list.get("BUYER_NAME") 
+					+ "\t" + list.get("MENU_NM") 
+					+ "\t" + list.get("INGR_NAME") 
+					+ "\t" + list.get("INFO_CART_QTY") + "개" 
+					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") 
+					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')"));
+		}
+		System.out.println("--------------------------------------");
+		
+	}
+	
+	//점주 등록 승인
+	public void regUpdate() {
+		System.out.println("등록승인할 주문번호를 입력해주세요.");
+		String orderNo = ScanUtil.nextLine();
+		int orderReg = orderDao.regUpdate(orderNo);
+		System.out.println(orderReg + "개의 주문리스트가 등록되었습니다.");
+		
+		
+	}
+
+	//점주 미등록 주문리스트
+	public void notAcceptOrderList() {
+		List<Map<String, Object>> orderList = orderDao.notAcceptOrderList();
+		System.out.println("주문번호   \t가맹점명   \t메뉴이름   \t주문일");
+		for(Map<String, Object> list : orderList) {
+			System.out.println(list.get("ORDER_NO")
+					+ "\t" + list.get("BUYER_NAME")
+					+ "\t" + list.get("MENU_NM")
+					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')"));
+		}
+		System.out.println("--------------------------------------");
+		
+	}
+
 	//고객 주문메뉴 메인홈
 	public int orderMemberHome(){// 고객용
 		
