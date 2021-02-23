@@ -47,7 +47,7 @@ public class NotiService {
 		return View.NOTICE_LIST;
 	}
 	
-	public int notilistup(){
+	public int notiInfo(){
 		System.out.println("==공지상세조회==");
 		System.out.print ("조회할 게시글 번호 입력>");
 		int noticeNo = ScanUtil.nextInt ();
