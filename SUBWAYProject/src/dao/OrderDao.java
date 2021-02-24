@@ -321,6 +321,140 @@ public class OrderDao {
 		param.add(orderInfoNo);
 		return jdbc.update(sql, param);
 	}
+    //카트테이블 입력
+	public int cartInsert(Object member, int menu, int qty) {
+		String sql = "INSERT INTO CART(CART_NO, MEM_ID, MENU_NO, CART_QTY)\r\n"
+				+ "               VALUES(CART_NO_SEQ.NEXTVAL, ?,?,?)";
+		List<Object> param = new ArrayList<>();
+		param.add(member);
+		param.add(menu);
+		param.add(qty);
+		return jdbc.update(sql, param);
+	}
+    
+	//장바구니 번호출력
+	public List<Map<String, Object>> cartNoSelect(Object member) {
+		String sql = "SELECT CART_NO "
+				+ "   FROM   CART "
+				+ "   WHERE  MEM_ID = ? "
+				+ "   ORDER BY CART_NO";
+		List<Object> param = new ArrayList<>();
+		param.add(member);
+		return jdbc.selectList(sql, param);
+	}
+    
+	//카트빵입력
+	public int cartBreadInsert(String bread, int cartNo) {
+		String sql = "INSERT INTO CART_ADD_INGR(CART_ADD_NO, INGR_NO, CART_NO)\r\n"
+				+ "               VALUES(CART_ADD_NO_SEQ.NEXTVAL, ?, ?)";
+		List<Object> param = new ArrayList<>();
+		param.add(bread);
+		param.add(cartNo);
+		return jdbc.update(sql, param);
+	}
+	
+	//카트치즈입력
+	public int cartCheeseInsert(String cheese, int cartNo) {
+		String sql = "INSERT INTO CART_ADD_INGR(CART_ADD_NO, INGR_NO, CART_NO)\r\n"
+				+ "               VALUES(CART_ADD_NO_SEQ.NEXTVAL, ?, ?)";
+		List<Object> param = new ArrayList<>();
+		param.add(cheese);
+		param.add(cartNo);
+		return jdbc.update(sql, param);
+	}
+	
+    //카트야채입력
+	public int cartVegetabkeInsert(String vegetable, int cartNo) {
+		String sql = "INSERT INTO CART_ADD_INGR(CART_ADD_NO, INGR_NO, CART_NO)\r\n"
+				+ "               VALUES(CART_ADD_NO_SEQ.NEXTVAL, ?, ?)";
+		List<Object> param = new ArrayList<>();
+		param.add(vegetable);
+		param.add(cartNo);
+		return jdbc.update(sql, param);
+	}
+	
+    //카트소스입력
+	public int cartSourceInsert(String source, int cartNo) {
+		String sql = "INSERT INTO CART_ADD_INGR(CART_ADD_NO, INGR_NO, CART_NO)\r\n"
+				+ "               VALUES(CART_ADD_NO_SEQ.NEXTVAL, ?, ?)";
+		List<Object> param = new ArrayList<>();
+		param.add(source);
+		param.add(cartNo);
+		return jdbc.update(sql, param);
+	}
+	
+	//주문번호 생성
+	public int orderTableInsert(String buyer, Object member) {
+		String sql = "INSERT INTO ORDERS(ORDER_NO, BUYER_ID, MEM_ID, ORDER_MEMBER_DATE )\r\n"
+				+ "               VALUES(TO_CHAR(SYSDATE,'YYYYMMDDHHMISS'), ?, ?,SYSDATE)";
+		List<Object> param = new ArrayList<>();
+		param.add(buyer);
+		param.add(member);
+		return jdbc.update(sql, param);
+	}
+
+	public int orderTableUpdate(int price, String orderNo) {
+		String sql = "UPDATE ORDERS\r\n"
+				+ "   SET    ORDER_PRICE = ?"
+				+ "   WHERE  ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(price);
+		param.add(orderNo);
+		return jdbc.update(sql, param);
+	}
+	
+	// 카트테이블에서 INFO_ORDER로 입력
+	public int infoOrderInsert(Object member) {
+		String sql = "INSERT INTO INFO_ORDER(INFO_ORDER_NO,MENU_NO,ORDER_NO,INFO_CART_QTY)\r\n"
+				+ "   SELECT INFO_ORDER_NO_SEQ.NEXTVAL,MENU_NO,(SELECT MAX(ORDER_NO) FROM ORDERS), CART_QTY\r\n"
+				+ "   FROM   CART WHERE MEM_ID = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(member);
+		return jdbc.update(sql, param);
+	}
+	
+	// 카트테이블에서 ADD_INGR로 입력
+	public int addIngrInsert() {
+		String sql = "INSERT INTO ADD_INGR(ADD_INGR_NO, INFO_ORDER_NO, INGR_NO)\r\n"
+				+ "   SELECT ADD_INGR_NO_SEQ.NEXTVAL, (SELECT MAX(INFO_ORDER_NO) FROM INFO_ORDER), INGR_NO\r\n"
+				+ "   FROM   CART_ADD_INGR A WHERE A.CART_NO = (SELECT B.CART_NO FROM CART B WHERE B.CART_NO = A.CART_NO)";
+		return jdbc.update(sql);
+	}
+    
+	// 최종 고객 주문등록 출력리스트
+	public List<Map<String, Object>> finalOrderList(Object member, String orderNo) {
+		String sql = "SELECT  A.ORDER_NO "
+				+ "        ,  B.BUYER_NAME "
+				+ "        ,  F.MENU_NM "
+				+ "        ,  E.INGR_NAME "
+				+ "        ,  C.INFO_CART_QTY "
+				+ "        ,  TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD') "
+				+ "        ,  TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD') "
+				+ "        ,  A.ORDER_PRICE "
+				+ "   FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID) "
+				+ "                   INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO) "
+				+ "                   INNER JOIN ADD_INGR D   ON(C.INFO_ORDER_NO = D.INFO_ORDER_NO) "
+				+ "                   INNER JOIN INGR E       ON(D.INGR_NO = E.INGR_NO) "
+				+ "                   INNER JOIN MENU F       ON(C.MENU_NO = F.MENU_NO)"
+				+ "   WHERE A.MEM_ID = ?"
+				+ "   AND   A.ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(member);
+		param.add(orderNo);
+		return jdbc.selectList(sql, param);
+	}
+
+	public int cartAddDelete() {
+		String sql = "DELETE FROM CART_ADD_INGR";
+		return jdbc.update(sql);
+	}
+
+	public int cartDelete() {
+		String sql = "DELETE FROM CART";
+		return jdbc.update(sql);
+	}
+
+	
 
 	
 
