@@ -7,6 +7,7 @@ import java.util.Map;
 import controller.Controller;
 import dao.EventDao;
 import util.ScanUtil;
+import util.VerifiedUtil;
 import util.View;
 
 public class EventService {
@@ -24,6 +25,7 @@ public class EventService {
 	
 //	다오 서비스 객체 획득
 	private EventDao eventDao = EventDao.getInstance();
+	private VerifiedUtil verifiedUtil = VerifiedUtil.getInstance();
 	
 	public int eventList() {//1. 전체조회 2. 현재 진행중인 이벤트 조회 3. 종료된 이벤트 조회
 		System.out.println("=======================================");
@@ -33,35 +35,21 @@ public class EventService {
 		if(eventListCode == 1) {
 			System.out.println("===============전체 이벤트==================");
 			List<Map<String, Object>> eventAllList = eventDao.selectAllEventList();
-			String eventEndDateString = "";
 			for(Map<String, Object> event : eventAllList){
-//				이벤트 종료날짜 null 데이터 처리
-				if(event.get ("EVENT_ENDDATE")==null) {
-					eventEndDateString = "진행중";
-				}else {
-					eventEndDateString = event.get ("EVENT_ENDDATE").toString();
-				}
 				System.out.println(event.get("EVENT_ID")
 						+ "\t" + event.get("EVENT_TITLE")
 						+ "\t" + event.get("EVENT_STARTDATE")
-						+ "\t" + eventEndDateString
+						+ "\t" + event.get ("EVENT_ENDDATE")
 						);
 			}
 		}else if(eventListCode == 2) {
 			System.out.println("=============현재 진행중 이벤트==================");
 			List<Map<String, Object>> eventNowList = eventDao.selectNowEventList();
-			String eventEndDateString = "";
 			for(Map<String, Object> event : eventNowList){
-//				이벤트 종료날짜 null 데이터 처리
-				if(event.get ("EVENT_ENDDATE")==null) {
-					eventEndDateString = "진행중";
-				}else {
-					eventEndDateString = event.get ("EVENT_ENDDATE").toString();
-				}
 				System.out.println(event.get("EVENT_ID")
 						+ "\t" + event.get("EVENT_TITLE")
 						+ "\t" + event.get("EVENT_STARTDATE")
-						+ "\t" + eventEndDateString
+						+ "\t" + event.get ("EVENT_ENDDATE")
 						);
 			}
 		}else if(eventListCode == 3) {
@@ -157,14 +145,38 @@ public class EventService {
 	}
 
 //	이벤트 등록
-	public int insertEvent() {
+	public void insertEvent() {
 		System.out.println("=========== 이벤트 등록 =============");
 		System.out.print ("이벤트 제목 >");
 		String eventTitle = ScanUtil.nextLine ();
-		System.out.print ("이벤트 시작 날짜 (ex.2020/10/16)>");
-		String eventStartDate = ScanUtil.nextLine ();
-		System.out.print ("이벤트 종료 날짜 (ex.2020/10/16)>");
-		String eventEndDate = ScanUtil.nextLine();
+		
+		String eventStartDate = "";
+		boolean userFlag = true;
+		while(userFlag) {
+			System.out.print ("이벤트 시작 날짜 (ex.2020-10-16)>");
+			eventStartDate = ScanUtil.nextLine ();
+			boolean userEventDateFlag = verifiedUtil.verifiedDate(eventStartDate);
+			if(userEventDateFlag) {
+				System.out.println("날짜 검사 : 정확하게 입력하였습니다.");
+				break;
+			}else {
+				System.out.println("잘못 입력하였습니다. 날짜 형식[2020-10-16]");
+			}
+		}
+		
+		String eventEndDate = "";
+		while(userFlag) {
+			System.out.print ("이벤트 종료 날짜 (ex.2020-10-16)>");
+			eventEndDate = ScanUtil.nextLine ();
+			boolean userEventDateFlag = verifiedUtil.verifiedDate(eventEndDate);
+			if(userEventDateFlag) {
+				System.out.println("날짜 검사 : 정확하게 입력하였습니다.");
+				break;
+			}else {
+				System.out.println("잘못 입력하였습니다. 날짜 형식[2020-10-16]");
+			}
+		}
+		
 		System.out.print ("이벤트 내용 >");
 		String eventContents = ScanUtil.nextLine();
 		
@@ -182,7 +194,6 @@ public class EventService {
 		}else {
 			System.out.println ("이벤트 등록 실패 재시도 하십시오.");
 		}
-		return View.NOTICE_LIST;
 	}//close insertEvent
 	
 //	이벤트 수정
@@ -192,10 +203,35 @@ public class EventService {
 		param.put ("EVENT_ID", eventId);
 		System.out.print ("이벤트 제목 >");
 		String eventTitle = ScanUtil.nextLine ();
-		System.out.print ("이벤트 시작 날짜 (ex.2020/10/16)>");
-		String eventStartDate = ScanUtil.nextLine ();
-		System.out.print ("이벤트 종료 날짜 (ex.2020/10/16)>");
-		String eventEndDate = ScanUtil.nextLine();
+
+		String eventStartDate = "";
+		boolean userFlag = true;
+		while(userFlag) {
+			System.out.print ("이벤트 시작 날짜 (ex.2020-10-16)>");
+			eventStartDate = ScanUtil.nextLine ();
+			boolean userEventDateFlag = verifiedUtil.verifiedDate(eventStartDate);
+			if(userEventDateFlag) {
+				System.out.println("날짜 검사 : 정확하게 입력하였습니다.");
+				break;
+			}else {
+				System.out.println("잘못 입력하였습니다. 날짜 형식[2020-10-16]");
+			}
+		}
+		
+		String eventEndDate = "";
+		while(userFlag) {
+			System.out.print ("이벤트 종료 날짜 (ex.2020-10-16)>");
+			eventEndDate = ScanUtil.nextLine ();
+			boolean userEventDateFlag = verifiedUtil.verifiedDate(eventEndDate);
+			if(userEventDateFlag) {
+				System.out.println("날짜 검사 : 정확하게 입력하였습니다.");
+				break;
+			}else {
+				System.out.println("잘못 입력하였습니다. 날짜 형식[2020-10-16]");
+			}
+		}
+		
+		
 		System.out.print ("이벤트 내용 >");
 		String eventContents = ScanUtil.nextLine();
 		

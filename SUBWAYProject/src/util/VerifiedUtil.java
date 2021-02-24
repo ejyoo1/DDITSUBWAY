@@ -55,4 +55,17 @@ public class VerifiedUtil {
 		System.out.println ("이메일 정규식 결과 : " + m.matches());
 		return m.matches();
 	}
+	
+	public boolean verifiedDate(String userDate) {
+		if(!userDate.equals("")) {
+			String regex1 = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$";//날짜 정규식 
+			Pattern p = Pattern.compile (regex1);
+			Matcher m = p.matcher (userDate);
+			System.out.println ("날짜 정규식 결과 : " + m.matches());
+			return m.matches();
+		}else {
+			return false;
+		}
+	}
+	
 }
