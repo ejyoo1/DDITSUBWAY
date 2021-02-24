@@ -60,10 +60,13 @@ public class MenuService {
 	private void selSandMenuList() {
 		String menUGu = "SD";
 		List<Map<String, Object>> selMenuList = menuDao.selectMenuList(menUGu);
+		
+		int userMenuNum = 1;
 		System.out.println("=======================================");
 		for(Map<String, Object> menuBoard : selMenuList){
-			System.out.println(menuBoard.get("MENU_GU_SEQ")
-					+ "\t" + menuBoard.get("MENU_NM"));
+			System.out.println(userMenuNum
+					+ ". " + menuBoard.get("MENU_NM"));
+			userMenuNum ++;
 		}
 		System.out.println("0. 이전으로");
 		System.out.println("=======================================");
@@ -71,18 +74,19 @@ public class MenuService {
 		System.out.print("메뉴번호 입력 >");
 		int deNum = ScanUtil.nextInt();
 		
-		Map<String, Object> selectsdDe = menuDao.selectsandDet(deNum);
+		int max = selMenuList.size();
+		int selMenuNum = ((BigDecimal)selMenuList.get(deNum-1).get("MENU_NO")).intValue();
+		Map<String, Object> selectsdDe = menuDao.selectsandDet(selMenuNum);
 		
 		//선택된 메뉴 상세정보 출력
 		if(deNum == 0){
 			selMenuList = menuDao.selectMenuList(menUGu);
 		}
-		else if(selectsdDe == null){
+		else if(deNum < 0 || deNum > max){
 			System.out.println("잘못 입력하셨습니다 다시 입력하세요");
 			selSandMenuList();
 		}
-		else if(((BigDecimal)selectsdDe.get("MENU_GU_SEQ")).intValue() > 0 
-			 || ((BigDecimal)selectsdDe.get("MENU_GU_SEQ")).intValue() <= ((BigDecimal)selectsdDe.get("maxgs")).intValue()){
+		else if(deNum > 0 || deNum <= max){
 					
 			System.out.println("=======================================");
 			System.out.println("메뉴번호 \t 메뉴이름 \t\t 메뉴 기본재료 \t\t\t 메뉴가격");
@@ -102,9 +106,12 @@ public class MenuService {
 		String menUGu = "WR";
 		List<Map<String, Object>> selMenuList = menuDao.selectMenuList(menUGu);
 		System.out.println("=======================================");
+		
+		int userMenuNum = 1;
 		for(Map<String, Object> menuBoard : selMenuList){
-			System.out.println(menuBoard.get("MENU_GU_SEQ")
-					+ "\t" + menuBoard.get("MENU_NM"));
+			System.out.println(userMenuNum
+					+ ". " + menuBoard.get("MENU_NM"));
+			userMenuNum ++;
 		}
 		System.out.println("0. 이전으로");
 		System.out.println("=======================================");
@@ -112,18 +119,19 @@ public class MenuService {
 		System.out.print("메뉴번호 입력 >");
 		int deNum = ScanUtil.nextInt();
 		
-		Map<String, Object> selectwrDe = menuDao.selectwrapDet(deNum);
+		int max = selMenuList.size();
+		int selMenuNum = ((BigDecimal)selMenuList.get(deNum-1).get("MENU_NO")).intValue();
+		Map<String, Object> selectwrDe = menuDao.selectwrapDet(selMenuNum);
 		
 		//선택된 메뉴 상세정보 출력
 		if(deNum == 0){
 			selMenuList = menuDao.selectMenuList(menUGu);
 		}
-		else if(selectwrDe == null){
+		else if(deNum < 0 || deNum > max){
 			System.out.println("잘못 입력하셨습니다 다시 입력하세요");
 			selSandMenuList();
 		}
-		else if(((BigDecimal)selectwrDe.get("MENU_GU_SEQ")).intValue() > 0 
-			 || ((BigDecimal)selectwrDe.get("MENU_GU_SEQ")).intValue() <= ((BigDecimal)selectwrDe.get("maxgs")).intValue()){
+		else if(deNum > 0 || deNum <= max){
 					
 			System.out.println("=======================================");
 			System.out.println("메뉴번호 \t 메뉴이름 \t\t 메뉴 기본재료 \t\t\t 메뉴가격");
@@ -143,9 +151,12 @@ public class MenuService {
 		String menUGu = "SL";
 		List<Map<String, Object>> selMenuList = menuDao.selectMenuList(menUGu);
 		System.out.println("=======================================");
+		
+		int userMenuNum = 1;
 		for(Map<String, Object> menuBoard : selMenuList){
-			System.out.println(menuBoard.get("MENU_GU_SEQ")
-					+ "\t" + menuBoard.get("MENU_NM"));
+			System.out.println(userMenuNum
+					+ ". " + menuBoard.get("MENU_NM"));
+			userMenuNum ++;
 		}
 		System.out.println("0. 이전으로");
 		System.out.println("=======================================");
@@ -153,19 +164,22 @@ public class MenuService {
 		System.out.print("메뉴번호 입력 >");
 		int deNum = ScanUtil.nextInt();
 		
-		Map<String, Object> selectslDe = menuDao.selectsallDet(deNum);
+		int max = selMenuList.size();
+		int selMenuNum = ((BigDecimal)selMenuList.get(deNum-1).get("MENU_NO")).intValue();
+		Map<String, Object> selectslDe = menuDao.selectsallDet(selMenuNum);
+		
 		
 		//선택된 메뉴 상세정보 출력
 		if(deNum == 0){
 			selMenuList = menuDao.selectMenuList(menUGu);
 		}
-		else if(selectslDe == null){
+		else if(deNum < 0 || deNum > max){
 			System.out.println("잘못 입력하셨습니다 다시 입력하세요");
 			selSallMenuList();
 		}
-		else if(((BigDecimal)selectslDe.get("MENU_GU_SEQ")).intValue() > 0 
-			 || ((BigDecimal)selectslDe.get("MENU_GU_SEQ")).intValue() <= ((BigDecimal)selectslDe.get("maxgs")).intValue()){
-					
+		else if(deNum > 0 || deNum <= max){
+			
+			
 			System.out.println("=======================================");
 			System.out.println("메뉴번호 \t 메뉴이름 \t\t 메뉴 기본재료 \t\t\t 메뉴가격");
 			System.out.println("---------------------------------------");

@@ -26,8 +26,7 @@ public class MenuDao {
 	public List<Map<String, Object>> selectMenuList(String menuGu){
 		String sql = "select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM,"
 				+ "MENU_INGR, MENU_PRICE from menu "
-				+ "where MENU_GU = ?"
-				+ "order by MENU_GU_SEQ";
+				+ "where MENU_GU = ?";
 		
 		List<Object> param = new ArrayList<>();
 		param.add(menuGu);
@@ -39,7 +38,7 @@ public class MenuDao {
 		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
 				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
 				+ "from menu "
-				+ "where MENU_GU = 'SD' and MENU_GU_SEQ = ?";
+				+ "where MENU_NO = ?";
 		
 		List<Object> param = new ArrayList<>();
 		param.add(detSDNum);
@@ -50,7 +49,7 @@ public class MenuDao {
 		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
 				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
 				+ "from menu "
-				+ "where MENU_GU = 'WR' and MENU_GU_SEQ = ?";
+				+ "where MENU_NO = ?";
 
 		List<Object> param = new ArrayList<>();
 		param.add(detWRNum);
@@ -61,7 +60,7 @@ public class MenuDao {
 		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
 				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
 				+ "from menu "
-				+ "where MENU_GU = 'SL' and MENU_GU_SEQ = ?";
+				+ "where MENU_NO = ?";
 
 		List<Object> param = new ArrayList<>();
 		param.add(detSLNum);
