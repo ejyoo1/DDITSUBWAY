@@ -5,6 +5,7 @@ import java.util.Map;
 
 import controller.Controller;
 import util.ScanUtil;
+import util.VerifiedUtil;
 import util.View;
 import dao.UserDao;
 
@@ -18,8 +19,9 @@ public class UserService {
 		}
 		return instance;
 	}
-	
+//	userDao 객체 획득(SQL , PARAM)작성 위함
 	private UserDao userDao = UserDao.getInstance();
+	private VerifiedUtil verifiedUtil = VerifiedUtil.getInstance();
 	
 //	회원가입 하는 메서드
 	public int join(){
@@ -34,17 +36,41 @@ public class UserService {
 			switch(loginType) {
 //			로그인 타입이 고객일 때, 로그인 코드, 유저 테이블명, 유저 아이디, 유저 패스워드 저장
 				case 1: 
-					table = "MEMBER"; 
-					System.out.print("고객 아이디>");
-					String memID = ScanUtil.nextLine();
+					table = "MEMBER";
+					String memID ="";
+					boolean userFlag = true;
+					while(userFlag) {
+						System.out.print("고객 아이디>");
+						memID = ScanUtil.nextLine();
+						boolean userIdFlag = verifiedUtil.verifiedId(memID);
+						if(userIdFlag) {
+							System.out.println("아이디 검사 : 정확하게 입력하였습니다.");
+							break;
+						}else {
+							System.out.println("잘못 입력하였습니다. 아이디 형식[영문 : 대소문자 / 특수문자 : '-', '_'만 가능 / 길이 : 5~20자]");
+						}
+					}
+					
 					System.out.print("고객 비밀번호>");
 					String memPW = ScanUtil.nextLine();
 					System.out.print("고객 이름>");
 					String memNM = ScanUtil.nextLine();
 					System.out.print("고객 생년월일(ex.93/12/06)>");
 					String memREGNO = ScanUtil.nextLine();
-					System.out.print("고객 회원 전화 번호(ex.000-0000-0000)>");
-					String memNumber = ScanUtil.nextLine();
+					
+					String memNumber = "";
+					while(userFlag) {
+						System.out.print("고객 회원 전화 번호(ex.000-0000-0000)>");
+						memNumber = ScanUtil.nextLine();
+						boolean userNumberFlag = verifiedUtil.verifiedNumber(memNumber);
+						if(userNumberFlag) {
+							System.out.println("전화번호 검사 : 정확하게 입력하였습니다. ");
+							break;
+						}else {
+							System.out.println("잘못 입력하였습니다. 형식에 맞추어 입력해주세요.");
+						}
+					}
+					
 					System.out.print("고객 회원 우편 번호(ex.0000-0000)>");
 					String memZIP = ScanUtil.nextLine();
 					System.out.print("고객 회원 주소(ex. 대전시 중구 선화동 199-23 대덕아파트 2동 1023호)");
@@ -60,14 +86,38 @@ public class UserService {
 					break;
 				case 2: 
 					table = "BUYER"; 
-					System.out.print("가맹점 아이디>");
-					String buyerID = ScanUtil.nextLine();
+					String buyerID ="";
+					boolean userFlag1 = true;
+					while(userFlag1) {
+						System.out.print("가맹점 아이디>");
+						buyerID = ScanUtil.nextLine();
+						boolean userIdFlag = verifiedUtil.verifiedId(buyerID);
+						if(userIdFlag) {
+							System.out.println("아이디 검사 : 정확하게 입력하였습니다.");
+							break;
+						}else {
+							System.out.println("잘못 입력하였습니다. 아이디 형식[영문 : 대소문자 / 특수문자 : '-', '_'만 가능 / 길이 : 5~20자]");
+						}
+					}
+					
 					System.out.print("가맹점 비밀번호>");
 					String buyerPW = ScanUtil.nextLine();
 					System.out.print("가맹점 이름>");
 					String buyerNAME = ScanUtil.nextLine();
-					System.out.print("가맹점 전화번호(ex.000-0000-0000)>");
-					String buyerComtel = ScanUtil.nextLine();
+					
+					String buyerComtel ="";
+					while(userFlag1) {
+						System.out.print("가맹점 전화번호(ex.000-0000-0000)>");
+						buyerComtel = ScanUtil.nextLine();
+						boolean userNumberFlag = verifiedUtil.verifiedNumber(buyerComtel);
+						if(userNumberFlag) {
+							System.out.println("전화번호 검사 : 정확하게 입력하였습니다. ");
+							break;
+						}else {
+							System.out.println("잘못 입력하였습니다. 형식에 맞추어 입력해주세요.");
+						}
+					}
+					
 					System.out.print("가맹점 우편 번호(ex.0000-0000)>");
 					String buyerZip = ScanUtil.nextLine();
 					System.out.print("가맹점 주소(ex. 대전시 중구 선화동 199-23 1층)>");

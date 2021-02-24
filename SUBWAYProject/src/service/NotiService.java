@@ -44,6 +44,7 @@ public class NotiService {
 						+ "\t" + noti.get("NOTICE_REG_DATE"));
 			}
 			System.out.println("1. 상세조회\t2. 이전으로");
+			System.out.print("입력>");
 			int userInput = ScanUtil.nextInt();
 			switch(userInput) {
 				case 1: return View.NOTICE_LIST_INFO;
@@ -73,6 +74,7 @@ public class NotiService {
 						+ "\t" + noti.get("MANAGER_ID"));
 			}
 			System.out.println("1. 공지사항 등록\t2. 공지사항 상세 조회\t3. 이전으로");
+			System.out.print("입력>");
 			int userInput = ScanUtil.nextInt();
 			switch(userInput) {
 				case 1: insertNotice(); break;
@@ -106,14 +108,24 @@ public class NotiService {
 		System.out.println ("> 공지 작성 일자 : " + noticeList.get ("NOTICE_REG_DATE"));
 		
 //		상세 조회 메뉴 출력
-		System.out.println("1. 공지사항 수정\t2. 공지사항 삭제\t3. 이전으로");
-		System.out.print ("입력>");
-		int userInput = ScanUtil.nextInt ();
-		switch(userInput) {
-			case 1: updateNotice(noticeNo); return View.NOTICE_LIST;
-			case 2: deleteNotice(noticeNo); return View.NOTICE_LIST;
-			case 3: return View.NOTICE_LIST;
-			default: System.out.println("잘못입력");
+		if(Controller.loginUser.get("LOGIN_CODE").equals(1) || Controller.loginUser.get("LOGIN_CODE").equals(2)) {
+			System.out.println("1. 이전으로");
+			System.out.print ("입력>");
+			int userInput = ScanUtil.nextInt ();
+			switch(userInput) {
+				case 1: return View.NOTICE_LIST;
+				default: System.out.println("잘못입력");
+			}
+		}else if (Controller.loginUser.get("LOGIN_CODE").equals(3)) {
+			System.out.println("1. 공지사항 수정\t2. 공지사항 삭제\t3. 이전으로");
+			System.out.print ("입력>");
+			int userInput = ScanUtil.nextInt ();
+			switch(userInput) {
+				case 1: updateNotice(noticeNo); return View.NOTICE_LIST;
+				case 2: deleteNotice(noticeNo); return View.NOTICE_LIST;
+				case 3: return View.NOTICE_LIST;
+				default: System.out.println("잘못입력");
+			}
 		}
 		
 		return View.NOTICE_LIST_INFO;

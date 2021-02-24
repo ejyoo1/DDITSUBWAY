@@ -12,10 +12,10 @@ public class TestCode {
 	}
 	
 	private void start() {
-		System.out.print("입력>");
+//		System.out.print("입력>");
 //		String userInput = ScanUtil.nextLine();
-		int userInput = ScanUtil.nextInt();
-		exceiptionTest(userInput);
+//		int userInput = ScanUtil.nextInt();
+//		exceiptionTest(userInput);
 //		nowTime();
 //		commaTest();
 //		System.out.println ("회원가입 메서드 호출");
@@ -99,8 +99,5 @@ public class TestCode {
 			System.out.println(datestr);
 		}
 		
-		
-	//회원 가입 시 아이디 정규식 검사
-		String regex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$";
 		
 }
