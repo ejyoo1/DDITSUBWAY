@@ -27,15 +27,17 @@ public class OrderDao {
     
 	//고객 주문목록 조회
 	public List<Map<String, Object>> memberOrderList(Object member) {
-		//[주문번호, 가맹점명, 메뉴이름, 주문일(회원)]
+		//[주문번호, 가맹점명, 메뉴이름, 주문일(회원), 가격(메뉴가격 * 주문수량)]
 		String sql = "SELECT A.ORDER_NO"
 				+ "        , B.BUYER_NAME"
 				+ "        , D.MENU_NM"
 				+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')"
+				+ "        , A.ORDER_PRICE  "
 				+ "   FROM ORDERS A INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID)"
 				+ "                 INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)"
-				+ "                 INNER JOIN MENU D       ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ)"
-				+ "   WHERE MEM_ID = ?";
+				+ "                 INNER JOIN MENU D       ON(C.MENU_NO = D.MENU_NO)"
+				+ "   WHERE A.MEM_ID = ?"
+				+ "   ORDER BY A.ORDER_NO";
 		List<Object> param = new ArrayList<>();
 		param.add(member);
 		return jdbc.selectList(sql,param);
@@ -43,7 +45,7 @@ public class OrderDao {
 	
 	//고객 주문목록 상세조회
 	public List<Map<String, Object>> memberOrderDetail(Object member, String orderNo){
-		//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인)]
+		//[주문번호, 가맹점명, 메뉴이름, 재료(선택), 수량, 주문일(회원), 주문일(가맹점 확인), 가격(메뉴가격 * 주문수량)]
 		String sql = "SELECT  A.ORDER_NO "
 				+ "        ,  B.BUYER_NAME "
 				+ "        ,  F.MENU_NM "
@@ -51,11 +53,12 @@ public class OrderDao {
 				+ "        ,  C.INFO_CART_QTY "
 				+ "        ,  TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD') "
 				+ "        ,  TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD') "
+				+ "        ,  A.ORDER_PRICE "
 				+ "   FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID) "
 				+ "                   INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO) "
 				+ "                   INNER JOIN ADD_INGR D   ON(C.INFO_ORDER_NO = D.INFO_ORDER_NO) "
 				+ "                   INNER JOIN INGR E       ON(D.INGR_NO = E.INGR_NO) "
-				+ "                   INNER JOIN MENU F       ON(C.MENU_NO_SEQ = F.MENU_NO_SEQ)"
+				+ "                   INNER JOIN MENU F       ON(C.MENU_NO = F.MENU_NO)"
 				+ "   WHERE A.MEM_ID = ?"
 				+ "   AND   A.ORDER_NO = ?";
 		List<Object> param = new ArrayList<>();
@@ -72,12 +75,13 @@ public class OrderDao {
 	}
 	
 	//주문번호입력
-	public int orderNoInsert(String buyer, Object member) {
-		String sql = "INSERT INTO ORDERS(ORDER_NO, BUYER_ID, MEM_ID, ORDER_MEMBER_DATE ) "
-				+ "               VALUES(TO_CHAR(SYSDATE,'YYYYMMDDHHMISS'),?, ?,SYSDATE)";
+	public int orderNoInsert(String buyer, Object member, int price) {
+		String sql = "INSERT INTO ORDERS(ORDER_NO, BUYER_ID, MEM_ID, ORDER_PRICE, ORDER_MEMBER_DATE) "
+				+ "               VALUES(TO_CHAR(SYSDATE,'YYYYMMDDHHMISS'),?, ?, ?,SYSDATE)";
 		List<Object> param = new ArrayList<>();
 		param.add(buyer);
 		param.add(member);
+		param.add(price);
 		return jdbc.update(sql, param);
 	}
 	
@@ -85,7 +89,8 @@ public class OrderDao {
 	public List<Map<String, Object>> memberOrderNoList(String buyer) {
 		String sql = " SELECT ORDER_NO "
 				+ "    FROM ORDERS"
-				+ "    WHERE BUYER_ID = ?";
+				+ "    WHERE BUYER_ID = ?"
+				+ "    ORDER BY ORDER_NO";
 		List<Object> param = new ArrayList<>();
 		param.add(buyer);
 		return jdbc.selectList(sql,param);
@@ -93,7 +98,7 @@ public class OrderDao {
 	
 	//메인메뉴입력
 	public int mainMenuInsert(int menu, String orderNo, int qty) {
-		String sql = "INSERT INTO INFO_ORDER(INFO_ORDER_NO,MENU_NO_SEQ,ORDER_NO,INFO_CART_QTY) "
+		String sql = "INSERT INTO INFO_ORDER(INFO_ORDER_NO,MENU_NO,ORDER_NO,INFO_CART_QTY) "
 				+ "               VALUES(INFO_ORDER_NO_SEQ.NEXTVAL,?,?,?)";
 		List<Object> param = new ArrayList<>();
 		param.add(menu);
@@ -159,9 +164,10 @@ public class OrderDao {
 				+ "        , F.INGR_NAME "
 				+ "        , C.INFO_CART_QTY"
 				+ "        , TO_CHAR(B.ORDER_MEMBER_DATE,'YY-MM-DD')"
+				+ "        , B.ORDER_PRICE"
 				+ "   FROM BUYER A INNER JOIN ORDERS B ON(B.BUYER_ID = A.BUYER_ID) "
 				+ "                INNER JOIN INFO_ORDER C ON(B.ORDER_NO = C.ORDER_NO) "
-				+ "                INNER JOIN MENU D ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ) "
+				+ "                INNER JOIN MENU D ON(C.MENU_NO = D.MENU_NO) "
 				+ "                INNER JOIN ADD_INGR E ON(C.INFO_ORDER_NO = E.INFO_ORDER_NO) "
 				+ "                INNER JOIN INGR F ON(E.INGR_NO = F.INGR_NO) "
 				+ "   WHERE C.INFO_ORDER_NO = ?";
@@ -176,9 +182,10 @@ public class OrderDao {
 				+ "        , D.MENU_NM "
 				+ "        , C.INFO_CART_QTY"
 				+ "        , TO_CHAR(B.ORDER_MEMBER_DATE,'YY-MM-DD')"
+				+ "        , B.ORDER_PRICE"
 				+ "   FROM BUYER A INNER JOIN ORDERS B ON(B.BUYER_ID = A.BUYER_ID) "
 				+ "                INNER JOIN INFO_ORDER C ON(B.ORDER_NO = C.ORDER_NO) "
-				+ "                INNER JOIN MENU D ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ) "
+				+ "                INNER JOIN MENU D ON(C.MENU_NO = D.MENU_NO) "
 				+ "   WHERE C.INFO_ORDER_NO = ?";
 		List<Object> param = new ArrayList<>();
 		param.add(infoOrderNo);
@@ -186,19 +193,24 @@ public class OrderDao {
 	}
 	
     //점주 주문조회
-	public List<Map<String, Object>> buyerOrderList() {
+	public List<Map<String, Object>> buyerOrderList(Object buyer) {
 		String sql = "SELECT A.ORDER_NO "
 				+ "        , B.BUYER_NAME "
 				+ "        , D.MENU_NM "
 				+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD') "
+				+ "        , A.ORDER_PRICE"
 				+ "   FROM ORDERS A INNER JOIN BUYER B ON(A.BUYER_ID = B.BUYER_ID) "
 				+ "                 INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO) "
-				+ "                 INNER JOIN MENU D       ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ)";
-		return jdbc.selectList(sql);
+				+ "                 INNER JOIN MENU D       ON(C.MENU_NO = D.MENU_NO)"
+				+ "   WHERE B.BUYER_ID = ?"
+				+ "   ORDER BY A.ORDER_NO ";
+		List<Object> param = new ArrayList<>();
+		param.add(buyer);
+		return jdbc.selectList(sql,param);
 	}
 	
 	//점주 주문목록 상세
-	public List<Map<String, Object>> buyerOrderDetail(String orderNo) {
+	public List<Map<String, Object>> buyerOrderDetail(String orderNo, Object buyer) {
 		String sql = "SELECT A.ORDER_NO       "
 				+ "        , B.BUYER_NAME     "
 				+ "        , F.MENU_NM        "
@@ -206,27 +218,32 @@ public class OrderDao {
 				+ "        , C.INFO_CART_QTY  "
 				+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD') "
 				+ "        , TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD') "
+				+ "        , A.ORDER_PRICE"
 				+ "   FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID) "
 				+ "                   INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO) "
 				+ "                   INNER JOIN ADD_INGR D   ON(C.INFO_ORDER_NO = D.INFO_ORDER_NO) "
 				+ "                   INNER JOIN INGR E       ON(D.INGR_NO = E.INGR_NO) "
-				+ "                   INNER JOIN MENU F       ON(C.MENU_NO_SEQ = F.MENU_NO_SEQ)"
-				+ "   WHERE A.ORDER_NO = ?";
+				+ "                   INNER JOIN MENU F       ON(C.MENU_NO = F.MENU_NO)"
+				+ "   WHERE A.ORDER_NO = ?"
+				+ "   AND   B.BUYER_ID = ?";
 		List<Object> param = new ArrayList<>();
 		param.add(orderNo);
+		param.add(buyer);
 		return jdbc.selectList(sql,param);
 	}
     
 	//점주 미등록 주문리스트
 	public List<Map<String, Object>> notAcceptOrderList() {
 		String sql = "SELECT A.ORDER_NO\r\n"
-				+ "     , B.BUYER_NAME\r\n"
-				+ "     , D.MENU_NM\r\n"
-				+ "     , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')\r\n"
-				+ "FROM ORDERS A INNER JOIN BUYER B ON(A.BUYER_ID = B.BUYER_ID)\r\n"
-				+ "              INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)\r\n"
-				+ "              INNER JOIN MENU D       ON(C.MENU_NO_SEQ = D.MENU_NO_SEQ)\r\n"
-				+ "WHERE A.ORDER_BUYER_CHOICE IS NULL";
+				+ "        , B.BUYER_NAME\r\n"
+				+ "        , D.MENU_NM\r\n"
+				+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')\r\n"
+				+ "        , A.ORDER_PRICE"
+				+ "   FROM ORDERS A INNER JOIN BUYER B ON(A.BUYER_ID = B.BUYER_ID)\r\n"
+				+ "                 INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)\r\n"
+				+ "                 INNER JOIN MENU D       ON(C.MENU_NO = D.MENU_NO)\r\n"
+				+ "   WHERE A.ORDER_BUYER_CHOICE IS NULL"
+				+ "   ORDER BY A.ORDER_NO ";
 		return jdbc.selectList(sql);
 	}
 	
@@ -249,13 +266,60 @@ public class OrderDao {
 				+ "        , C.INFO_CART_QTY \r\n"
 				+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')\r\n"
 				+ "        , TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')\r\n"
+				+ "        , A.ORDER_PRICE "
 				+ "  FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID)\r\n"
 				+ "                  INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)\r\n"
 				+ "                  INNER JOIN ADD_INGR D   ON(C.INFO_ORDER_NO = D.INFO_ORDER_NO)\r\n"
 				+ "                  INNER JOIN INGR E       ON(D.INGR_NO = E.INGR_NO)\r\n"
-				+ "                  INNER JOIN MENU F       ON(C.MENU_NO_SEQ = F.MENU_NO_SEQ)\r\n"
-				+ "  WHERE A.ORDER_BUYER_CHOICE IS NULL";
+				+ "                  INNER JOIN MENU F       ON(C.MENU_NO = F.MENU_NO)\r\n"
+				+ "  WHERE A.ORDER_BUYER_CHOICE IS NULL"
+				+ "  ORDER BY A.ORDER_NO ";
 		return jdbc.selectList(sql);
+	}
+    
+	//점주 삭제할 주문목록 리스트
+	public List<Map<String, Object>> deleteOrderList(Object buyer) {
+		String sql = "SELECT A.ORDER_NO \r\n "
+				+ "        , C.INFO_ORDER_NO "
+				+ "        , B.BUYER_NAME\r\n"
+				+ "        , D.MENU_NM \r\n"
+				+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')\r\n"
+				+ "        , TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')\r\n"
+				+ "        , A.ORDER_PRICE\r\n"
+				+ "   FROM ORDERS A INNER JOIN BUYER B ON(A.BUYER_ID = B.BUYER_ID)\r\n"
+				+ "              INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)\r\n"
+				+ "              INNER JOIN MENU D       ON(C.MENU_NO = D.MENU_NO)\r\n"
+				+ "   WHERE B.BUYER_ID = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(buyer);
+		return jdbc.selectList(sql, param);
+	}
+	
+	//ORDER TABLE 삭제
+	public int deleteInfoOrder(String orderNo) {
+		String sql = "DELETE FROM ORDERS  "
+				+ "   WHERE  ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(orderNo);
+		return jdbc.update(sql, param);
+	}
+	
+    //INFO_ORDER TABLE 삭제
+	public int deleteInfoOrder(int orderInfoNo) {
+		String sql = "DELETE FROM INFO_ORDER "
+				+ "   WHERE INFO_ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(orderInfoNo);
+		return jdbc.update(sql, param);
+	}
+	
+    //ADD_INGR TABLE 삭제
+	public int deleteAddIngr(int orderInfoNo) {
+		String sql = "DELETE FROM ADD_INGR "
+				+ "   WHERE  INFO_ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(orderInfoNo);
+		return jdbc.update(sql, param);
 	}
 
 	
