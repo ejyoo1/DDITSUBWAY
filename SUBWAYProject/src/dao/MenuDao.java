@@ -24,7 +24,7 @@ public class MenuDao {
 	private JDBCUtil jdbc = JDBCUtil.getInstance();
 	
 	public List<Map<String, Object>> selectMenuList(String menuGu){
-		String sql = "select MENU_NO_SEQ, MENU_GU, MENU_GU_SEQ, MENU_NM,"
+		String sql = "select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM,"
 				+ "MENU_INGR, MENU_PRICE from menu "
 				+ "where MENU_GU = ?"
 				+ "order by MENU_GU_SEQ";
@@ -36,7 +36,7 @@ public class MenuDao {
 	
 	public Map<String, Object> selectsandDet(int detSDNum){
 		
-		String sql = " select MENU_NO_SEQ, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
+		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
 				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
 				+ "from menu "
 				+ "where MENU_GU = 'SD' and MENU_GU_SEQ = ?";
@@ -47,7 +47,7 @@ public class MenuDao {
 	}
 	
 	public Map<String, Object> selectwrapDet(int detWRNum){
-		String sql = " select MENU_NO_SEQ, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
+		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
 				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
 				+ "from menu "
 				+ "where MENU_GU = 'WR' and MENU_GU_SEQ = ?";
@@ -58,7 +58,7 @@ public class MenuDao {
 	}
 	
 	public Map<String, Object> selectsallDet(int detSLNum){
-		String sql = " select MENU_NO_SEQ, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
+		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
 				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
 				+ "from menu "
 				+ "where MENU_GU = 'SL' and MENU_GU_SEQ = ?";
