@@ -10,8 +10,15 @@ public class ScanUtil {
 	static Scanner s = new Scanner(System.in);
 	
 	public static String nextLine() {
-		return s.nextLine();
-		//return new ScanUtil.s.nextLine();
+		while(true) {
+			String input = s.nextLine();
+			if(!input.equals("")) {
+				return input;
+			}else {
+				System.out.print(">");
+			}
+		}
+//		return s.nextLine();
 	}
 	
 	public static int nextInt() {
