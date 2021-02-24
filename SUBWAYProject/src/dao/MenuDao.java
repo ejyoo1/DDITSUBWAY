@@ -26,7 +26,8 @@ public class MenuDao {
 	public List<Map<String, Object>> selectMenuList(String menuGu){
 		String sql = "select MENU_NO_SEQ, MENU_GU, MENU_GU_SEQ, MENU_NM,"
 				+ "MENU_INGR, MENU_PRICE from menu "
-				+ "where MENU_GU = ?";
+				+ "where MENU_GU = ?"
+				+ "order by MENU_GU_SEQ";
 		
 		List<Object> param = new ArrayList<>();
 		param.add(menuGu);
@@ -65,5 +66,50 @@ public class MenuDao {
 		List<Object> param = new ArrayList<>();
 		param.add(detSLNum);
 		return jdbc.selectOne(sql, param);
+	}
+	
+	public List<Map<String, Object>> selAllMenuList(){
+		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE "
+				+ "from menu ";
+
+		List<Map<String, Object>> selAMenuList = jdbc.selectList(sql);
+		return jdbc.selectList(sql);
+	}
+	
+	public int entMenu(String menuGu, String menuNM, String menuIngr, int menuPri){
+		String sql = "INSERT INTO MENU("
+				+ "MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE) "
+				+ "VALUES(MENU_NO_SEQ.NEXTVAL, ?, MENU_" + menuGu + "_SEQ.NEXTVAL, ?, ?, ?)";
+		List<Object> param = new ArrayList<>();
+		param.add(menuGu);
+		param.add(menuNM);
+		param.add(menuIngr);
+		param.add(menuPri);
+		return jdbc.update(sql, param);
+	}
+	
+/*	public Map<String, Object> upselMenu(String menuGu, int upselMenuNum){
+		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
+				+ "from menu "
+				+ "where MENU_GU = ? and MENU_GU_SEQ = ?";
+
+		List<Object> param = new ArrayList<>();
+		param.add(menuGu);
+		param.add(upselMenuNum);
+		return jdbc.selectOne(sql, param);
+	}
+*/	
+	public int updMenu(int menuNo, String menuGu, String menuNM, String menuIngr, int menuPri){
+		String sql = "UPDATE MENU "
+				+ "SET MENU_GU = ?, MENU_NM = ?, MENU_INGR = ?, MENU_PRICE = ? "
+				+ "WHERE MENU_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(menuGu);
+		param.add(menuNM);
+		param.add(menuIngr);
+		param.add(menuPri);
+		param.add(menuNo);
+		
+		return jdbc.update(sql, param);
 	}
 }

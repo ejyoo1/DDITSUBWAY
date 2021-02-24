@@ -2,7 +2,11 @@ package service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import dao.MenuDao;
@@ -41,6 +45,9 @@ public class MenuService {
 			break;
 		case 3:
 			selSallMenuList();
+			break;
+		default :
+			System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요");
 			break;
 		}//switch mainMenuInput
 		return View.MENU;
@@ -164,9 +171,36 @@ public class MenuService {
 	
 	
 	public int menumanage() {
+		List<Map<String, Object>> selAMenuList = menuDao.selAllMenuList();
 		
+		System.out.println("=======================================");
+		System.out.println("순번 \t 메뉴 분류 \t 메뉴번호 \t 메뉴이름 \t\t 메뉴 기본재료 \t\t\t 메뉴가격");
+		System.out.println("---------------------------------------");
+
+
+		int userMenuNum = 1;
+		for(Map<String, Object> selAllBoard : selAMenuList){
+			System.out.println(userMenuNum
+					+ "\t" + selAllBoard.get("MENU_GU")
+					+ "\t" + selAllBoard.get("MENU_GU_SEQ")
+					+ "\t" + selAllBoard.get("MENU_NM")
+					+ "\t" + selAllBoard.get("MENU_INGR")
+					+ "\t" + selAllBoard.get("MENU_PRICE"));
+			/*
+			selAllBoard.put("userMenuNum", userMenuNum);
+			userMenuMap.put("MENU_NO", selAllBoard.get("MENU_NO"));
+			userMenuMap.put("MENU_GU", selAllBoard.get("MENU_GU"));
+			userMenuMap.put("MENU_GU_SEQ", selAllBoard.get("MENU_GU_SEQ"));
+			userMenuMap.put("MENU_NM", selAllBoard.get("MENU_NM"));
+			userMenuMap.put("MENU_INGR", selAllBoard.get("MENU_INGR"));
+			userMenuMap.put("MENU_PRICE", selAllBoard.get("MENU_PRICE"));*/
+			
+			//selAMenuList.add(selAllBoard);
+			userMenuNum ++;
+		}
+		System.out.println("=======================================");
 		System.out.println("==============================");
-		System.out.println("1. 샌드위치 조회\t 2. 랩 조회\t 3. 샐러드 조회\t 0. 이전(메인)으로");
+		System.out.println("1. 메뉴 등록 \t 2. 메뉴 수정 \t 3. 메뉴 삭제 \t 0. 이전(메인)으로");
 		System.out.println("==============================");
 		System.out.print("입력 >");
 		
@@ -176,15 +210,85 @@ public class MenuService {
 		case 0:
 			return View.LOGIN_MAIN_MENU;
 		case 1:
-			selSandMenuList();
+			entMenuList();
 			break;
 		case 2:
-			selWrapMenuList();
+			updMenuList(selAMenuList);
 			break;
 		case 3:
-			selSallMenuList();
+			delMenuList(selAMenuList);
+			break;
+		default:
+			System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요");
 			break;
 		}//switch mainMenuInput
-		return View.MENU;
+		return View.MENU_MANA;
+	}
+
+	
+	private void entMenuList() {
+		String menuGu = "";
+		String menuNM = "";
+		String menuIngr = "";
+		int menuPri = 0;
+		
+		System.out.print("메뉴 분류 입력(SD/WR/SL) > ");
+		menuGu = ScanUtil.nextLine();
+		
+		System.out.print("메뉴 이름 입력 > ");
+		menuNM = ScanUtil.nextLine();
+		
+		System.out.print("메뉴 기본(메인) 재료 입력 > ");
+		menuIngr = ScanUtil.nextLine();
+		
+		System.out.print("메뉴 가격 입력 > ");
+		menuPri = ScanUtil.nextInt();
+		
+		int entMenu = menuDao.entMenu(menuGu, menuNM, menuIngr, menuPri);
+		if(entMenu == 0){
+			System.out.println("등록 실패. 다시 시도해 주세요.");
+		}
+		else{
+			System.out.println("등록 완료");
+		}
+	}
+
+
+
+	private void updMenuList(List<Map<String, Object>> selAMenuList) {
+		int menuNo = 0;
+		System.out.println("수정할 메뉴번호 입력(MENU_NO) > ");
+		menuNo = ScanUtil.nextInt();
+		
+		String menuGu = "";
+		String menuNM = "";
+		String menuIngr = "";
+		int menuPri = 0;
+		
+		System.out.println("해당 번호에 수정할 내용 입력");
+		
+		System.out.print("메뉴 분류 > ");
+		menuGu = ScanUtil.nextLine();
+		
+		System.out.print("메뉴 이름 > ");
+		menuNM = ScanUtil.nextLine();
+		
+		System.out.print("메뉴 재료 > ");
+		menuIngr = ScanUtil.nextLine();
+		
+		System.out.print("메뉴 가격 > ");
+		menuPri = ScanUtil.nextInt();
+		
+		
+		int selMenuNum = ((BigDecimal)selAMenuList.get(menuNo-1).get("MENU_NO")).intValue();
+//		int selMenuNum = ((List<Map<String, Object>>) selAMenuList).get(userMenuNum);
+		int selList = menuDao.updMenu(selMenuNum, menuGu, menuNM, menuIngr, menuPri);
+	}
+
+
+
+	private void delMenuList(Object selAMenuList) {
+		// TODO Auto-generated method stub
+		
 	}
 }
