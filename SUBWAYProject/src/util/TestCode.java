@@ -12,13 +12,24 @@ public class TestCode {
 	}
 	
 	private void start() {
-		nowTime();
-		commaTest();
-		System.out.println ("회원가입 메서드 호출");
-		join();
-		join2();
+		System.out.print("입력>");
+//		String userInput = ScanUtil.nextLine();
+		int userInput = ScanUtil.nextInt();
+		exceiptionTest(userInput);
+//		nowTime();
+//		commaTest();
+//		System.out.println ("회원가입 메서드 호출");
+//		join();
+//		join2();
 	}
 	
+	private void exceiptionTest(String userInput) {
+		System.out.println("userInput : " + userInput);
+	}
+	private void exceiptionTest(int userInput) {
+		System.out.println("userInput : " + userInput);
+	}
+
 	//회원 가입 시 메뉴 유효성 검사(switch 문을 안쓰는 경우)
 	private void join() {
 		System.out.println ("==회원가입1==");
