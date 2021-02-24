@@ -67,10 +67,12 @@ public class Controller {
 	}
 
 	private int home() {
-		System.out.println("------------------------------------------------");
-		System.out.println("1.로그인 \t 2.회원가입 \t 3.1:1 문의 \t 4.종료");
-		System.out.println("------------------------------------------------");
-		System.out.print("번호 입력>");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■신선하고 건강한 글로벌 NO.1 샌드위치 브랜드 써브웨이!■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("1.로그인     2.회원가입     3.1:1문의     4.종료");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.print("☞ 메뉴 입력 > ");
 		
 		int input = ScanUtil.nextInt();
 		
@@ -79,14 +81,11 @@ public class Controller {
 			case 2: return View.JOIN;
 			case 3: return View.MYPAGE_MENU;
 			case 4:
-				System.out.println("프로그램이 종료되었습니다.");
+				System.out.println("☞ 프로그램이 종료되었습니다 ☜");
 				System.exit(0);
 			default:
-				System.out.println("잘못입력하셨습니다.");
+				System.out.println("☞ 잘못된 번호입니다 ☜");
 		}
 		return View.HOME;
 	}
-	
-	
-
 }
