@@ -3,6 +3,7 @@ package service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -151,7 +152,7 @@ public class MenuService {
 		}
 		else if(selectslDe == null){//선택된 메뉴 상세정보 출력
 			System.out.println("잘못 입력하셨습니다 다시 입력하세요");
-			selSandMenuList();
+			selSallMenuList();
 		}
 		else if(((BigDecimal)selectslDe.get("MENU_GU_SEQ")).intValue() > 0 
 			 || ((BigDecimal)selectslDe.get("MENU_GU_SEQ")).intValue() <= ((BigDecimal)selectslDe.get("maxgs")).intValue()){
@@ -260,35 +261,59 @@ public class MenuService {
 		System.out.println("수정할 메뉴번호 입력(MENU_NO) > ");
 		menuNo = ScanUtil.nextInt();
 		
+		int max = selAMenuList.size();
 		String menuGu = "";
 		String menuNM = "";
 		String menuIngr = "";
 		int menuPri = 0;
 		
-		System.out.println("해당 번호에 수정할 내용 입력");
+		if(menuNo <= 0 || menuNo > max){
+			System.out.println("잘못 입력하셨습니다 다시 입력하세요");
+			menumanage();
+		}
+		else if(menuNo > 0 || menuNo <= max){
+					
+			int selMenuNum = ((BigDecimal)selAMenuList.get(menuNo-1).get("MENU_NO")).intValue();
+			System.out.println("해당 번호에 수정할 내용 입력");
+			
+			System.out.print("메뉴 분류 > ");
+			menuGu = ScanUtil.nextLine();
+			
+			System.out.print("메뉴 이름 > ");
+			menuNM = ScanUtil.nextLine();
+			
+			System.out.print("메뉴 재료 > ");
+			menuIngr = ScanUtil.nextLine();
+			
+			System.out.print("메뉴 가격 > ");
+			menuPri = ScanUtil.nextInt();
+
+
+			int selList = menuDao.updMenu(selMenuNum, menuGu, menuNM, menuIngr, menuPri);
 		
-		System.out.print("메뉴 분류 > ");
-		menuGu = ScanUtil.nextLine();
+		}
 		
-		System.out.print("메뉴 이름 > ");
-		menuNM = ScanUtil.nextLine();
-		
-		System.out.print("메뉴 재료 > ");
-		menuIngr = ScanUtil.nextLine();
-		
-		System.out.print("메뉴 가격 > ");
-		menuPri = ScanUtil.nextInt();
-		
-		
-		int selMenuNum = ((BigDecimal)selAMenuList.get(menuNo-1).get("MENU_NO")).intValue();
-//		int selMenuNum = ((List<Map<String, Object>>) selAMenuList).get(userMenuNum);
-		int selList = menuDao.updMenu(selMenuNum, menuGu, menuNM, menuIngr, menuPri);
 	}
 
 
 
-	private void delMenuList(Object selAMenuList) {
+	private void delMenuList(List<Map<String, Object>> selAMenuList) {
 		// TODO Auto-generated method stub
+		int menuNo = 0;
+		System.out.println("수정할 메뉴번호 입력(MENU_NO) > ");
+		menuNo = ScanUtil.nextInt();
 		
+		int max = selAMenuList.size();
+		if(menuNo <= 0 || menuNo > max){
+			System.out.println("잘못 입력하셨습니다 다시 입력하세요");
+			menumanage();
+		}
+		else if(menuNo > 0 || menuNo <= max){
+						
+				int selMenuNum = ((BigDecimal)selAMenuList.get(menuNo-1).get("MENU_NO")).intValue();
+				
+				int selList = menuDao.delMenu(selMenuNum);
+			
+		}
 	}
 }

@@ -69,7 +69,8 @@ public class MenuDao {
 	}
 	
 	public List<Map<String, Object>> selAllMenuList(){
-		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE "
+		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE,"
+				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
 				+ "from menu ";
 
 		List<Map<String, Object>> selAMenuList = jdbc.selectList(sql);
@@ -108,6 +109,15 @@ public class MenuDao {
 		param.add(menuNM);
 		param.add(menuIngr);
 		param.add(menuPri);
+		param.add(menuNo);
+		
+		return jdbc.update(sql, param);
+	}
+	
+	public int delMenu(int menuNo){
+		String sql = "DELETE FROM MENU WHERE MENU_NO = ?";
+
+		List<Object> param = new ArrayList<>();
 		param.add(menuNo);
 		
 		return jdbc.update(sql, param);
