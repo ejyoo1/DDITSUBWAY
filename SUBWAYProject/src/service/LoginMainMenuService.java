@@ -56,7 +56,7 @@ public class LoginMainMenuService {
 				case 2: return View.NOTICE_LIST;
 				case 3: return View.EVENT_LIST;
 				case 4: return View.FRANC_LIST;
-				case 5: return View.INQU_LIST;
+				case 5: return View.MYPAGE_MENU;
 				case 6: Controller.loginUser = null; return View.HOME;
 				default : System.out.println("잘못입력"); break;
 			}
