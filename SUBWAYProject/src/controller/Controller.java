@@ -5,7 +5,6 @@ import java.util.Map;
 import service.BoardService;
 import service.EventService;
 import service.FrancService;
-import service.InquService;
 import service.LoginMainMenuService;
 import service.MenuService;
 import service.MyService;
@@ -41,7 +40,6 @@ public class Controller {
 	private OrderService orderService = OrderService.getInstance();
 	private MyService myPageService = MyService.getInstance();
 	private FrancService francService = FrancService.getInstance();
-	private InquService inquService = InquService.getInstance();
 
 	private void start() {
 		int view = View.HOME;
@@ -60,7 +58,6 @@ public class Controller {
 				case View.ORDER_BUYER_MENU: view = orderService.orderBuyerHome(); break;
 				case View.MYPAGE_MENU: view = myPageService.myPageHome(); break;
 				case View.FRANC_LIST: view = francService.francList(); break;
-				case View.INQU_LIST: view = inquService.inquList(); break;
 				case View.NOTICE_LIST_INFO: view = noticeService.notiInfo(); break;
 				case View.EVENT_LIST_INFO: view = eventService.eventInfo(); break;
 				
