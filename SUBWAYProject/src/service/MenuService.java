@@ -39,20 +39,21 @@ public class MenuService {
 		case 0:
 			return View.LOGIN_MAIN_MENU;
 		case 1:
-			selSandMenuList();
+			selSandMenuList();//샌드위치 메뉴 조회
 			break;
 		case 2:
-			selWrapMenuList();
+			selWrapMenuList();//랩 메뉴 조회
 			break;
 		case 3:
-			selSallMenuList();
+			selSallMenuList();//샐러드 메뉴 조회
 			break;
-		default :
+		default : //메뉴에 해당하지 않는 숫자를 입력했을 때
 			System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요");
 			break;
-		}//switch mainMenuInput
+		}//switch subMenuInput
 		return View.MENU;
 	}
+	//고객, 가맹점주 메뉴 조회
 
 	
 
@@ -71,10 +72,12 @@ public class MenuService {
 		int deNum = ScanUtil.nextInt();
 		
 		Map<String, Object> selectsdDe = menuDao.selectsandDet(deNum);
+		
+		//선택된 메뉴 상세정보 출력
 		if(deNum == 0){
 			selMenuList = menuDao.selectMenuList(menUGu);
 		}
-		else if(selectsdDe == null){//선택된 메뉴 상세정보 출력
+		else if(selectsdDe == null){
 			System.out.println("잘못 입력하셨습니다 다시 입력하세요");
 			selSandMenuList();
 		}
@@ -93,6 +96,7 @@ public class MenuService {
 		}
 		
 	}
+	//고객, 가맹점주 - 샌드위치 메뉴 조회
 	
 	private void selWrapMenuList() {
 		String menUGu = "WR";
@@ -109,10 +113,12 @@ public class MenuService {
 		int deNum = ScanUtil.nextInt();
 		
 		Map<String, Object> selectwrDe = menuDao.selectwrapDet(deNum);
+		
+		//선택된 메뉴 상세정보 출력
 		if(deNum == 0){
 			selMenuList = menuDao.selectMenuList(menUGu);
 		}
-		else if(selectwrDe == null){//선택된 메뉴 상세정보 출력
+		else if(selectwrDe == null){
 			System.out.println("잘못 입력하셨습니다 다시 입력하세요");
 			selSandMenuList();
 		}
@@ -131,6 +137,7 @@ public class MenuService {
 		}
 		
 	}
+	//고객, 가맹점주 - 랩 메뉴 조회
 
 	private void selSallMenuList() {
 		String menUGu = "SL";
@@ -147,10 +154,12 @@ public class MenuService {
 		int deNum = ScanUtil.nextInt();
 		
 		Map<String, Object> selectslDe = menuDao.selectsallDet(deNum);
+		
+		//선택된 메뉴 상세정보 출력
 		if(deNum == 0){
 			selMenuList = menuDao.selectMenuList(menUGu);
 		}
-		else if(selectslDe == null){//선택된 메뉴 상세정보 출력
+		else if(selectslDe == null){
 			System.out.println("잘못 입력하셨습니다 다시 입력하세요");
 			selSallMenuList();
 		}
@@ -169,6 +178,8 @@ public class MenuService {
 		
 		}
 	}
+	//고객, 가맹점주 - 샐러드 메뉴 조회
+	
 	
 	
 	public int menumanage() {
@@ -198,7 +209,7 @@ public class MenuService {
 			
 			//selAMenuList.add(selAllBoard);
 			userMenuNum ++;
-		}
+		}//관리자 - 전체메뉴 조회
 		System.out.println("=======================================");
 		System.out.println("==============================");
 		System.out.println("1. 메뉴 등록 \t 2. 메뉴 수정 \t 3. 메뉴 삭제 \t 0. 이전(메인)으로");
@@ -211,13 +222,13 @@ public class MenuService {
 		case 0:
 			return View.LOGIN_MAIN_MENU;
 		case 1:
-			entMenuList();
+			entMenuList();//메뉴 등록
 			break;
 		case 2:
-			updMenuList(selAMenuList);
+			updMenuList(selAMenuList);//메뉴 수정
 			break;
 		case 3:
-			delMenuList(selAMenuList);
+			delMenuList(selAMenuList);//메뉴 삭제
 			break;
 		default:
 			System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요");
@@ -225,6 +236,7 @@ public class MenuService {
 		}//switch mainMenuInput
 		return View.MENU_MANA;
 	}
+	//관리자 메뉴 관리(등록, 수정, 삭제)
 
 	
 	private void entMenuList() {
@@ -253,8 +265,7 @@ public class MenuService {
 			System.out.println("등록 완료");
 		}
 	}
-
-
+	//관리자 - 메뉴 등록
 
 	private void updMenuList(List<Map<String, Object>> selAMenuList) {
 		int menuNo = 0;
@@ -294,8 +305,7 @@ public class MenuService {
 		}
 		
 	}
-
-
+	//관리자 - 메뉴 수정
 
 	private void delMenuList(List<Map<String, Object>> selAMenuList) {
 		// TODO Auto-generated method stub
@@ -316,4 +326,5 @@ public class MenuService {
 			
 		}
 	}
+	//관리자 - 메뉴 삭제
 }
