@@ -137,7 +137,7 @@ public class NotiService {
 				break;
 			}
 		}
-		
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 //		상세 조회할 게시글의 DB 데이터 출력
 		System.out.println ("■ 공지사항 번호 : " + noticeList.get ("NOTICE_NO"));
 //		데이터 베이스 삽입 시 ''가 있을 때, '처리에서 오류가 발생하여 REPLACE를 통한 ''' 로 변경함(데이터베이스에서는 '로 표기하지만, 자바에서는 '''로 표기하므로 REPLACE로 다시 변경함)

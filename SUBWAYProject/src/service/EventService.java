@@ -144,7 +144,6 @@ public class EventService {
 		}else {
 			System.out.println ("■ 이벤트 종료 일자 : " + eventInfo.get ("EVENT_ENDDATE"));
 		}
-		System.out.println ("■ 이벤트 내용 : " + eventInfo.get ("EVENT_CONTENTS"));
 		System.out.println ("■ 이벤트 작성 일자 : " + eventInfo.get ("EVENT_REG_DATE"));
 		
 		if(Controller.loginUser.get("LOGIN_CODE").equals(1) || Controller.loginUser.get("LOGIN_CODE").equals(2)) {
@@ -169,7 +168,7 @@ public class EventService {
 			}
 		}
 		
-		return View.EVENT_LIST_INFO;
+		return View.EVENT_LIST;
 	}
 
 //	이벤트 등록
