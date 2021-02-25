@@ -34,7 +34,7 @@ public class MyService {
 			switch (input) {
 			case 1: userModifyInfo();	break; // 내정보수정
 			case 2: userOrderList();	break; // 주문내역조회
-			case 3: inquiry(); 			break; // 1대1문의
+			case 3: return View.INQUIRY_MENU; // 1대1문의
 			case 4: return View.LOGIN_MAIN_MENU;
 			default: System.out.println("잘못입력"); break;
 			}
@@ -45,7 +45,7 @@ public class MyService {
 			switch (input) {
 			case 1: storeModifyInfo(); break; // 내정보수정
 			case 2: storeOrderList();  break; // 주문내역조회
-			case 3: inquiry();		   break; // 1대1문의
+			case 3: return View.INQUIRY_MENU; // 1대1문의
 			case 4: return View.LOGIN_MAIN_MENU;
 			default: System.out.println("잘못입력"); break;
 			}
@@ -285,36 +285,7 @@ public class MyService {
 		return View.MYPAGE_MENU;
 	}
 
-	// 1대1문의 작성
-	public int inquiry() {
-		System.out.println("=========== 1대1문의 =============");
-		System.out.print("문의 제목>");
-		String inquirytitle = ScanUtil.nextLine();
-		System.out.print("문의 이메일>");
-		String inquiryemail = ScanUtil.nextLine();
-		System.out.print("문의 전화번호>");
-		String inquirynumber = ScanUtil.nextLine();
-		System.out.print("문의 내용>");
-		String inquirycontent = ScanUtil.nextLine();
-
-		Map<String, Object> param = new HashMap<>();
-		param.put("INQUIRY_TITLE", inquirytitle);
-		param.put("INQUIRY_EMAIL", inquiryemail);
-		param.put("INQUIRY_COMETL", inquirynumber);
-		param.put("INQUIRY_CONTENT", inquirycontent);
-
-		int result = myDao.insertInquiry(param);
-
-		// 영향 받은 행이 잇다면, 등록성공 메시지가 출력되고 그것이 아니면 실패 메시지가 생성된다.
-		if (0 < result) {
-			System.out.println("1대1문의 등록 성공");
-		} else {
-			System.out.println("1대1문의 등록 실패");
-		}
-		// 등록 완료되면 마이페이지로 이동된다.
-		return View.MYPAGE_MENU;
-	}
-
+	
 	// 관리자 1대1문의 조회
 	public int managerInquiry() {
 		List<Map<String, Object>> inquiryList = myDao.selectInquiryList();
