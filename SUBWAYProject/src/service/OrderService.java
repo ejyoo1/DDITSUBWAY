@@ -1,5 +1,6 @@
 package service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -99,7 +100,7 @@ public class OrderService {
 			System.out.println(list.get("ORDER_NO")
 					+ "\t" + list.get("BUYER_NAME")
 					+ "\t" + list.get("MENU_NM")
-					+ "\t" + list.get("INGR_NAME")
+//					+ "\t" + list.get("INGR_NAME")
 					+ "\t" + list.get("INFO_CART_QTY") + "개"
 					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)"
 					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
@@ -277,28 +278,25 @@ public class OrderService {
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
-			memberOrderList(Controller.loginUser.get("MEM_ID")); // 고객 주문목록 조회
-			break;
-			
+			return memberOrderList(Controller.loginUser.get("MEM_ID")); // 고객 주문목록 조회
+						
 		case 2:
-			memberOrderReg(); // 주문등록
-			break;
-			
+			return memberOrderReg(); // 주문등록
+						
 		case 3:
 			return View.LOGIN_MAIN_MENU; //소분류 메뉴로
 			
 		default :
 			System.out.println("잘못입력하였습니다.");
 			break;
-
 		
 		}
 		return View.ORDER_MEMBER_MENU;
 	} 
 	
 	//고객 주문목록 리스트
-	public void memberOrderList(Object member) {
-		list : while(true) {
+	public int memberOrderList(Object member) {
+		
 			List<Map<String, Object>> orderList = orderDao.memberOrderList(member); // 주문목록 조회
 			System.out.println("--------------------------------------");
 			System.out.println("주문번호   \t가맹점명   \t메뉴이름");
@@ -315,331 +313,462 @@ public class OrderService {
 			int input = ScanUtil.nextInt();
 			switch (input) {
 			case 1:
-				memberOrderDetail(Controller.loginUser.get("MEM_ID"));
-				break;
+				return memberOrderDetail(Controller.loginUser.get("MEM_ID"));
+				
 			case 2:
 				System.out.println("주문메뉴를 출력합니다.");
-				break list; //주문메뉴로
+				return View.ORDER_MEMBER_MENU;
 
 			default:
 				System.out.println("잘못입력하였습니다.");
 				break;
 			}
+			return View.ORDER_MEMBER_MENU;
 
 		}
 
-	}
 	
     //고객 주문목록 상세조회
- 	public void memberOrderDetail(Object member) {
+	public int memberOrderDetail(Object member) {
 			 			
 		System.out.println("--------------------------------------");
 		System.out.print("주문번호를 입력해주세요> ");
 		String orderNo = ScanUtil.nextLine();
 		System.out.println("--------------------------------------");
-
-		List<Map<String, Object>> orderList = orderDao.memberOrderDetail(member, orderNo);
-		for (Map<String, Object> list : orderList) {
-			System.out.println(list.get("ORDER_NO") 
-					+ "\t" + list.get("BUYER_NAME") 
-					+ "\t" + list.get("MENU_NM") 
-					+ "\t" + list.get("INGR_NAME") 
-					+ "\t" + list.get("INFO_CART_QTY") + "개" 
-					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)" 
-					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
-					+ "\t" + list.get("ORDER_PRICE") + "원");
-		}
-		System.out.println("--------------------------------------");
-		System.out.println("1.이전으로");
-		int input = ScanUtil.nextInt();
+		
+		List<Map<String, Object>> orderList2 = orderDao.menuGu(member,orderNo);
+		String dao = String.valueOf(orderList2.get(0).get("MENU_GU"));
+		
+        if(dao.equals("SL") || dao.equals("SD")) {
+        	//샌드위치, 샐러드 조회
+    		List<Map<String, Object>> orderList = orderDao.elsedetail(member, orderNo);
+    		for (Map<String, Object> list : orderList) {
+    			System.out.println(list.get("ORDER_NO") 
+    					+ "\t" + list.get("BUYER_NAME") 
+    					+ "\t" + list.get("MENU_NM") 
+    					+ "\t" + list.get("INGR_NAME") 
+    					+ "\t" + list.get("INFO_CART_QTY") + "개" 
+    					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)" 
+    					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
+    					+ "\t" + list.get("ORDER_PRICE") + "원");
+    		}
+    		System.out.println("--------------------------------------");
+    		System.out.println("1.이전으로");
+        }else {
+        	//랩조회
+    		List<Map<String, Object>> orderList3 = orderDao.wrdetail(member, orderNo);
+    		for (Map<String, Object> list : orderList3) {
+    			System.out.println(list.get("ORDER_NO") 
+    					+ "\t" + list.get("BUYER_NAME") 
+    					+ "\t" + list.get("MENU_NM")
+    					+ "\t" + list.get("INFO_CART_QTY") + "개" 
+    					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)" 
+    					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
+    					+ "\t" + list.get("ORDER_PRICE") + "원");
+    		}
+    		System.out.println("--------------------------------------");
+    		System.out.println("1.이전으로");
+        	
+        	
+        }
+        int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
-			System.out.println("고객 주문목록을 출력합니다.");
-			break;
+			System.out.println("고객 주문메뉴을 출력합니다.");
+			return View.ORDER_MEMBER_LIST;
 
 		default:
 			System.out.println("잘못입력하였습니다.");
 			break;
 		}
+		return View.ORDER_MEMBER_MENU;
 
 	}
 
 	//고객 주문등록
-	public void memberOrderReg() {
+	public int memberOrderReg() {
+		
 		System.out.println("주문메뉴를 선택해주세요");
-		System.out.println("1.샌드위치 \t2.샐러드   \t3.랩");
+		System.out.println("1.샌드위치 \t2.샐러드   \t3.랩\t4.이전으로");
 		int input = ScanUtil.nextInt();
 		switch(input) {
+		
 		case 1:
-			sandwich2();
-			break;
+			return sandwich();
+			
 		case 2:
-			salad();
-			break;
+			return salad();
+			
 		case 3:
-			rap();
-			break;
+			return rap();
+			
+		case 4:
+			return View.ORDER_MEMBER_MENU;
+			
 	    default :
 	    	System.out.println("잘못입력하였습니다.");
 			break;
 		}
+		return View.ORDER_MEMBER_REG;
 		
 	}
 	
-	//샌드위치-재료선택
+	// 샌드위치-재료선택
 	public int sandwich() {
+
+		// 가맹점 출력
 		buyerList();
-		System.out.println("가맹점을 선택해주세요");
-		int input5 = ScanUtil.nextInt();
-		String buyer = null;
-		if(input5 == 1) {
-			buyer = "DEMOBUYER1";
-		}else if(input5 == 2) {
-			buyer = "DEMOBUYER2";
-		}else if(input5 == 3) {
-			buyer = "DEMOBUYER3";
-		}else {
-			buyer = "subway1";
-		}
+		System.out.println("가맹점을 입력해주세요");
+
+		String buyer = ScanUtil.nextLine();
+		
+		List<Map<String, Object>> buyerId = orderDao.buyerId(buyer);
+		String buyerid = (String) buyerId.get(0).get("BUYER_ID");
+
+		// 메인메뉴선택
+		String menuGu = "SD";
+		menuNmList(menuGu);
+		System.out.println("메뉴를 입력해주세요");
 				
-		System.out.println("메뉴를 선택해주세요");
-		System.out.println("1.에그마요 베이컨\t 2.에그마요 페퍼로니");
-		int menu = ScanUtil.nextInt();
-		
-		
+        String menu = ScanUtil.nextLine();
+
+		// 재료션택
 		System.out.println("빵을 선택해주세요");
 		System.out.println("1.화이트\t 2.파마산");
 		int input1 = ScanUtil.nextInt();
 		String bread = null;
-		if(input1 == 1) {
+		if (input1 == 1) {
 			bread = "B001";
-		}else {
+		} else {
 			bread = "B002";
 		}
-		
+
 		System.out.println("치즈를 선택해주세요");
 		System.out.println("1.아메리칸\t 2.슈레드 ");
 		int input2 = ScanUtil.nextInt();
 		String cheese = null;
-		if(input2 == 1) {
+		if (input2 == 1) {
 			cheese = "C001";
-		}else {
+		} else {
 			cheese = "C002";
 		}
-		
+
 		System.out.println("야채를 선택해주세요");
 		System.out.println("1.양상추\t 2.토마토");
 		int input3 = ScanUtil.nextInt();
 		String vegetable = null;
-		if(input3 == 1) {
+		if (input3 == 1) {
 			vegetable = "V001";
-		}else {
+		} else {
 			vegetable = "V002";
 		}
-		
+
 		System.out.println("소스를 선택해주세요");
 		System.out.println("1.머스타드\t 2.칠리");
 		int input4 = ScanUtil.nextInt();
 		String source = null;
-		if(input4 == 1) {
+		if (input4 == 1) {
 			source = "S001";
-		}else {
+		} else {
 			source = "S002";
 		}
-		
+
+		// 수량 입력, 가격 생성
 		System.out.println("수량을 입력해주세요");
-	    int qty = ScanUtil.nextInt();
+		int qty = ScanUtil.nextInt();
 		
-	    int price = 0;
-		if(menu == 1) {
-			price = 4800 * qty;
-		}else if(menu == 2) {
-			price = 4800 * qty;
-		}
-	    
-		System.out.println("1.주문등록하기 2. 취소");
+		List<Map<String, Object>> menuPrice = orderDao.menuPrice(menu);
+		int menuprice = ((BigDecimal) menuPrice.get(0).get("MENU_PRICE")).intValue();
+
+		int price = menuprice * qty;
+
+		// 장바구니 테이블에 넣기
+		List<Map<String, Object>> menuNo = orderDao.menuNo(menu);
+		int menuno = ((BigDecimal) menuNo.get(0).get("MENU_NO")).intValue();
+
+		// 카트테이블 입력
+		cartInsert(Controller.loginUser.get("MEM_ID"), menuno, qty);
+
+		// 장바구니번호 출력
+		cartNoSelect(Controller.loginUser.get("MEM_ID"));
+		System.out.println("장바구니번호를 입력해주세요");
+		int cartNo = ScanUtil.nextInt();
+
+		// 카트테이블에 재료정보 입력
+		cartBreadInsert(bread, cartNo);
+		cartCheeseInsert(cheese, cartNo);
+		cartVegetableInsert(vegetable, cartNo);
+		cartSourceInsert(source, cartNo);
+
+		System.out.println("1.계속주문\t2.주문결정");
 		int input = ScanUtil.nextInt();
-		switch(input) {
-		case 1: 
-			orderNoInsert(buyer,Controller.loginUser.get("MEM_ID"),price);
-			memberOrderNoList(buyer);
+		switch (input) {
+		case 1:
+			System.out.println("1");
+			return View.ORDER_MEMBER_REG;
+		case 2:
+			// 주문번호 생성
+			orderTableInsert(buyerid, Controller.loginUser.get("MEM_ID"));
+
+			// 주문번호 출력
+			memberOrderNoList(buyerid);
 			System.out.println("주문번호를 입력해주세요");
 			String orderNo = ScanUtil.nextLine();
-			mainMenuInsert(menu,orderNo,qty);
-			memberInfoOrderNoList(orderNo);
-			System.out.println("주문정보번호를 입력해주세요");
-			int infoOrderNo = ScanUtil.nextInt();
-			breadInsert(infoOrderNo, bread);
-			cheeseInsert(infoOrderNo,cheese);
-			vegetableInsert(infoOrderNo,vegetable);
-			sourceInsert(infoOrderNo,source);
-			memberOrderRegList(infoOrderNo);
-			System.out.println("주문등록이 완료되었습니다.");
-			System.out.println("주문메뉴로 돌아가시겠습니까?");
-			String yes = ScanUtil.nextLine();
-			break;
-		case 2:
-			break;//주문메뉴로 
-		default :
+			// ORDER테이블에 ORDER_PRICE 업데이트
+			orderTableUpdate(price, orderNo);
+			// 카트테이블에서 ADD_INGR/ INFO_ORDER로 입력
+			infoOrderInsert(Controller.loginUser.get("MEM_ID"));
+			addIngrInsert();
+			// 최종 고객 주문목록 출력
+			finalOrderList(Controller.loginUser.get("MEM_ID"), orderNo);
+								
+			// 카트 테이블 데이터 삭제
+			cartAddDelete();
+			cartDelete();
+			System.out.println("주문메뉴를 출력합니다.");
+			return View.ORDER_MEMBER_MENU;
+		default:
 			System.out.println("잘못입력하였습니다.");
 			break;
 		}
-		return View.ORDER_MEMBER_MENU;
+		return View.ORDER_MEMBER_REG;
 	}
+
 	
-	//샐러드-재료선택
+    
+
+	private void finalOrderList(Object member, String orderNo) {
+		List<Map<String, Object>> orderList2 = orderDao.menuGu(member,orderNo);
+		String dao = String.valueOf(orderList2.get(0).get("MENU_GU"));
+		if(dao.equals("SL") || dao.equals("SD")) {
+        	//샌드위치, 샐러드 조회
+    		List<Map<String, Object>> orderList = orderDao.elsedetail(member, orderNo);
+    		for (Map<String, Object> list : orderList) {
+    			System.out.println(list.get("ORDER_NO") 
+    					+ "\t" + list.get("BUYER_NAME") 
+    					+ "\t" + list.get("MENU_NM") 
+    					+ "\t" + list.get("INGR_NAME") 
+    					+ "\t" + list.get("INFO_CART_QTY") + "개" 
+    					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)" 
+    					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
+    					+ "\t" + list.get("ORDER_PRICE") + "원");
+    		}
+    		System.out.println("--------------------------------------");
+    		System.out.println("1.이전으로");
+        }else {
+        	//랩조회
+    		List<Map<String, Object>> orderList3 = orderDao.wrdetail(member, orderNo);
+    		for (Map<String, Object> list : orderList3) {
+    			System.out.println(list.get("ORDER_NO") 
+    					+ "\t" + list.get("BUYER_NAME") 
+    					+ "\t" + list.get("MENU_NM")
+    					+ "\t" + list.get("INFO_CART_QTY") + "개" 
+    					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)" 
+    					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
+    					+ "\t" + list.get("ORDER_PRICE") + "원");
+    		}
+    		System.out.println("--------------------------------------");
+    		System.out.println("1.이전으로");
+		
+	}
+	}
+
+	//메인 메뉴이름 리스트
+	public void menuNmList(String menuGu) {
+		List<Map<String, Object>> menuList = orderDao.menuNmList(menuGu);
+		for(int i = 0; i < menuList.size(); i++) {
+			Map<String, Object> list = menuList.get(i);
+			System.out.print(i+1 + "." + list.get("MENU_NM") + "  \t");
+		}
+		System.out.println();
+		
+	}
+		
+		
+	
+
+	// 샐러드-재료선택
 	public int salad() {
-		
+
+		// 가맹점 출력
 		buyerList();
-		System.out.println("가맹점을 선택해주세요");
-		int input5 = ScanUtil.nextInt();
-		String buyer = null;
-		if(input5 == 1) {
-			buyer = "DEMOBUYER1";
-		}else if(input5 == 2) {
-			buyer = "DEMOBUYER2";
-		}else if(input5 == 3) {
-			buyer = "DEMOBUYER3";
-		}else {
-			buyer = "subway1";
-		}		
-				
-		System.out.println("메뉴를 선택해주세요");
-		System.out.println("5.써브웨이 클럽\t6.이탈리안 비엠티\t7.에그마요");
-		int menu = ScanUtil.nextInt();
-		
-				
+		System.out.println("가맹점을 입력해주세요");
+
+		String buyer = ScanUtil.nextLine();
+
+		List<Map<String, Object>> buyerId = orderDao.buyerId(buyer);
+		String buyerid = (String) buyerId.get(0).get("BUYER_ID");
+
+		// 메인메뉴선택
+		String menuGu = "SL";
+		menuNmList(menuGu);
+		System.out.println("메뉴를 입력해주세요");
+
+		String menu = ScanUtil.nextLine();
+
+		// 재료션택
+			
 		System.out.println("치즈를 선택해주세요");
+		
 		System.out.println("1.아메리칸\t 2.슈레드 ");
 		int input2 = ScanUtil.nextInt();
 		String cheese = null;
-		if(input2 == 1) {
+		if (input2 == 1) {
 			cheese = "C001";
-		}else {
+		} else {
 			cheese = "C002";
 		}
-		
+
 		System.out.println("야채를 선택해주세요");
 		System.out.println("1.양상추\t 2.토마토");
 		int input3 = ScanUtil.nextInt();
 		String vegetable = null;
-		if(input3 == 1) {
+		if (input3 == 1) {
 			vegetable = "V001";
-		}else {
+		} else {
 			vegetable = "V002";
 		}
-		
+
 		System.out.println("소스를 선택해주세요");
 		System.out.println("1.머스타드\t 2.칠리");
 		int input4 = ScanUtil.nextInt();
 		String source = null;
-		if(input4 == 1) {
+		if (input4 == 1) {
 			source = "S001";
-		}else {
+		} else {
 			source = "S002";
 		}
-		
+
+		// 수량 입력, 가격 생성
 		System.out.println("수량을 입력해주세요");
-	    int qty = ScanUtil.nextInt();
-	    
-	    int price = 0;
-		if(menu == 5) {
-			price = 5800 * qty;
-		}else if(menu == 6) {
-			price = 6200 * qty;
-		}
-		
-		System.out.println("1.주문등록하기 2. 취소");
+		int qty = ScanUtil.nextInt();
+
+		List<Map<String, Object>> menuPrice = orderDao.menuPrice(menu);
+		int menuprice = ((BigDecimal) menuPrice.get(0).get("MENU_PRICE")).intValue();
+
+		int price = menuprice * qty;
+
+		// 장바구니 테이블에 넣기
+		List<Map<String, Object>> menuNo = orderDao.menuNo(menu);
+		int menuno = ((BigDecimal) menuNo.get(0).get("MENU_NO")).intValue();
+
+		// 카트테이블 입력
+		cartInsert(Controller.loginUser.get("MEM_ID"), menuno, qty);
+
+		// 장바구니번호 출력
+		cartNoSelect(Controller.loginUser.get("MEM_ID"));
+		System.out.println("장바구니번호를 입력해주세요");
+		int cartNo = ScanUtil.nextInt();
+
+		// 카트테이블에 재료정보 입력
+		cartCheeseInsert(cheese, cartNo);
+		cartVegetableInsert(vegetable, cartNo);
+		cartSourceInsert(source, cartNo);
+
+		System.out.println("1.계속주문\t2.주문결정");
 		int input = ScanUtil.nextInt();
-		switch(input) {
-		case 1: 
-			orderNoInsert(buyer,Controller.loginUser.get("MEM_ID"),price);
-			memberOrderNoList(buyer);
+		switch (input) {
+		case 1:
+			return View.ORDER_MEMBER_REG;
+		case 2:
+			// 주문번호 생성
+			orderTableInsert(buyerid, Controller.loginUser.get("MEM_ID"));
+
+			// 주문번호 출력
+			memberOrderNoList(buyerid);
 			System.out.println("주문번호를 입력해주세요");
 			String orderNo = ScanUtil.nextLine();
-			mainMenuInsert(menu,orderNo,qty);
-			memberInfoOrderNoList(orderNo);
-			System.out.println("주문정보번호를 입력해주세요");
-			int infoOrderNo = ScanUtil.nextInt();
-			cheeseInsert(infoOrderNo,cheese);
-			vegetableInsert(infoOrderNo,vegetable);
-			sourceInsert(infoOrderNo,source);
-			memberOrderRegList(infoOrderNo);
-			System.out.println("주문등록이 완료되었습니다.");
-			System.out.println("주문메뉴로 돌아가시겠습니까?");
-			String yes = ScanUtil.nextLine();
-			break;
-		case 2:
-			break;//주문메뉴로 
-		default :
+			// ORDER테이블에 ORDER_PRICE 업데이트
+			orderTableUpdate(price, orderNo);
+			// 카트테이블에서 ADD_INGR/ INFO_ORDER로 입력
+			infoOrderInsert(Controller.loginUser.get("MEM_ID"));
+			addIngrInsert();
+			// 최종 고객 주문목록 출력
+			finalOrderList(Controller.loginUser.get("MEM_ID"), orderNo);
+			// 카트 테이블 데이터 삭제
+			cartAddDelete();
+			cartDelete();
+			System.out.println("주문메뉴를 출력합니다.");
+			return View.ORDER_MEMBER_MENU;
+		default:
 			System.out.println("잘못입력하였습니다.");
 			break;
 		}
-		return View.ORDER_MEMBER_MENU;
+		return View.ORDER_MEMBER_REG;
 	}
-	
-	//랩-재료x
+
+	// 랩-재료x
+
 	public int rap() {
-		
+
+		// 가맹점 출력
 		buyerList();
-		System.out.println("가맹점을 선택해주세요");
-		int input5 = ScanUtil.nextInt();
-		String buyer = null;
-		if(input5 == 1) {
-			buyer = "DEMOBUYER1";
-		}else if(input5 == 2) {
-			buyer = "DEMOBUYER2";
-		}else if(input5 == 3) {
-			buyer = "DEMOBUYER3";
-		}else {
-			buyer = "subway1";
-		}
-				
-		System.out.println("메뉴를 선택해주세요");
-		System.out.println("3.쉬림프 에그 그릴드 랩\t 4.스테이크 & 치즈 아보카도 그릴드 랩");
-		int menu = ScanUtil.nextInt();
+		System.out.println("가맹점을 입력해주세요");
+
+		String buyer = ScanUtil.nextLine();
+
+		List<Map<String, Object>> buyerId = orderDao.buyerId(buyer);
+		String buyerid = (String) buyerId.get(0).get("BUYER_ID");
+
+		// 메인메뉴선택
+		String menuGu = "WR";
+		menuNmList(menuGu);
+		System.out.println("메뉴를 입력해주세요");
+
+		String menu = ScanUtil.nextLine();
 		
-		
+		// 수량 입력, 가격 생성
 		System.out.println("수량을 입력해주세요");
-	    int qty = ScanUtil.nextInt();
-	    
-	    int price = 0;
-		if(menu == 3) {
-			price = 5000 * qty;
-		}else if(menu == 4){
-			price = 5700 * qty;
-		}
+		int qty = ScanUtil.nextInt();
+
+		List<Map<String, Object>> menuPrice = orderDao.menuPrice(menu);
+		int menuprice = ((BigDecimal) menuPrice.get(0).get("MENU_PRICE")).intValue();
+
+		int price = menuprice * qty;
+
+		// 장바구니 테이블에 넣기
+		List<Map<String, Object>> menuNo = orderDao.menuNo(menu);
+		int menuno = ((BigDecimal) menuNo.get(0).get("MENU_NO")).intValue();
+
+		// 카트테이블 입력
+		cartInsert(Controller.loginUser.get("MEM_ID"), menuno, qty);
 		
-		System.out.println("1.주문등록하기 2. 취소");
+		// 카트테이블 입력
+		cartInsert(Controller.loginUser.get("MEM_ID"), menuno, qty);
+
+		System.out.println("1.계속주문\t2.주문결정");
 		int input = ScanUtil.nextInt();
-				
-		switch(input) {
-		case 1: 
-			orderNoInsert(buyer,Controller.loginUser.get("MEM_ID"),price);
-			memberOrderNoList(buyer);
+		switch (input) {
+		case 1:
+			return View.ORDER_MEMBER_REG;
+		case 2:
+			// 주문번호 생성
+			orderTableInsert(buyerid, Controller.loginUser.get("MEM_ID"));
+
+			// 주문번호 출력
+			memberOrderNoList(buyerid);
 			System.out.println("주문번호를 입력해주세요");
 			String orderNo = ScanUtil.nextLine();
-			mainMenuInsert(menu,orderNo,qty);
-			memberInfoOrderNoList(orderNo);
-			System.out.println("주문정보번호를 입력해주세요");
-			int infoOrderNo = ScanUtil.nextInt();
-			memberOrderRegList2(infoOrderNo);
-			System.out.println("주문등록이 완료되었습니다.");
-			System.out.println("주문메뉴로 돌아가시겠습니까?");
-			String yes = ScanUtil.nextLine();
-			break;
-		case 2:
-			break;//주문메뉴로 
-		default :
+			// ORDER테이블에 ORDER_PRICE 업데이트
+			orderTableUpdate(price, orderNo);
+			// 카트테이블에서 ADD_INGR/ INFO_ORDER로 입력
+			infoOrderInsert(Controller.loginUser.get("MEM_ID"));
+			addIngrInsert();
+			// 최종 고객 주문목록 출력
+			finalOrderList(Controller.loginUser.get("MEM_ID"), orderNo);
+			// 카트 테이블 데이터 삭제
+			cartAddDelete();
+			cartDelete();
+			System.out.println("주문메뉴를 출력합니다.");
+			return View.ORDER_MEMBER_MENU;
+		default:
 			System.out.println("잘못입력하였습니다.");
 			break;
 		}
-		return View.ORDER_MEMBER_MENU;
-		
+		return View.ORDER_MEMBER_REG;
 	}
 	
-	
-    //고객 주문등록 리스트 -
+	//고객 주문등록 리스트 -
 	public void memberOrderRegList(int infoOderNo) {
 		List<Map<String, Object>> regOrderList = orderDao.memberOrderRegList(infoOderNo);
 		for(Map<String, Object> list : regOrderList) {
@@ -670,55 +799,49 @@ public class OrderService {
 	//주문번호입력
     public void orderNoInsert(String buyer,Object member, int price) {
 		int buy = orderDao.orderNoInsert(buyer,member,price);
-		System.out.println(buy + "개의 주문번호가 입력되었습니다.");	
-		System.out.println("--------------------------------------");
+		
 		
 	}
 		
 	//메인메뉴입력
 	public void mainMenuInsert(int menu, String orderNo, int qty) {
 		int mainMenu = orderDao.mainMenuInsert(menu,orderNo,qty);
-		System.out.println(mainMenu + "개의 메인메뉴가 입력되었습니다.");
-		System.out.println("--------------------------------------");
+		
 		
 	}
 		
 	//빵입력
 	public void breadInsert(int infoOrderNo,String bread) {
 		int insertBread = orderDao.breadInsert(infoOrderNo,bread);
-		System.out.println(insertBread + "개의 빵이 입력되었습니다.");
-		System.out.println("--------------------------------------");
+		
 			
 	}
 		
 	//치즈입력
 	public void cheeseInsert(int infoOrderNo, String cheese) {
 		int insertCheese = orderDao.cheeseInsert(infoOrderNo,cheese);
-		System.out.println(insertCheese + "개의 치즈가 입력되었습니다.");
-		System.out.println("--------------------------------------");
+		
 			
 	}
 		
 	//야채입력
 	public void vegetableInsert(int infoOrderNo, String vegetable) {
 		int insertVegetable = orderDao.vegetableInsert(infoOrderNo,vegetable);
-		System.out.println(insertVegetable + "개의 야채가 입력되었습니다.");
-		System.out.println("--------------------------------------");
+		
 			
 	}
 		
 	//소스입력
 	public void sourceInsert(int infoOrderNo, String source) {
 		int insertSource = orderDao.sourceInsert(infoOrderNo,source);
-		System.out.println(insertSource + "개의 소스가 입력되었습니다.");
-		System.out.println("--------------------------------------");
+		
 			
 	}
 	
 	//고객 주문번호 리스트
-	public void memberOrderNoList(String buyer) {
+	public void memberOrderNoList(String buyerid) {
 		System.out.println("주문번호");
-		List<Map<String, Object>> orderNoList = orderDao.memberOrderNoList(buyer);
+		List<Map<String, Object>> orderNoList = orderDao.memberOrderNoList(buyerid);
 		for(int i = 0; i < orderNoList.size(); i++) {
 			Map<String, Object> list = orderNoList.get(i);
 			System.out.println(i+1 + "." + list.get("ORDER_NO"));
@@ -740,7 +863,7 @@ public class OrderService {
 	//가맹점목록 리스트
 	public void buyerList() {
 		System.out.println("가맹점명");
-		List<Map<String, Object>> buyerList = orderDao.buyerList();{
+		List<Map<String, Object>> buyerList = orderDao.buyerList();
 			for(int i = 0; i < buyerList.size(); i++) {
 				Map<String, Object> list = buyerList.get(i);
 				System.out.print(i+1 + "." + list.get("BUYER_NAME") + "  \t");
@@ -748,129 +871,13 @@ public class OrderService {
 			System.out.println();
 		}
 
-	}
+	
 	
 	/////////////////////////////////////////////////////////////////////////////////
 		
-	// 1. 고객 사용자 주문 선택
-	public void cartOrderSelect() {
-		sandwich2();
-	}
+	
 
-	public void sandwich2() {
-        
-		//가맹점 출력
-		buyerList();
-		System.out.println("가맹점을 입력해주세요");
-        
-		//가맹점 입력
-		String buyer = ScanUtil.nextLine();
-        
-		//주문번호 생성
-		orderTableInsert(buyer, Controller.loginUser.get("MEM_ID"));
-
-		list : while (true) {
-			//메인메뉴선택
-			System.out.println("메뉴를 선택해주세요");
-			System.out.println("1.에그마요 베이컨\t 2.에그마요 페퍼로니");
-			int menu = ScanUtil.nextInt();
-            
-			//재료션택
-			System.out.println("빵을 선택해주세요");
-			System.out.println("1.화이트\t 2.파마산");
-			int input1 = ScanUtil.nextInt();
-			String bread = null;
-			if (input1 == 1) {
-				bread = "B001";
-			} else {
-				bread = "B002";
-			}
-
-			System.out.println("치즈를 선택해주세요");
-			System.out.println("1.아메리칸\t 2.슈레드 ");
-			int input2 = ScanUtil.nextInt();
-			String cheese = null;
-			if (input2 == 1) {
-				cheese = "C001";
-			} else {
-				cheese = "C002";
-			}
-
-			System.out.println("야채를 선택해주세요");
-			System.out.println("1.양상추\t 2.토마토");
-			int input3 = ScanUtil.nextInt();
-			String vegetable = null;
-			if (input3 == 1) {
-				vegetable = "V001";
-			} else {
-				vegetable = "V002";
-			}
-
-			System.out.println("소스를 선택해주세요");
-			System.out.println("1.머스타드\t 2.칠리");
-			int input4 = ScanUtil.nextInt();
-			String source = null;
-			if (input4 == 1) {
-				source = "S001";
-			} else {
-				source = "S002";
-			}
-            
-			//수량 입력, 가격 생성
-			System.out.println("수량을 입력해주세요");
-			int qty = ScanUtil.nextInt();
-
-			int price = 0;
-			if (menu == 1) {
-				price = 4800 * qty;
-			} else if (menu == 2) {
-				price = 4800 * qty;
-			}
-
-			// 장바구니 테이블에 넣기
-			
-			//카트테이블 입력
-			cartInsert(Controller.loginUser.get("MEM_ID"), menu, qty);
-			
-			//장바구니번호 출력
-			cartNoSelect(Controller.loginUser.get("MEM_ID"));
-			System.out.println("장바구니번호를 입력해주세요");
-			int cartNo = ScanUtil.nextInt();
-			
-			//카트테이블에 재료정보 입력
-			cartBreadInsert(bread, cartNo);
-			cartCheeseInsert(cheese, cartNo);
-			cartVegetableInsert(vegetable, cartNo);
-			cartSourceInsert(source, cartNo);
-			
-			System.out.println("1.계속주문\t2.주문결정");
-			int input = ScanUtil.nextInt();
-			switch (input) {
-			case 1:
-				break;
-			case 2:
-				// 주문번호 출력
-				memberOrderNoList(buyer);
-				System.out.println("주문번호를 입력해주세요");
-				String orderNo = ScanUtil.nextLine();
-				// ORDER테이블에 ORDER_PRICE 업데이트
-				orderTableUpdate(price,orderNo);
-				// 카트테이블에서 ADD_INGR/ INFO_ORDER로 입력
-				infoOrderInsert(Controller.loginUser.get("MEM_ID"));
-				addIngrInsert();
-				// 최종 고객 주문목록 출력
-				finalOrderList(Controller.loginUser.get("MEM_ID"),orderNo);
-				// 카트 테이블 데이터 삭제
-				cartAddDelete();
-				cartDelete();
-				
-				break list;
-			default:
-				System.out.println("잘못입력하였습니다.");
-				break;
-			}
-		}
-	}
+	
 	
 	private void cartAddDelete() {
 		int result = orderDao.cartAddDelete();
@@ -883,21 +890,7 @@ public class OrderService {
 		
 	}
 
-	private void finalOrderList(Object member, String orderNo) {
-		List<Map<String, Object>> finalOrderList = orderDao.finalOrderList(member,orderNo);
-		for (Map<String, Object> list : finalOrderList) {
-			System.out.println(list.get("ORDER_NO") 
-					+ "\t" + list.get("BUYER_NAME") 
-					+ "\t" + list.get("MENU_NM") 
-					+ "\t" + list.get("INGR_NAME") 
-					+ "\t" + list.get("INFO_CART_QTY") + "개" 
-					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)" 
-					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
-					+ "\t" + list.get("ORDER_PRICE") + "원");
-		}
-		System.out.println("--------------------------------------");
-	}
-
+	
 	// 카트테이블에서 ADD_INGR로 입력
 	private void addIngrInsert() {
 		int result = orderDao.addIngrInsert();
@@ -918,8 +911,8 @@ public class OrderService {
 	}
 
 	//주문번호 생성
-	public void orderTableInsert(String buyer, Object member) {
-		int result = orderDao.orderTableInsert(buyer, member);
+	public void orderTableInsert(String buyerId, Object member) {
+		int result = orderDao.orderTableInsert(buyerId, member);
 		System.out.println(result + "개의 주문번호 생성완료!!");
 
 	}
@@ -1010,9 +1003,9 @@ public class OrderService {
 		System.out.println("--------------------------------------");
 	}
     //카트테이블 입력
-	public void cartInsert(Object member, int menu, int qty) {
-		int result = orderDao.cartInsert(member, menu, qty);
-		System.out.println(result + "개의 행이 입력되었습니다.");	
+	public void cartInsert(Object member, int menuno, int qty) {
+		int result = orderDao.cartInsert(member, menuno, qty);
+		System.out.println(result + "개의 메인메뉴가 입력되었습니다.");	
 		System.out.println("--------------------------------------");
 		
 	}

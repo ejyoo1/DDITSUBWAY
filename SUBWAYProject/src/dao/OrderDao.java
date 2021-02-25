@@ -67,6 +67,87 @@ public class OrderDao {
 		return jdbc.selectList(sql, param);
 	}
 	
+	public List<Map<String, Object>> menuGu(Object member, String orderNo) {
+		String sql = "SELECT A.ORDER_NO      \r\n"
+				+ "        , F.MENU_GU   \r\n"
+				+ "   FROM ORDERS A   INNER JOIN INFO_ORDER C       ON(A.ORDER_NO = C.ORDER_NO)\r\n"
+				+ "                INNER JOIN MENU F       ON(C.MENU_NO = F.MENU_NO)\r\n"
+				+ "   WHERE A.MEM_ID = ?\r\n"
+				+ "   AND   A.ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(member);
+		param.add(orderNo);
+		return jdbc.selectList(sql, param);
+	}
+
+	public List<Map<String, Object>> memberOrderDetail2(Object member, String orderNo) {
+		String sql = "SELECT A.ORDER_NO      \r\n"
+				+ "        , B.BUYER_NAME    \r\n"
+				+ "        , F.MENU_NM   \r\n"
+				+ "        , C.INFO_CART_QTY \r\n"
+				+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')\r\n"
+				+ "        , TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')\r\n"
+				+ "        , A.ORDER_PRICE \r\n"
+				+ "   FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID)\r\n"
+				+ "                INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)\r\n"
+				+ "                INNER JOIN MENU F       ON(C.MENU_NO = F.MENU_NO)\r\n"
+				+ "   WHERE A.MEM_ID = ?\r\n"
+				+ "   AND   A.ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(member);
+		param.add(orderNo);
+		return jdbc.selectList(sql, param);
+		
+	}
+	
+	//주문상세 출력 -SD/SL
+	public List<Map<String, Object>> elsedetail(Object member, String orderNo) {
+		
+			String sql = "SELECT  A.ORDER_NO "
+					+ "        ,  B.BUYER_NAME "
+					+ "        ,  F.MENU_NM "
+					+ "        ,  E.INGR_NAME "
+					+ "        ,  C.INFO_CART_QTY "
+					+ "        ,  TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD') "
+					+ "        ,  TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD') "
+					+ "        ,  A.ORDER_PRICE "
+					+ "   FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID) "
+					+ "                   INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO) "
+					+ "                   INNER JOIN ADD_INGR D   ON(C.INFO_ORDER_NO = D.INFO_ORDER_NO) "
+					+ "                   INNER JOIN INGR E       ON(D.INGR_NO = E.INGR_NO) "
+					+ "                   INNER JOIN MENU F       ON(C.MENU_NO = F.MENU_NO)"
+					+ "   WHERE A.MEM_ID = ?"
+					+ "   AND   A.ORDER_NO = ?";
+			List<Object> param = new ArrayList<>();
+			param.add(member);
+			param.add(orderNo);
+			return jdbc.selectList(sql, param);
+
+		}
+	
+	//주문상세 출력 -WR
+	public List<Map<String, Object>> wrdetail(Object member, String orderNo) {
+		
+			
+			String sql = "SELECT A.ORDER_NO      \r\n"
+					+ "        , B.BUYER_NAME    \r\n"
+					+ "        , F.MENU_NM   \r\n"
+					+ "        , C.INFO_CART_QTY \r\n"
+					+ "        , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')\r\n"
+					+ "        , TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')\r\n"
+					+ "        , A.ORDER_PRICE \r\n"
+					+ "   FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID)\r\n"
+					+ "                   INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)\r\n"
+					+ "                   INNER JOIN MENU F       ON(C.MENU_NO = F.MENU_NO)\r\n"
+					+ "   WHERE A.MEM_ID = ?\r\n"
+					+ "   AND   A.ORDER_NO = ?";
+			List<Object> param = new ArrayList<>();
+			param.add(member);
+			param.add(orderNo);
+			return jdbc.selectList(sql, param);
+
+		}
+	
 	//가맹점목록 리스트
 	public List<Map<String, Object>> buyerList() {
 		String sql = "SELECT BUYER_NAME"
@@ -86,13 +167,13 @@ public class OrderDao {
 	}
 	
 	//고객 주문번호 리스트
-	public List<Map<String, Object>> memberOrderNoList(String buyer) {
+	public List<Map<String, Object>> memberOrderNoList(String buyerid) {
 		String sql = " SELECT ORDER_NO "
 				+ "    FROM ORDERS"
 				+ "    WHERE BUYER_ID = ?"
 				+ "    ORDER BY ORDER_NO";
 		List<Object> param = new ArrayList<>();
-		param.add(buyer);
+		param.add(buyerid);
 		return jdbc.selectList(sql,param);
 	}
 	
@@ -322,12 +403,12 @@ public class OrderDao {
 		return jdbc.update(sql, param);
 	}
     //카트테이블 입력
-	public int cartInsert(Object member, int menu, int qty) {
+	public int cartInsert(Object member, int menuno, int qty) {
 		String sql = "INSERT INTO CART(CART_NO, MEM_ID, MENU_NO, CART_QTY)\r\n"
 				+ "               VALUES(CART_NO_SEQ.NEXTVAL, ?,?,?)";
 		List<Object> param = new ArrayList<>();
 		param.add(member);
-		param.add(menu);
+		param.add(menuno);
 		param.add(qty);
 		return jdbc.update(sql, param);
 	}
@@ -384,11 +465,11 @@ public class OrderDao {
 	}
 	
 	//주문번호 생성
-	public int orderTableInsert(String buyer, Object member) {
+	public int orderTableInsert(String buyerId, Object member) {
 		String sql = "INSERT INTO ORDERS(ORDER_NO, BUYER_ID, MEM_ID, ORDER_MEMBER_DATE )\r\n"
 				+ "               VALUES(TO_CHAR(SYSDATE,'YYYYMMDDHHMISS'), ?, ?,SYSDATE)";
 		List<Object> param = new ArrayList<>();
-		param.add(buyer);
+		param.add(buyerId);
 		param.add(member);
 		return jdbc.update(sql, param);
 	}
@@ -453,6 +534,58 @@ public class OrderDao {
 		String sql = "DELETE FROM CART";
 		return jdbc.update(sql);
 	}
+	
+    //메인 메뉴이름 리스트
+	public List<Map<String, Object>> menuNmList(String menuGu) {
+		String sql = "SELECT MENU_NM"
+				+ "   FROM   MENU"
+				+ "   WHERE  MENU_GU = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(menuGu);
+		return jdbc.selectList(sql, param);
+	}
+
+	public List<Map<String, Object>> menuPrice(String menu) {
+		String sql = "SELECT MENU_PRICE\r\n"
+				+ "   FROM   MENU\r\n"
+				+ "   WHERE  MENU_NM = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(menu);
+		return jdbc.selectList(sql, param);
+	}
+
+	public List<Map<String, Object>> menuNo(String menu) {
+		String sql = "SELECT MENU_NO\r\n"
+				+ "   FROM   MENU\r\n"
+				+ "   WHERE  MENU_NM = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(menu);
+		return jdbc.selectList(sql, param);
+	}
+
+	public List<Map<String, Object>> buyerId(String buyer) {
+		String sql = "SELECT BUYER_ID\r\n"
+				+ "   FROM   BUYER\r\n"
+				+ "   WHERE  BUYER_NAME = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(buyer);
+		return jdbc.selectList(sql, param);
+	}
+
+	public List<Map<String, Object>> menuGu(String menu) {
+		String sql = "SELECT MENU_GU\r\n"
+				+ "FROM   MENU\r\n"
+				+ "WHERE  MENU_NM = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(menu);
+		return jdbc.selectList(sql, param);
+	}
+
+	
+
+	
+
+	
 
 	
 
