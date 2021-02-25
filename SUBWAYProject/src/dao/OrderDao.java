@@ -129,7 +129,7 @@ public class OrderDao {
 	public List<Map<String, Object>> wrdetail(Object member, String orderNo) {
 		
 			
-			String sql = "SELECT A.ORDER_NO      \r\n"
+			String sql = "SELECT DISTINCT A.ORDER_NO      \r\n"
 					+ "        , B.BUYER_NAME    \r\n"
 					+ "        , F.MENU_NM   \r\n"
 					+ "        , C.INFO_CART_QTY \r\n"
@@ -314,7 +314,7 @@ public class OrderDao {
 	}
 	
 	public List<Map<String, Object>> buyerOrderDetail2(String orderNo, Object buyer) {
-		String sql = "SELECT A.ORDER_NO      "
+		String sql = "SELECT DISTINCT A.ORDER_NO      "
 				+ "	       , B.BUYER_NAME   "
 				+ "	       , F.MENU_NM         "
 				+ "	       , C.INFO_CART_QTY   "
