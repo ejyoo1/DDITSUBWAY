@@ -32,6 +32,7 @@ public class MenuDao {
 		param.add(menuGu);
 		return jdbc.selectList(sql, param);
 	}
+	//고객, 가맹점주 메뉴 조회
 	
 	public Map<String, Object> selectsandDet(int detSDNum){
 		
@@ -44,6 +45,7 @@ public class MenuDao {
 		param.add(detSDNum);
 		return jdbc.selectOne(sql, param);
 	}
+	//고객, 가맹점주 - 샌드위치 메뉴 조회
 	
 	public Map<String, Object> selectwrapDet(int detWRNum){
 		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
@@ -55,7 +57,8 @@ public class MenuDao {
 		param.add(detWRNum);
 		return jdbc.selectOne(sql, param);
 	}
-	
+	//고객, 가맹점주 - 랩 메뉴 조회
+
 	public Map<String, Object> selectsallDet(int detSLNum){
 		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
 				+ "(select  max(MENU_GU_SEQ) from menu where MENU_GU = 'SD') as maxgs "
@@ -66,6 +69,8 @@ public class MenuDao {
 		param.add(detSLNum);
 		return jdbc.selectOne(sql, param);
 	}
+	//고객, 가맹점주 - 샐러드 메뉴 조회
+	
 	
 	public List<Map<String, Object>> selAllMenuList(){
 		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE,"
@@ -75,6 +80,7 @@ public class MenuDao {
 		List<Map<String, Object>> selAMenuList = jdbc.selectList(sql);
 		return jdbc.selectList(sql);
 	}
+	//관리자 메뉴 관리 전 전체조회(등록, 수정, 삭제)
 	
 	public int entMenu(String menuGu, String menuNM, String menuIngr, int menuPri){
 		String sql = "INSERT INTO MENU("
@@ -87,18 +93,8 @@ public class MenuDao {
 		param.add(menuPri);
 		return jdbc.update(sql, param);
 	}
+	//관리자 - 메뉴 등록
 	
-/*	public Map<String, Object> upselMenu(String menuGu, int upselMenuNum){
-		String sql = " select MENU_NO, MENU_GU, MENU_GU_SEQ, MENU_NM, MENU_INGR, MENU_PRICE, "
-				+ "from menu "
-				+ "where MENU_GU = ? and MENU_GU_SEQ = ?";
-
-		List<Object> param = new ArrayList<>();
-		param.add(menuGu);
-		param.add(upselMenuNum);
-		return jdbc.selectOne(sql, param);
-	}
-*/	
 	public int updMenu(int menuNo, String menuGu, String menuNM, String menuIngr, int menuPri){
 		String sql = "UPDATE MENU "
 				+ "SET MENU_GU = ?, MENU_NM = ?, MENU_INGR = ?, MENU_PRICE = ? "
@@ -112,6 +108,7 @@ public class MenuDao {
 		
 		return jdbc.update(sql, param);
 	}
+	//관리자 - 메뉴 수정
 	
 	public int delMenu(int menuNo){
 		String sql = "DELETE FROM MENU WHERE MENU_NO = ?";
@@ -121,4 +118,5 @@ public class MenuDao {
 		
 		return jdbc.update(sql, param);
 	}
+	//관리자 - 메뉴 삭제
 }
