@@ -257,7 +257,12 @@ public class MyService {
 		System.out.println("■ 추가재료이름 : " + ingrlist.toString());
 		System.out.println("■ 총주문금액 : " + User.get("총주문금액"));
 		System.out.println("■ 고객주문날짜 : " + User.get("고객주문날짜"));
-		System.out.println("■ 가맹점 승인 : " + User.get("가맹점승인"));
+		
+		if(User.get("가맹점승인")==null) {
+			System.out.println("■ 가맹점 승인 : 미승인");
+		}else {
+			System.out.println("■ 가맹점 승인 : " + User.get("가맹점승인"));
+		}
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		// 이 게시글을 사용하여 사용자가 어떤 행위를 할지 결정한다.
