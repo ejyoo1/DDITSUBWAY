@@ -5,6 +5,7 @@ import java.util.Map;
 import service.BoardService;
 import service.EventService;
 import service.FrancService;
+import service.InquiryMenu;
 import service.LoginMainMenuService;
 import service.MenuService;
 import service.MyService;
@@ -40,7 +41,8 @@ public class Controller {
 	private OrderService orderService = OrderService.getInstance();
 	private MyService myPageService = MyService.getInstance();
 	private FrancService francService = FrancService.getInstance();
-
+	private InquiryMenu inquiryMenu = InquiryMenu.getInstance();
+	
 	private void start() {
 		int view = View.HOME;
 		
@@ -60,6 +62,7 @@ public class Controller {
 				case View.FRANC_LIST: view = francService.francList(); break;
 				case View.NOTICE_LIST_INFO: view = noticeService.notiInfo(); break;
 				case View.EVENT_LIST_INFO: view = eventService.eventInfo(); break;
+				case View.INQUIRY_MENU: view = inquiryMenu.inquiry(); break;
 				
 				case View.BOARD_LIST: view = boardService.boardList(); break;
 			}
@@ -79,7 +82,7 @@ public class Controller {
 		switch (input) {
 			case 1: return View.LOGIN;
 			case 2: return View.JOIN;
-			case 3: return View.MYPAGE_MENU;
+			case 3: return View.INQUIRY_MENU;
 			case 4:
 				System.out.println("☞ 프로그램이 종료되었습니다 ☜");
 				System.exit(0);
