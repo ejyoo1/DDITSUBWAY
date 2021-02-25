@@ -312,6 +312,25 @@ public class OrderDao {
 		param.add(buyer);
 		return jdbc.selectList(sql,param);
 	}
+	
+	public List<Map<String, Object>> buyerOrderDetail2(String orderNo, Object buyer) {
+		String sql = "SELECT A.ORDER_NO      "
+				+ "	       , B.BUYER_NAME   "
+				+ "	       , F.MENU_NM         "
+				+ "	       , C.INFO_CART_QTY   "
+				+ "	       , TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD') "
+				+ "	       , TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')  "
+				+ "	       , A.ORDER_PRICE\r\n"
+				+ "   FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID) "
+				+ "				INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO)		 "
+				+ "				INNER JOIN MENU F       ON(C.MENU_NO = F.MENU_NO) "
+				+ "   WHERE A.ORDER_NO = ?"
+				+ "   AND   B.BUYER_ID = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(orderNo);
+		param.add(buyer);
+		return jdbc.selectList(sql,param);
+	}
     
 	//점주 미등록 주문리스트
 	public List<Map<String, Object>> notAcceptOrderList() {
@@ -596,7 +615,19 @@ public class OrderDao {
 		return jdbc.update(sql);
 	}
 
+	public List<Map<String, Object>> menuGu2(String orderNo) {
+		String sql = "SELECT     MENU_GU   \r\n"
+				+ "   FROM ORDERS A   INNER JOIN BUYER B      ON(A.BUYER_ID = B.BUYER_ID) \r\n"
+				+ "			     INNER JOIN INFO_ORDER C ON(A.ORDER_NO = C.ORDER_NO) \r\n"
+				+ "                 INNER JOIN MENU D ON(C.MENU_NO = D.MENU_NO)\r\n"
+				+ "   WHERE       A.ORDER_NO = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(orderNo);
+		return jdbc.selectList(sql,param);
+	}
+
 	
+	}
 
 	
 
@@ -606,4 +637,4 @@ public class OrderDao {
 
 	
 
-}
+	

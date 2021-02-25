@@ -95,18 +95,36 @@ public class OrderService {
 		String orderNo = ScanUtil.nextLine();
 		System.out.println("--------------------------------------");
 		
-		List<Map<String, Object>> orderList = orderDao.buyerOrderDetail(orderNo,buyer);
-		for(Map<String, Object> list : orderList) {
-			System.out.println(list.get("ORDER_NO")
-					+ "\t" + list.get("BUYER_NAME")
-					+ "\t" + list.get("MENU_NM")
-//					+ "\t" + list.get("INGR_NAME")
-					+ "\t" + list.get("INFO_CART_QTY") + "개"
-					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)"
-					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
-					+ "\t" + list.get("ORDER_PRICE") + "원");
+		List<Map<String, Object>> menuGu2 = orderDao.menuGu2(orderNo);
+		String dao = String.valueOf(menuGu2.get(0).get("MENU_GU"));
+		if(dao.equals("SD") || dao.equals("SL")) {
+			List<Map<String, Object>> orderList = orderDao.buyerOrderDetail(orderNo,buyer);
+			for(Map<String, Object> list : orderList) {
+				System.out.println(list.get("ORDER_NO")
+						+ "\t" + list.get("BUYER_NAME")
+						+ "\t" + list.get("MENU_NM")
+						+ "\t" + list.get("INGR_NAME")
+						+ "\t" + list.get("INFO_CART_QTY") + "개"
+						+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)"
+						+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
+						+ "\t" + list.get("ORDER_PRICE") + "원");
+			}
+			System.out.println("--------------------------------------");
+		}else {
+			List<Map<String, Object>> orderList = orderDao.buyerOrderDetail2(orderNo,buyer);
+			for(Map<String, Object> list : orderList) {
+				System.out.println(list.get("ORDER_NO")
+						+ "\t" + list.get("BUYER_NAME")
+						+ "\t" + list.get("MENU_NM")
+						+ "\t" + list.get("INGR_NAME")
+						+ "\t" + list.get("INFO_CART_QTY") + "개"
+						+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)"
+						+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
+						+ "\t" + list.get("ORDER_PRICE") + "원");
+			}
+			System.out.println("--------------------------------------");
 		}
-		System.out.println("--------------------------------------");
+		
 			
 			System.out.println("1.이전으로");
 			int input = ScanUtil.nextInt();
