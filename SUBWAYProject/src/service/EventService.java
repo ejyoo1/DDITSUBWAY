@@ -113,14 +113,25 @@ public class EventService {
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■이벤트 상세■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		System.out.print("☞ 조회 게시글 번호 입력 > ");
-		int eventId = ScanUtil.nextInt ();
-		
-		Map<String, Object> param = new HashMap<>();
-		param.put ("EVENT_ID", eventId);
-		
-//		조회할 이벤트 게시글 데이터 가져옴
-		Map<String, Object> eventInfo = eventDao.selectInfo(param);
+		Map<String, Object> eventInfo;
+		int eventId;
+		while(true) {
+			System.out.print("☞ 조회 게시글 번호 입력 > ");
+			eventId = ScanUtil.nextInt ();
+			
+	//		게시글 번호 세팅
+			Map<String, Object> param = new HashMap<>();
+			param.put ("EVENT_ID", eventId);
+			
+//			조회할 이벤트 게시글 데이터 가져옴
+			eventInfo = eventDao.selectInfo(param);
+			if(eventInfo==null) {
+				System.out.println("☞ 잘못된 번호입니다 ☜");
+			}else {
+				break;
+			}
+		}
+
 //		출력
 		System.out.println ("■ 이벤트 번호 : " + eventInfo.get ("EVENT_ID"));
 		System.out.println ("■ 이벤트 제목 : " + eventInfo.get ("EVENT_TITLE"));

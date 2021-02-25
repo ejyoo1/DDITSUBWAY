@@ -119,15 +119,24 @@ public class NotiService {
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■■■■■■■■■■■■■■■■■■■공지사항 상세 조회■■■■■■■■■■■■■■■■■■");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		System.out.print("☞ 조회 게시글 번호 입력 > ");
-		int noticeNo = ScanUtil.nextInt ();
-		
-//		게시글 번호 세팅
-		Map<String, Object> param = new HashMap<>();
-		param.put ("NOTICE_NO", noticeNo);
-		
-//		상세 조회할 게시글의 DB 데이터를 가져옴
-		Map<String, Object> noticeList = notiDao.selectNotiList(param);
+		Map<String, Object> noticeList;
+		int noticeNo;
+		while(true) {
+			System.out.print("☞ 조회 게시글 번호 입력 > ");
+			noticeNo = ScanUtil.nextInt ();
+			
+	//		게시글 번호 세팅
+			Map<String, Object> param = new HashMap<>();
+			param.put ("NOTICE_NO", noticeNo);
+			
+	//		상세 조회할 게시글의 DB 데이터를 가져옴
+			noticeList = notiDao.selectNotiList(param);
+			if(noticeList==null) {
+				System.out.println("☞ 잘못된 번호입니다 ☜");
+			}else {
+				break;
+			}
+		}
 		
 //		상세 조회할 게시글의 DB 데이터 출력
 		System.out.println ("■ 공지사항 번호 : " + noticeList.get ("NOTICE_NO"));
