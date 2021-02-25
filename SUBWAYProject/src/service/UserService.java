@@ -75,10 +75,10 @@ public class UserService {
 						memREGNO = ScanUtil.nextLine();
 						boolean userRegNoFlag = verifiedUtil.verifiedRegNo(memREGNO);
 						if(userRegNoFlag) {
-							System.out.println("☞ 전화번호 검사 : 성공 ☜");
+							System.out.println("☞ 생년월일 검사 : 성공 ☜");
 							break;
 						}else {
-							System.out.println("☞ 전화번호 검사 : 실패 ☜");
+							System.out.println("☞ 생년월일 검사 : 실패 ☜");
 							System.out.println("올바른 형식이 아닙니다.");
 						}
 					}
