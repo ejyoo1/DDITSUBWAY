@@ -28,13 +28,13 @@ public class MyService {
 
 //  마이페이지 메인 홈 화면
 	public int myPageHome() { 
-		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		System.out.println("■■■■■■■■■■■■■■■■■■■■■■마이페이지■■■■■■■■■■■■■■■■■■■■■■");
-		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 //		*로그인 타입 : 고객, 가맹점주, 관리자 마이페이지 메뉴 출력
 		// 고객 마이페이지
 		if (Controller.loginUser.get("LOGIN_CODE").equals(1)) { // 고객 마이페이지
-			System.out.println("1.내정보 수정     2.주문 내역 확인     3.1:1 문의     4.이전으로(메인 메뉴 페이지 이동)");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■마이페이지■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("1.내정보 수정     2.주문 내역 확인     3.1:1 문의 작성     4.이전으로(메인 메뉴 페이지 이동)");
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			System.out.print("☞ 입력 > ");
 			int input = ScanUtil.nextInt();
@@ -48,8 +48,12 @@ public class MyService {
 		
 		// 가맹점주 마이페이지	
 		} else if (Controller.loginUser.get("LOGIN_CODE").equals(2)) { // 가맹점 마이페이지
-			System.out.println("1.내정보 수정\t2. 주문 내역 확인\t3. 1:1 문의\t4.이전으로");
-			System.out.print("입력>");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■마이페이지■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.println("1.내정보 수정     2. 주문 내역 확인     3. 1:1 문의 작성     4.이전으로");
+			System.out.print("☞ 입력>");
 			int input = ScanUtil.nextInt();
 			switch (input) {
 			case 1: storeModifyInfo(); break; // 내정보수정
@@ -85,18 +89,18 @@ public class MyService {
 		} else {
 			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■현재 정보■■■■■■■■■■■■■■■■■■■■■■■■■");
 			List<Map<String, Object>> userList = myDao.selectUserList();
-			System.out.println("회원명         생년월일             전화번호                  우편번호               주소");
+			System.out.println("회원명         생년월일                   전화번호                        우편번호             주소");
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			for (Map<String, Object> User : userList) {
-				System.out.print(User.get("MEM_NM") + "      ");
+				System.out.print(User.get("MEM_NM") + "    ");
 				System.out.print(User.get("MEM_REGNO") + "    ");
-				System.out.print(User.get("MEM_NUMBER") + "    ");
-				System.out.print(User.get("MEM_ZIP") + "   ");
+				System.out.print(User.get("MEM_NUMBER") +" ");
+				System.out.print(User.get("MEM_ZIP") + " ");
 				System.out.print(User.get("MEM_ADD") + "  ");
 				System.out.println();
 			}
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-			System.out.println("■■■■■■■■■■■■■■■■■■■■■■변결할 정보■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■변결할 정보■■■■■■■■■■■■■■■■■■■■■■■■");
 			System.out.print("☞ 회원명>");
 			String memName = ScanUtil.nextLine();
 			System.out.print("☞ 생년월일>");
@@ -143,11 +147,11 @@ public class MyService {
 		if (user == null) {
 			System.out.println("비밀번호를 잘못 입력하셨습니다.");
 		} else {
-			System.out.println("■■■■■■■■■■■■■■■■■■■■■■현재 정보■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■현재 정보■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 			List<Map<String, Object>> storeList = myDao.selectStoreList();
-			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-			System.out.println("가맹점 명     가맹점 전화번호     가맹점 우편번호     가맹점 주소");
-			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.println("가맹점 명            가맹점 전화번호                 가맹점 우편번호            가맹점 주소");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			for (Map<String, Object> Store : storeList) {
 				System.out.print(Store.get("BUYER_NAME") + "\t");
 				System.out.print(Store.get("BUYER_COMTEL") + "\t");
@@ -155,7 +159,8 @@ public class MyService {
 				System.out.print(Store.get("BUYER_ADD") + "\t");
 				System.out.println();
 			}
-			System.out.println("■■■■■■■■■■■■■■■■■■■■■■변결할 정보■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■변결할 정보■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 			System.out.print("☞ 가맹점  명>");
 			String buyername = ScanUtil.nextLine();
 			System.out.print("☞ 가맹점 전화번호>");
@@ -327,11 +332,11 @@ public class MyService {
 	// 관리자 1대1문의 조회
 	public int managerInquiry() {
 		List<Map<String, Object>> inquiryList = myDao.selectInquiryList();
-		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		System.out.println("■■■■■■■■■■■■■■■■■■■■1:1문의 조회 ■■■■■■■■■■■■■■■■■■■■■■");
-		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■고객 센터 관리 ■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-		System.out.println("     문의 번호     문의 제목     문의 작성일자");
+		System.out.println("문의 번호     문의 제목      문의 작성일자");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for (Map<String, Object> inquiry : inquiryList) {
 			System.out.print(inquiry.get("INQUIRY_NO") + "\t");
@@ -340,9 +345,9 @@ public class MyService {
 			System.out.println();
 		}
 		// 게시물을 가지고 사용자가 어떤 행위를 할지 결정한다.
-		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("1. 문의 상세 조회     2. 이전으로(마이페이지 메뉴)");
-		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.print("☞ 입력 > ");
 		int input = ScanUtil.nextInt();
 		switch (input) {
@@ -396,7 +401,7 @@ public class MyService {
 		} else {
 			System.out.println("1:1 문의 삭제를 실패하였습니다.");
 		}
-		return View.MYPAGE_MENU;
+		return managerInquiry();
 
 	}
 }
