@@ -61,4 +61,12 @@ public class UserDao {
 		return jdbc.selectOne(sql, param);
 	}
 	
+//  아이디 중복검사 체크
+	public Map<String, Object> selectUser(String memId, String table, String idColumn) {
+		String sql = " SELECT " + idColumn + " FROM " + table + " WHERE " + idColumn + " = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(memId);
+	
+		return jdbc.selectOne(sql, param);
+	}
 }

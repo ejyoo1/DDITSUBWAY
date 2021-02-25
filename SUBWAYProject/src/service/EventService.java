@@ -23,64 +23,77 @@ public class EventService {
 		return instance;
 	}
 	
-//	다오 서비스 객체 획득
 	private EventDao eventDao = EventDao.getInstance();
 	private VerifiedUtil verifiedUtil = VerifiedUtil.getInstance();
 	
 	public int eventList() {//1. 전체조회 2. 현재 진행중인 이벤트 조회 3. 종료된 이벤트 조회
-		System.out.println("=======================================");
-		System.out.println("이벤트 번호\t이벤트 제목\t이벤트 시작날짜\t이벤트 종료 날짜");
-		System.out.println("---------------------------------------");
+		
 //		전체 목록 출력
 		if(eventListCode == 1) {
-			System.out.println("===============전체 이벤트==================");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■전체 이벤트■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("     이벤트 번호     이벤트 제목     이벤트 시작날짜     이벤트 종료 날짜");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			List<Map<String, Object>> eventAllList = eventDao.selectAllEventList();
 			for(Map<String, Object> event : eventAllList){
-				System.out.println(event.get("EVENT_ID")
-						+ "\t" + event.get("EVENT_TITLE")
-						+ "\t" + event.get("EVENT_STARTDATE")
-						+ "\t" + event.get ("EVENT_ENDDATE")
-						);
+				System.out.println(
+						"["		+ event.get("EVENT_ID")
+						+ "][" 	+ event.get("EVENT_TITLE")
+						+ "][" 	+ event.get("EVENT_STARTDATE")
+						+ "][" 	+ event.get ("EVENT_ENDDATE")
+						+ "]");
 			}
 		}else if(eventListCode == 2) {
-			System.out.println("=============현재 진행중 이벤트==================");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■현재 진행중인 이벤트■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("     이벤트 번호     이벤트 제목     이벤트 시작날짜     이벤트 종료 날짜");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			List<Map<String, Object>> eventNowList = eventDao.selectNowEventList();
 			for(Map<String, Object> event : eventNowList){
-				System.out.println(event.get("EVENT_ID")
-						+ "\t" + event.get("EVENT_TITLE")
-						+ "\t" + event.get("EVENT_STARTDATE")
-						+ "\t" + event.get ("EVENT_ENDDATE")
-						);
+				System.out.println(
+						"["		+ event.get("EVENT_ID")
+						+ "][" 	+ event.get("EVENT_TITLE")
+						+ "][" 	+ event.get("EVENT_STARTDATE")
+						+ "][" 	+ event.get ("EVENT_ENDDATE")
+						+ "]");
 			}
 		}else if(eventListCode == 3) {
-			System.out.println("================종료된 이벤트==================");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■종료된 이벤트■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("     이벤트 번호     이벤트 제목     이벤트 시작날짜     이벤트 종료 날짜");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			List<Map<String, Object>> eventEndList = eventDao.selectEndEventList();
 			for(Map<String, Object> event : eventEndList){
-//				종료된 날짜는 null일 수 없음.
-				System.out.println(event.get("EVENT_ID")
-						+ "\t" + event.get("EVENT_TITLE")
-						+ "\t" + event.get("EVENT_STARTDATE")
-						+ "\t" + event.get ("EVENT_ENDDATE")
-						);
+				System.out.println(
+						"["		+ event.get("EVENT_ID")
+						+ "][" 	+ event.get("EVENT_TITLE")
+						+ "][" 	+ event.get("EVENT_STARTDATE")
+						+ "][" 	+ event.get ("EVENT_ENDDATE")
+						+ "]");
 			}
 		}
 		
 		if(Controller.loginUser.get("LOGIN_CODE").equals(1) || Controller.loginUser.get("LOGIN_CODE").equals(2)) {
-			System.out.println("1. 전체 이벤트 조회\t2. 현재 진행중인 이벤트 조회\t3. 종료된 이벤트 조회\t4.이벤트 상세조회\t5. 이전으로");
-			System.out.print("입력>");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("1.전체 이벤트 조회     2.현재 진행중인 이벤트 조회     3. 종료된 이벤트 조회     4.이벤트 상세조회     5.이전으로(메인 메뉴 페이지로 이동)");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.print("☞ 입력 > ");
 			int userInput = ScanUtil.nextInt();
 			switch(userInput) {
 				case 1: eventListCode = 1; break;
 				case 2: eventListCode = 2; break;
 				case 3: eventListCode = 3; break;
-				case 4:	return View.EVENT_LIST_INFO;
+				case 4:	eventListCode = 1; return View.EVENT_LIST_INFO;
 				case 5:	return View.LOGIN_MAIN_MENU;
-				default: System.out.println("잘못입력");
+				default : System.out.println("☞ 잘못된 번호입니다 ☜");
 			}
-			return View.EVENT_LIST;
 		}else if (Controller.loginUser.get("LOGIN_CODE").equals(3)) {
-			System.out.println("1. 전체 이벤트 조회\t2. 현재 진행중인 이벤트 조회\t3. 종료된 이벤트 조회\t4.이벤트 상세조회\t5. 이벤트 등록\t6. 이전으로");
-			System.out.print("입력>");
+			System.out.println("1.전체 이벤트 조회     2.현재 진행중인 이벤트 조회     3. 종료된 이벤트 조회     4.이벤트 상세조회     5.이벤트 등록     6.이전으로(메인 메뉴 페이지로 이동)");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.print("☞ 입력 > ");
 			int userInput = ScanUtil.nextInt();
 			switch(userInput) {
 				case 1: eventListCode = 1; break;
@@ -89,16 +102,18 @@ public class EventService {
 				case 4:	eventListCode = 1; return View.EVENT_LIST_INFO;
 				case 5: insertEvent(); eventListCode = 1; break;
 				case 6:	return View.LOGIN_MAIN_MENU;
-				default: System.out.println("잘못입력");
+				default : System.out.println("☞ 잘못된 번호입니다 ☜");
 			}
-			return View.EVENT_LIST;
 		}
 		return View.EVENT_LIST;
 	}
 
+//	이벤트 상세 조회
 	public int eventInfo() {
-		System.out.println("==이벤트조회==");
-		System.out.print ("조회할 게시글 번호 입력>");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■이벤트 상세■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.print("☞ 조회 게시글 번호 입력 > ");
 		int eventId = ScanUtil.nextInt ();
 		
 		Map<String, Object> param = new HashMap<>();
@@ -107,22 +122,23 @@ public class EventService {
 //		조회할 이벤트 게시글 데이터 가져옴
 		Map<String, Object> eventInfo = eventDao.selectInfo(param);
 //		출력
-		System.out.println ("> 이벤트 번호 : " + eventInfo.get ("EVENT_ID"));
-		System.out.println ("> 이벤트 제목 : " + eventInfo.get ("EVENT_TITLE"));
-		System.out.println ("> 이벤트 내용 "); 
+		System.out.println ("■ 이벤트 번호 : " + eventInfo.get ("EVENT_ID"));
+		System.out.println ("■ 이벤트 제목 : " + eventInfo.get ("EVENT_TITLE"));
+		System.out.println ("■ 이벤트 내용 "); 
 		System.out.println(eventInfo.get ("EVENT_CONTENTS"));
-		System.out.println ("> 이벤트 시작 일자 : " + eventInfo.get ("EVENT_STARTDATE"));
+		System.out.println ("■ 이벤트 시작 일자 : " + eventInfo.get ("EVENT_STARTDATE"));
 		
 		if(eventInfo.get ("EVENT_ENDDATE")==null) {
-			System.out.println ("> 이벤트 종료 일자 : 진행중");
+			System.out.println ("■ 이벤트 종료 일자 : 진행중");
 		}else {
-			System.out.println ("> 이벤트 종료 일자 : " + eventInfo.get ("EVENT_ENDDATE"));
+			System.out.println ("■ 이벤트 종료 일자 : " + eventInfo.get ("EVENT_ENDDATE"));
 		}
-		System.out.println ("> 이벤트 내용 : " + eventInfo.get ("EVENT_CONTENTS"));
-		System.out.println ("> 이벤트 작성 일자 : " + eventInfo.get ("EVENT_REG_DATE"));
+		System.out.println ("■ 이벤트 내용 : " + eventInfo.get ("EVENT_CONTENTS"));
+		System.out.println ("■ 이벤트 작성 일자 : " + eventInfo.get ("EVENT_REG_DATE"));
 		
 		if(Controller.loginUser.get("LOGIN_CODE").equals(1) || Controller.loginUser.get("LOGIN_CODE").equals(2)) {
-			System.out.println("1. 이전으로");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("1.이전으로(이벤트 홈)");
 			System.out.print("입력>");
 			int userInput = ScanUtil.nextInt();
 			switch(userInput) {
@@ -130,14 +146,15 @@ public class EventService {
 				default: System.out.println("잘못입력");
 			}
 		}else if (Controller.loginUser.get("LOGIN_CODE").equals(3)) {
-			System.out.println("1. 이벤트 수정\t2. 이벤트 삭제\t3. 이전으로");
-			System.out.print("입력>");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("1.이벤트 수정     2.이벤트 삭제     3. 이전으로(이벤트 홈)");
+			System.out.print ("☞ 입력 > ");
 			int userInput = ScanUtil.nextInt();
 			switch(userInput) {
 				case 1: updateEvent(eventId); return View.EVENT_LIST;
 				case 2: deleteEvent(eventId); return View.EVENT_LIST;
 				case 3: return View.EVENT_LIST;
-				default: System.out.println("잘못입력");
+				default: System.out.println("☞ 잘못된 번호입니다 ☜");
 			}
 		}
 		
@@ -146,38 +163,42 @@ public class EventService {
 
 //	이벤트 등록
 	public void insertEvent() {
-		System.out.println("=========== 이벤트 등록 =============");
-		System.out.print ("이벤트 제목 >");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■이벤트 등록■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.print ("☞ 이벤트 제목 > ");
 		String eventTitle = ScanUtil.nextLine ();
 		
 		String eventStartDate = "";
 		boolean userFlag = true;
 		while(userFlag) {
-			System.out.print ("이벤트 시작 날짜 (ex.2020-10-16)>");
+			System.out.print ("☞ 이벤트 시작 날짜 (ex.2020-10-16) > ");
 			eventStartDate = ScanUtil.nextLine ();
 			boolean userEventDateFlag = verifiedUtil.verifiedDate(eventStartDate);
 			if(userEventDateFlag) {
-				System.out.println("날짜 검사 : 정확하게 입력하였습니다.");
+				System.out.println("☞ 날짜 검사 : 성공 ☜");
 				break;
 			}else {
-				System.out.println("잘못 입력하였습니다. 날짜 형식[2020-10-16]");
+				System.out.println("☞ 날짜 검사 : 실패 ☜");
+				System.out.println("올바른 형식이 아닙니다.");
 			}
 		}
 		
 		String eventEndDate = "";
 		while(userFlag) {
-			System.out.print ("이벤트 종료 날짜 (ex.2020-10-16)>");
+			System.out.print ("☞ 이벤트 종료 날짜 (ex.2020-10-16) > ");
 			eventEndDate = ScanUtil.nextLine ();
 			boolean userEventDateFlag = verifiedUtil.verifiedDate(eventEndDate);
 			if(userEventDateFlag) {
-				System.out.println("날짜 검사 : 정확하게 입력하였습니다.");
+				System.out.println("☞ 날짜 검사 : 성공 ☜");
 				break;
 			}else {
-				System.out.println("잘못 입력하였습니다. 날짜 형식[2020-10-16]");
+				System.out.println("☞ 날짜 검사 : 실패 ☜");
+				System.out.println("올바른 형식이 아닙니다.");
 			}
 		}
 		
-		System.out.print ("이벤트 내용 >");
+		System.out.print ("☞ 이벤트 내용 > ");
 		String eventContents = ScanUtil.nextLine();
 		
 		Map<String, Object> param = new HashMap<>();
@@ -190,49 +211,53 @@ public class EventService {
 		int result = eventDao.insertEvent(param);
 		
 		if(0 < result) {
-			System.out.println ("이벤트 등록 성공");
+			System.out.println ("☞ 이벤트 등록 성공(이벤트 화면으로 이동합니다.)");
 		}else {
-			System.out.println ("이벤트 등록 실패 재시도 하십시오.");
+			System.out.println ("☞ 이벤트 등록 실패(이벤트 화면으로 이동합니다.)");
 		}
 	}//close insertEvent
 	
 //	이벤트 수정
 	public void updateEvent(int eventId) {
-		System.out.println("=========== 이벤트 수정 =============");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■이벤트 수정■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		Map<String, Object> param = new HashMap<>();
 		param.put ("EVENT_ID", eventId);
-		System.out.print ("이벤트 제목 >");
+		System.out.print ("☞ 이벤트 제목 > ");
 		String eventTitle = ScanUtil.nextLine ();
 
 		String eventStartDate = "";
 		boolean userFlag = true;
 		while(userFlag) {
-			System.out.print ("이벤트 시작 날짜 (ex.2020-10-16)>");
+			System.out.print ("☞ 이벤트 시작 날짜 (ex.2020-10-16) > ");
 			eventStartDate = ScanUtil.nextLine ();
 			boolean userEventDateFlag = verifiedUtil.verifiedDate(eventStartDate);
 			if(userEventDateFlag) {
 				System.out.println("날짜 검사 : 정확하게 입력하였습니다.");
 				break;
 			}else {
-				System.out.println("잘못 입력하였습니다. 날짜 형식[2020-10-16]");
+				System.out.println("☞ 날짜 검사 : 실패 ☜");
+				System.out.println("올바른 형식이 아닙니다.");
 			}
 		}
 		
 		String eventEndDate = "";
 		while(userFlag) {
-			System.out.print ("이벤트 종료 날짜 (ex.2020-10-16)>");
+			System.out.print ("☞ 이벤트 종료 날짜 (ex.2020-10-16) > ");
 			eventEndDate = ScanUtil.nextLine ();
 			boolean userEventDateFlag = verifiedUtil.verifiedDate(eventEndDate);
 			if(userEventDateFlag) {
-				System.out.println("날짜 검사 : 정확하게 입력하였습니다.");
+				System.out.println("☞ 날짜 검사 : 성공 ☜");
 				break;
 			}else {
-				System.out.println("잘못 입력하였습니다. 날짜 형식[2020-10-16]");
+				System.out.println("☞ 날짜 검사 : 실패 ☜");
+				System.out.println("올바른 형식이 아닙니다.");
 			}
 		}
 		
 		
-		System.out.print ("이벤트 내용 >");
+		System.out.print ("☞ 이벤트 내용 >");
 		String eventContents = ScanUtil.nextLine();
 		
 		param.put ("EVENT_TITLE", eventTitle);
@@ -244,23 +269,25 @@ public class EventService {
 //		쿼리세팅
 		int result = eventDao.updateEvent(param);
 		if(0 < result) {
-			System.out.println ("이벤트 수정 성공");
+			System.out.println ("이벤트 수정 성공(이벤트 화면으로 이동합니다.)");
 		}else {
-			System.out.println ("이벤트 수정 실패 재시도 하십시오.");
+			System.out.println ("이벤트 수정 실패(이벤트 화면으로 이동합니다.)");
 		}
 	}
 	
 //	이벤트 삭제
 	public void deleteEvent(int eventId) {
-		System.out.println("=========== 이벤트 삭제 =============");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■이벤트 삭제■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		Map<String, Object> param = new HashMap<>();
 		param.put ("EVENT_ID", eventId);
 //		쿼리 세팅
 		int result = eventDao.deleteEvent(param);
 		if(0 < result) {
-			System.out.println ("이벤트 삭제 성공");
+			System.out.println ("이벤트 삭제 성공(이벤트 화면으로 이동합니다.)");
 		}else {
-			System.out.println ("이벤트 삭제 실패");
+			System.out.println ("이벤트 삭제 실패(이벤트 화면으로 이동합니다.)");
 		}
 	}
 }
