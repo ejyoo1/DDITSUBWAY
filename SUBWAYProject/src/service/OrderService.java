@@ -31,11 +31,12 @@ public class OrderService {
 	
 	//점주 주문메뉴 메인홈
 	public int orderBuyerHome() {
-		
-		System.out.println("--------------------------------------");
-		System.out.println("1.주문전체 조회   \t2.주문등록승인   \t3.주문등록삭제   \t4.이전으로");
-		System.out.println("--------------------------------------");
-		System.out.print("번호 입력> ");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■주문 메인 메뉴 ■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.println("1.주문전체 조회     2.주문등록승인     3.주문등록삭제     4.이전으로");
+		System.out.print("☞ 입력>");
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
@@ -62,8 +63,11 @@ public class OrderService {
 	public void buyerOrderList(Object buyer) {
 		list : while(true) {
 			List<Map<String, Object>> orderList = orderDao.buyerOrderList(buyer);
-		    System.out.println("--------------------------------------");
-		    System.out.println("주문번호   \t가맹점명   \t메뉴이름");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■주문목록 리스트■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		    System.out.println("주문번호     가맹점명     메뉴이름     고객주문일자     가격");
+		    System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		    for(Map<String, Object> list : orderList) {
 		    	System.out.println(list.get("ORDER_NO")
 					+ "\t" + list.get("BUYER_NAME")
@@ -71,9 +75,9 @@ public class OrderService {
 					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)"
 					+ "\t" + list.get("ORDER_PRICE") + "원");
 		    }
-		    System.out.println("--------------------------------------");
-			    System.out.println("1.주문상세   \t2이전으로");
-			    System.out.print("번호를 입력해주세요.> ");
+		    System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			    System.out.println("1.주문상세     2.이전으로");
+				System.out.print("☞ 입력 > ");
 			    int input = ScanUtil.nextInt();
 			    switch(input) {
 			    case 1:
@@ -90,15 +94,16 @@ public class OrderService {
 	
     //점주 주문목록 상세조회
 	public void buyerOrderDetail(Object buyer) {
-		System.out.println("--------------------------------------");
-		System.out.print("주문번호를 입력해주세요> ");
+		System.out.print("☞ 조회할 게시글 번호 입력>");
 		String orderNo = ScanUtil.nextLine();
-		System.out.println("--------------------------------------");
 		
 		List<Map<String, Object>> menuGu2 = orderDao.menuGu2(orderNo);
 		String dao = String.valueOf(menuGu2.get(0).get("MENU_GU"));
 		if(dao.equals("SD") || dao.equals("SL")) {
 			List<Map<String, Object>> orderList = orderDao.buyerOrderDetail(orderNo,buyer);
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("주문번호     가맹점 명      메뉴이름     재료     수량     고객주문일자     가맹점승인일자     가격");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			for(Map<String, Object> list : orderList) {
 				System.out.println(list.get("ORDER_NO")
 						+ "\t" + list.get("BUYER_NAME")
@@ -109,9 +114,13 @@ public class OrderService {
 						+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
 						+ "\t" + list.get("ORDER_PRICE") + "원");
 			}
-			System.out.println("--------------------------------------");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		}else {
 			List<Map<String, Object>> orderList = orderDao.buyerOrderDetail2(orderNo,buyer);
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("주문번호     가맹점 명      메뉴이름     수량     고객주문일자     가맹점승인일자     가격");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			for(Map<String, Object> list : orderList) {
 				System.out.println(list.get("ORDER_NO")
 						+ "\t" + list.get("BUYER_NAME")
@@ -122,15 +131,15 @@ public class OrderService {
 						+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
 						+ "\t" + list.get("ORDER_PRICE") + "원");
 			}
-			System.out.println("--------------------------------------");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		}
 		
 			
-			System.out.println("1.이전으로");
+			System.out.println("1.이전으로(주문목록 리스트)");
 			int input = ScanUtil.nextInt();
 			switch (input) {
 			case 1:
-				System.out.println("고객 주문목록을 출력합니다.");
 				break;
 
 			default:
@@ -141,12 +150,12 @@ public class OrderService {
 	
 	// 점주 주문등록 승인
 	public void buyerOrderRegAccept() {
-		System.out.println("점주주문목록에서 미등록된 주문목록을 출력합니다.");
+		System.out.println("■■■■■■■■■■■■■■■■■■■미등록 주문목록■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		list: while (true) {
 			// 점주 미등록 주문리스트 출력
 			notAcceptOrderList();
 
-			System.out.println("1.상세조회\t2.이전으로");
+			System.out.println("1.상세조회     2.이전으로(주문 메뉴)");
 			int input = ScanUtil.nextInt();
 
 			if (input == 1) {
@@ -159,14 +168,13 @@ public class OrderService {
 			// 점주 등록 승인
 			regUpdate();
 
-			System.out.println("1.미등록 주문리스트 2.점주 주문메뉴");
+			System.out.println("1.미등록 주문리스트 2.주문 메인 메뉴");
 			input = ScanUtil.nextInt();
 			switch (input) {
 			case 1:
 				break;
 
 			case 2:
-				System.out.println("점주 주문메뉴를 출력합니다.");
 				break list;
 
 			default:
@@ -180,7 +188,9 @@ public class OrderService {
 	//점주 미등록 주문리스트
 	public void notAcceptOrderList() {
 		List<Map<String, Object>> orderList = orderDao.notAcceptOrderList();
-		System.out.println("주문번호   \t가맹점명   \t메뉴이름");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("주문번호     가맹점명     메뉴이름     고개주문일자     가격");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for(Map<String, Object> list : orderList) {
 			System.out.println(list.get("ORDER_NO")
 					+ "\t" + list.get("BUYER_NAME")
@@ -188,13 +198,17 @@ public class OrderService {
 					+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)"
 					+ "\t" + list.get("ORDER_PRICE") + "원");
 		}
-		System.out.println("--------------------------------------");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+
 		
 	}
 	
 	//점주 미등록 주문리스트 상세 조회
 	public void notAcceptOrderDetail() {
 		List<Map<String, Object>> orderList = orderDao.notAcceptOrderDetail();
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for (Map<String, Object> list : orderList) {
 			System.out.println(list.get("ORDER_NO") 
 					+ "\t" + list.get("BUYER_NAME") 
@@ -205,7 +219,8 @@ public class OrderService {
 					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
 					+ "\t" + list.get("ORDER_PRICE") + "원");
 		}
-		System.out.println("--------------------------------------");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		
 	}
 	
@@ -222,25 +237,23 @@ public class OrderService {
 	//점주 주문등록 삭제 
 	public void buyerOrderRegDelete() {
 		list: while (true) {
-			System.out.println("점주주문목록에서 삭제할 주문목록을 출력합니다.");
 
 			// 점주 삭제할 주문리스트 출력
 			deleteOrderList(Controller.loginUser.get("BUYER_ID"));
             
-			System.out.println("1.삭제할 주문리스트 입력 2.이전으로");
+			System.out.println("1.삭제하기      2.이전으로(주문 메인 메뉴)");
 			int input = ScanUtil.nextInt();
 			switch (input) {
 			case 1: // 점주 주문등록 삭제
-				System.out.println("삭제할 리스트의 주문번호를 입력해주세요.");
+				System.out.println("☞ 삭제할 리스트의 주문번호를 입력해주세요.  > ");
 				String orderNo = ScanUtil.nextLine();
-				System.out.println("삭제할 리스트의 주문정보번호를 입력해주세요");
+				System.out.println("☞ 삭제할 리스트의 주문정보번호를 입력해주세요.  > ");
 				int orderInfoNo = ScanUtil.nextInt();
 				deleteOrder(orderNo);
 				deleteAddIngr(orderInfoNo);
 				deleteInfoOrder(orderInfoNo);
 				break;
 			case 2:
-				System.out.println("점주 주문메뉴를 출력합니다.");
 				break list;
 			default:
 				System.out.println("잘못입력하였습니다.");
@@ -252,8 +265,9 @@ public class OrderService {
 	//점주 삭제할 주문목록 리스트
     public void deleteOrderList(Object buyer) {
 		List<Map<String, Object>> deleteOrederList = orderDao.deleteOrderList(buyer);
-		System.out.println("--------------------------------------");
-	    System.out.println("주문번호   \t주문정보번호   \t가맹점명   \t메뉴이름");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");	  
+		System.out.println("주문번호     주문정보번호     가맹점명     메뉴이름");
 	    for(Map<String, Object> list : deleteOrederList) {
 	    	System.out.println(list.get("ORDER_NO")
 	    			+ "\t" + list.get("INFO_ORDER_NO")
@@ -263,36 +277,35 @@ public class OrderService {
 				    + "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
 				    + "\t" + list.get("ORDER_PRICE") + "원") ;
 	    }
-	    System.out.println("--------------------------------------");
-	}
+	    System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+	    System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+    }
 		
     //ORDER TABLE 삭제
 	public void deleteOrder(String orderNo) {
 		int result = orderDao.deleteInfoOrder(orderNo);
-		System.out.println(result + "개의 행이 삭제되었습니다.");
 	}
 	
 	//ADD_INGR TABLE 삭제
 	public void deleteAddIngr(int orderInfoNo) {
 		int result = orderDao.deleteAddIngr(orderInfoNo);
-		System.out.println(result + "개의 행이 삭제되었습니다.");
 	}
 	
 	//INFO_ORDER TABLE 삭제
 	public void deleteInfoOrder(int orderInfoNo) {
 		int result = orderDao.deleteInfoOrder(orderInfoNo);
-		System.out.println(result + "개의 행이 삭제되었습니다.");
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////
 	
 	//고객 주문메뉴 메인홈
 	public int orderMemberHome(){// 고객용
-		
-		System.out.println("--------------------------------------");
-		System.out.println("1.주문목록 조회\t2.주문등록 \t3.이전으로");
-		System.out.println("--------------------------------------");
-		System.out.print("번호 입력> ");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■주문 메인 메뉴■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.println("1.주문목록 조회     2.주문등록     3.이전으로 (메인 메뉴)");
+		System.out.print("☞ 입력 > ");
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
@@ -316,18 +329,19 @@ public class OrderService {
 	public int memberOrderList(Object member) {
 		
 			List<Map<String, Object>> orderList = orderDao.memberOrderList(member); // 주문목록 조회
-			System.out.println("--------------------------------------");
-			System.out.println("주문번호   \t가맹점명   \t메뉴이름");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.println("주문번호     가맹점명     메뉴이름");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			for(Map<String, Object> list : orderList) {
 				System.out.println(list.get("ORDER_NO")
-						+ "\t" + list.get("BUYER_NAME")
-						+ "\t" + list.get("MENU_NM")
-						+ "\t" + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)"
-						+ "\t" + list.get("ORDER_PRICE") + "원");
+						+ "     " + list.get("BUYER_NAME")
+						+ "     " + list.get("MENU_NM")
+						+ "     " + list.get("TO_CHAR(A.ORDER_MEMBER_DATE,'YY-MM-DD')") + "(고객)"
+						+ "     " + list.get("ORDER_PRICE") + "원");
 			}
-			System.out.println("--------------------------------------");
-			System.out.println("1.주문상세   \t2.이전으로");
-			System.out.print("번호를 입력해주세요.> ");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.println("1.주문상세     2.이전으로");
+			System.out.print("☞ 입력 > ");
 			int input = ScanUtil.nextInt();
 			switch (input) {
 			case 1:
@@ -348,11 +362,8 @@ public class OrderService {
 	
     //고객 주문목록 상세조회
 	public int memberOrderDetail(Object member) {
-			 			
-		System.out.println("--------------------------------------");
-		System.out.print("주문번호를 입력해주세요> ");
+		System.out.print("☞ 조회할 주문번호 입력>");	 			
 		String orderNo = ScanUtil.nextLine();
-		System.out.println("--------------------------------------");
 		
 		List<Map<String, Object>> orderList2 = orderDao.menuGu(member,orderNo);
 		String dao = String.valueOf(orderList2.get(0).get("MENU_GU"));
@@ -360,6 +371,7 @@ public class OrderService {
         if(dao.equals("SL") || dao.equals("SD")) {
         	//샌드위치, 샐러드 조회
     		List<Map<String, Object>> orderList = orderDao.elsedetail(member, orderNo);
+    		System.out.println("■■■■■■■■■■■■■■■■■■주문내역 상세조회■■■■■■■■■■■■■■■■■■■■■■");
     		for (Map<String, Object> list : orderList) {
     			System.out.println(list.get("ORDER_NO") 
     					+ "\t" + list.get("BUYER_NAME") 
@@ -370,11 +382,13 @@ public class OrderService {
     					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
     					+ "\t" + list.get("ORDER_PRICE") + "원");
     		}
-    		System.out.println("--------------------------------------");
-    		System.out.println("1.이전으로");
+    		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+    		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+    		System.out.println("1.이전으로(고객 주문 메뉴)");
         }else {
         	//랩조회
     		List<Map<String, Object>> orderList3 = orderDao.wrdetail(member, orderNo);
+    		System.out.println("■■■■■■■■■■■■■■■■■■주문내역 상세조회■■■■■■■■■■■■■■■■■■■■■■");
     		for (Map<String, Object> list : orderList3) {
     			System.out.println(list.get("ORDER_NO") 
     					+ "\t" + list.get("BUYER_NAME") 
@@ -384,15 +398,16 @@ public class OrderService {
     					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
     					+ "\t" + list.get("ORDER_PRICE") + "원");
     		}
-    		System.out.println("--------------------------------------");
-    		System.out.println("1.이전으로");
+    		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+    		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+    		System.out.println("1.이전으로(고객 주문 메뉴)");
         	
         	
         }
+        System.out.print("☞ 입력>");
         int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
-			System.out.println("고객 주문메뉴을 출력합니다.");
 			return View.ORDER_MEMBER_LIST;
 
 		default:
@@ -405,9 +420,12 @@ public class OrderService {
 
 	//고객 주문등록
 	public int memberOrderReg() {
-		
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■고객 주문등록 ■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("주문메뉴를 선택해주세요");
-		System.out.println("1.샌드위치 \t2.샐러드   \t3.랩\t4.이전으로");
+		System.out.println("1.샌드위치     2.샐러드     3.랩     4.이전으로");
 		int input = ScanUtil.nextInt();
 		switch(input) {
 		
@@ -433,26 +451,28 @@ public class OrderService {
 	
 	// 샌드위치-재료선택
 	public int sandwich() {
-
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■샌드위치 ■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓가맹점명〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		// 가맹점 출력
 		buyerList();
-		System.out.println("가맹점을 입력해주세요(글자입력)");
+		System.out.print("☞  가맹점을 입력해주세요(글자입력) >");
 
 		String buyer = ScanUtil.nextLine();
 		
 		List<Map<String, Object>> buyerId = orderDao.buyerId(buyer);
 		String buyerid = (String) buyerId.get(0).get("BUYER_ID");
-
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		// 메인메뉴선택
 		String menuGu = "SD";
 		menuNmList(menuGu);
-		System.out.println("메뉴를 입력해주세요(글자입력)");
+		System.out.print("☞  메뉴를 입력해주세요(글자입력) >");
 				
         String menu = ScanUtil.nextLine();
-
+        System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		// 재료션택
 		System.out.println("빵을 선택해주세요(숫자입력)");
 		System.out.println("1.화이트\t 2.파마산");
+		System.out.print("☞ 입력 > ");
 		int input1 = ScanUtil.nextInt();
 		String bread = null;
 		if (input1 == 1) {
@@ -460,9 +480,10 @@ public class OrderService {
 		} else {
 			bread = "B002";
 		}
-
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("치즈를 선택해주세요(숫자입력)");
 		System.out.println("1.아메리칸\t 2.슈레드 ");
+		System.out.print("☞ 입력 > ");
 		int input2 = ScanUtil.nextInt();
 		String cheese = null;
 		if (input2 == 1) {
@@ -470,9 +491,10 @@ public class OrderService {
 		} else {
 			cheese = "C002";
 		}
-
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("야채를 선택해주세요(숫자입력)");
 		System.out.println("1.양상추\t 2.토마토");
+		System.out.print("☞ 입력 > ");
 		int input3 = ScanUtil.nextInt();
 		String vegetable = null;
 		if (input3 == 1) {
@@ -480,9 +502,10 @@ public class OrderService {
 		} else {
 			vegetable = "V002";
 		}
-
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("소스를 선택해주세요(숫자입력)");
 		System.out.println("1.머스타드\t 2.칠리");
+		System.out.print("☞ 입력 > ");
 		int input4 = ScanUtil.nextInt();
 		String source = null;
 		if (input4 == 1) {
@@ -490,9 +513,9 @@ public class OrderService {
 		} else {
 			source = "S002";
 		}
-
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		// 수량 입력, 가격 생성
-		System.out.println("수량을 입력해주세요(숫자입력)");
+		System.out.print("☞ 수량을 입력해주세요(숫자입력) >");
 		int qty = ScanUtil.nextInt();
 		
 		List<Map<String, Object>> menuPrice = orderDao.menuPrice(menu);
@@ -509,7 +532,7 @@ public class OrderService {
 
 		// 장바구니번호 출력
 		cartNoSelect(Controller.loginUser.get("MEM_ID"));
-		System.out.println("장바구니번호를 입력해주세요(숫자입력)");
+		System.out.print("☞ 장바구니번호를 입력해주세요(숫자입력) >");
 		int cartNo = ScanUtil.nextInt();
 
 		// 카트테이블에 재료정보 입력
@@ -518,11 +541,10 @@ public class OrderService {
 		cartVegetableInsert(vegetable, cartNo);
 		cartSourceInsert(source, cartNo);
 
-		System.out.println("1.계속주문\t2.주문결정");
+		System.out.println("1.계속주문     2.주문결정");
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
-			System.out.println("1");
 			return View.ORDER_MEMBER_REG;
 		case 2:
 			// 주문번호 생성
@@ -530,7 +552,8 @@ public class OrderService {
         
 			// 주문번호 출력
 			memberOrderNoList(buyerid);
-			System.out.println("주문번호를 입력해주세요(숫자입력)");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.print("☞  주문번호를 입력해주세요(숫자입력)> ");
 			String orderNo = ScanUtil.nextLine();
 			// ORDER테이블에 ORDER_PRICE 업데이트
 			orderTableUpdate(price, orderNo);
@@ -548,7 +571,6 @@ public class OrderService {
 			// 카트 테이블 데이터 삭제
 			cartAddDelete();
 			cartDelete();
-			System.out.println("주문메뉴를 출력합니다.");
 			return View.ORDER_MEMBER_MENU;
 		default:
 			System.out.println("잘못입력하였습니다.");
@@ -576,6 +598,7 @@ public class OrderService {
 		if(dao.equals("SL") || dao.equals("SD")) {
         	//샌드위치, 샐러드 조회
     		List<Map<String, Object>> orderList = orderDao.elsedetail(member, orderNo);
+    		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓주문 목록〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
     		for (Map<String, Object> list : orderList) {
     			System.out.println(list.get("ORDER_NO") 
     					+ "\t" + list.get("BUYER_NAME") 
@@ -586,11 +609,12 @@ public class OrderService {
     					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
     					+ "\t" + list.get("ORDER_PRICE") + "원");
     		}
-    		System.out.println("--------------------------------------");
-    		System.out.println("1.이전으로");
+    		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+    		System.out.println("주문이 완료되었습니다.");
         }else {
         	//랩조회
     		List<Map<String, Object>> orderList3 = orderDao.wrdetail(member, orderNo);
+    		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓주문 목록〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
     		for (Map<String, Object> list : orderList3) {
     			System.out.println(list.get("ORDER_NO") 
     					+ "\t" + list.get("BUYER_NAME") 
@@ -600,8 +624,8 @@ public class OrderService {
     					+ "\t" + list.get("TO_CHAR(A.ORDER_BUYER_CHOICE,'YY-MM-DD')") + "(점주)"
     					+ "\t" + list.get("ORDER_PRICE") + "원");
     		}
-    		System.out.println("--------------------------------------");
-    		System.out.println("1.이전으로");
+    		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+    		System.out.println("주문이 완료되었습니다.");
 		
 	}
 	}
@@ -611,7 +635,7 @@ public class OrderService {
 		List<Map<String, Object>> menuList = orderDao.menuNmList(menuGu);
 		for(int i = 0; i < menuList.size(); i++) {
 			Map<String, Object> list = menuList.get(i);
-			System.out.print(i+1 + "." + list.get("MENU_NM") + "  \t");
+			System.out.print(i+1 + "." + list.get("MENU_NM") + "     ");
 		}
 		System.out.println();
 		
@@ -624,8 +648,10 @@ public class OrderService {
 	public int salad() {
 
 		// 가맹점 출력
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■샐러드 ■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓가맹점명〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		buyerList();
-		System.out.println("가맹점을 입력해주세요(글자입력)");
+		System.out.print("☞  가맹점을 입력해주세요(글자입력) > ");
 
 		String buyer = ScanUtil.nextLine();
 
@@ -634,16 +660,19 @@ public class OrderService {
 
 		// 메인메뉴선택
 		String menuGu = "SL";
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		menuNmList(menuGu);
-		System.out.println("메뉴를 입력해주세요(글자입력)");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.print("☞메뉴를 입력해주세요(글자입력) > ");
 
 		String menu = ScanUtil.nextLine();
 
 		// 재료션택
-			
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("치즈를 선택해주세요(숫자입력)");
-		
 		System.out.println("1.아메리칸\t 2.슈레드 ");
+		System.out.print("☞ 입력 > ");
+		System.out.println();
 		int input2 = ScanUtil.nextInt();
 		String cheese = null;
 		if (input2 == 1) {
@@ -651,9 +680,11 @@ public class OrderService {
 		} else {
 			cheese = "C002";
 		}
-
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("야채를 선택해주세요(숫자입력)");
 		System.out.println("1.양상추\t 2.토마토");
+		System.out.print("☞ 입력 > ");
+		System.out.println();
 		int input3 = ScanUtil.nextInt();
 		String vegetable = null;
 		if (input3 == 1) {
@@ -661,9 +692,10 @@ public class OrderService {
 		} else {
 			vegetable = "V002";
 		}
-
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("소스를 선택해주세요(숫자입력)");
 		System.out.println("1.머스타드\t 2.칠리");
+		System.out.print("☞ 입력 > ");
 		int input4 = ScanUtil.nextInt();
 		String source = null;
 		if (input4 == 1) {
@@ -673,7 +705,7 @@ public class OrderService {
 		}
 
 		// 수량 입력, 가격 생성
-		System.out.println("수량을 입력해주세요(숫자입력)");
+		System.out.print("☞ 수량을 입력해주세요(숫자입력) > ");
 		int qty = ScanUtil.nextInt();
 
 		List<Map<String, Object>> menuPrice = orderDao.menuPrice(menu);
@@ -692,7 +724,7 @@ public class OrderService {
 
 		// 장바구니번호 출력
 		cartNoSelect(Controller.loginUser.get("MEM_ID"));
-		System.out.println("장바구니번호를 입력해주세요");
+		System.out.print("☞ 장바구니번호를 입력해주세요 >");
 		int cartNo = ScanUtil.nextInt();
 
 		// 카트테이블에 재료정보 입력
@@ -700,7 +732,7 @@ public class OrderService {
 		cartVegetableInsert(vegetable, cartNo);
 		cartSourceInsert(source, cartNo);
 
-		System.out.println("1.계속주문\t2.주문결정");
+		System.out.println("1.계속주문     2.주문결정");
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
@@ -711,7 +743,8 @@ public class OrderService {
 
 			// 주문번호 출력
 			memberOrderNoList(buyerid);
-			System.out.println("주문번호를 입력해주세요(숫자입력)");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.print("☞ 주문번호를 입력해주세요(숫자입력) > ");
 			String orderNo = ScanUtil.nextLine();
 			// ORDER테이블에 ORDER_PRICE 업데이트
 			orderTableUpdate(price, orderNo);
@@ -728,7 +761,6 @@ public class OrderService {
 			// 카트 테이블 데이터 삭제
 			cartAddDelete();
 			cartDelete();
-			System.out.println("주문메뉴를 출력합니다.");
 			return View.ORDER_MEMBER_MENU;
 		default:
 			System.out.println("잘못입력하였습니다.");
@@ -740,10 +772,11 @@ public class OrderService {
 	// 랩-재료x
 
 	public int rap() {
-
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■랩 ■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓가맹점명〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		// 가맹점 출력
 		buyerList();
-		System.out.println("가맹점을 입력해주세요(글자입력)");
+		System.out.print("☞  가맹점을 입력해주세요(글자입력) > ");
 
 		String buyer = ScanUtil.nextLine();
 
@@ -752,13 +785,16 @@ public class OrderService {
 
 		// 메인메뉴선택
 		String menuGu = "WR";
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		menuNmList(menuGu);
-		System.out.println("메뉴를 입력해주세요(글자입력)");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.print("☞ 메뉴를 입력해주세요(글자입력) > ");
 
 		String menu = ScanUtil.nextLine();
 		
 		// 수량 입력, 가격 생성
-		System.out.println("수량을 입력해주세요(숫자입력)");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.print("☞ 수량을 입력해주세요(숫자입력) > ");
 		int qty = ScanUtil.nextInt();
 
 		List<Map<String, Object>> menuPrice = orderDao.menuPrice(menu);
@@ -776,7 +812,7 @@ public class OrderService {
 		// 카트테이블 입력
 		cartInsert(Controller.loginUser.get("MEM_ID"), menuno, qty);
 
-		System.out.println("1.계속주문\t2.주문결정");
+		System.out.println("1.계속주문     2.주문결정");
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
@@ -787,7 +823,8 @@ public class OrderService {
 
 			// 주문번호 출력
 			memberOrderNoList(buyerid);
-			System.out.println("주문번호를 입력해주세요(숫자입력)");
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+			System.out.print("☞ 주문번호를 입력해주세요(숫자입력) > ");
 			String orderNo = ScanUtil.nextLine();
 			// ORDER테이블에 ORDER_PRICE 업데이트
 			orderTableUpdate(price, orderNo);
@@ -804,7 +841,6 @@ public class OrderService {
 			// 카트 테이블 데이터 삭제
 			cartAddDelete();
 			cartDelete();
-			System.out.println("주문메뉴를 출력합니다.");
 			return View.ORDER_MEMBER_MENU;
 		default:
 			System.out.println("잘못입력하였습니다.");
@@ -885,7 +921,7 @@ public class OrderService {
 	
 	//고객 주문번호 리스트
 	public void memberOrderNoList(String buyerid) {
-		System.out.println("주문번호");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓주문번호〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		List<Map<String, Object>> orderNoList = orderDao.memberOrderNoList(buyerid);
 		for(int i = 0; i < orderNoList.size(); i++) {
 			Map<String, Object> list = orderNoList.get(i);
@@ -907,13 +943,13 @@ public class OrderService {
 	
 	//가맹점목록 리스트
 	public void buyerList() {
-		System.out.println("가맹점명");
 		List<Map<String, Object>> buyerList = orderDao.buyerList();
 			for(int i = 0; i < buyerList.size(); i++) {
 				Map<String, Object> list = buyerList.get(i);
 				System.out.print(i+1 + "." + list.get("BUYER_NAME") + "  \t");
 			}
 			System.out.println();
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		}
 
 	
@@ -926,12 +962,10 @@ public class OrderService {
 	
 	private void cartAddDelete() {
 		int result = orderDao.cartAddDelete();
-		System.out.println("카트에드테이블 행"+result + "개가 삭제 완료!!");
 	}
 
 	private void cartDelete() {
 		int result = orderDao.cartDelete();
-		System.out.println("카트테이블 행"+result + "개가 삭제 완료!!");
 		
 	}
 
@@ -939,26 +973,22 @@ public class OrderService {
 	// 카트테이블에서 ADD_INGR로 입력
 	private void addIngrInsert() {
 		int result = orderDao.addIngrInsert();
-		System.out.println(result + "개의 추가 재료가 입력 완료!!");
 	}
 	
 	// 카트테이블에서 INFO_ORDER로 입력
 	public void infoOrderInsert(Object member) {
 		int result = orderDao.infoOrderInsert(member);
-		System.out.println(result + "개의 주문 정보가 입력 완료!!");
 		
 	}
 
 	// ORDER테이블에 ORDER_PRICE 업데이트
 	private void orderTableUpdate(int price, String orderNo) {
 		int result = orderDao.orderTableUpdate(price,orderNo);
-		System.out.println(result + "개의 가격 업데이트 완료!!");
 	}
 
 	//주문번호 생성
 	public void orderTableInsert(String buyerId, Object member) {
 		int result = orderDao.orderTableInsert(buyerId, member);
-		System.out.println(result + "개의 주문번호 생성완료!!");
 
 	}
 
@@ -1014,44 +1044,38 @@ public class OrderService {
     //카트 빵입력
 	private void cartBreadInsert(String bread, int cartNo) {
 		int result = orderDao.cartBreadInsert(bread, cartNo);
-		System.out.println(result + "개의 행이 입력되었습니다.");	
-		System.out.println("--------------------------------------");
 	}
 	//카트 치즈입력
 	private void cartCheeseInsert(String cheese, int cartNo) {
 		int result = orderDao.cartCheeseInsert(cheese, cartNo);
-		System.out.println(result + "개의 행이 입력되었습니다.");	
-		System.out.println("--------------------------------------");
 		
 	}
 	//카트 야채입력
 	private void cartVegetableInsert(String vegetable, int cartNo) {
 		int result = orderDao.cartVegetabkeInsert(vegetable, cartNo);
-		System.out.println(result + "개의 행이 입력되었습니다.");	
-		System.out.println("--------------------------------------");
 		
 	}
 	//카트 소스입력
 	private void cartSourceInsert(String source, int cartNo) {
 		int result = orderDao.cartSourceInsert(source, cartNo);
-		System.out.println(result + "개의 행이 입력되었습니다.");	
-		System.out.println("--------------------------------------");
 		
 	}
     //카트 추가재료 테이블 입력
 	public void cartNoSelect(Object member) {
 		List<Map<String, Object>> cartNoSelect = orderDao.cartNoSelect(member);
 		
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓장바구니 번호〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for(Map<String, Object> list : cartNoSelect) {
 			System.out.println(list.get("CART_NO"));
 		}
-		System.out.println("--------------------------------------");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 	}
     //카트테이블 입력
 	public void cartInsert(Object member, int menuno, int qty) {
 		int result = orderDao.cartInsert(member, menuno, qty);
-		System.out.println(result + "개의 메인메뉴가 입력되었습니다.");	
-		System.out.println("--------------------------------------");
+		
+			
+		
 		
 	}
 
