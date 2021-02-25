@@ -418,7 +418,7 @@ public class OrderService {
 
 		// 가맹점 출력
 		buyerList();
-		System.out.println("가맹점을 입력해주세요");
+		System.out.println("가맹점을 입력해주세요(글자입력)");
 
 		String buyer = ScanUtil.nextLine();
 		
@@ -428,12 +428,12 @@ public class OrderService {
 		// 메인메뉴선택
 		String menuGu = "SD";
 		menuNmList(menuGu);
-		System.out.println("메뉴를 입력해주세요");
+		System.out.println("메뉴를 입력해주세요(글자입력)");
 				
         String menu = ScanUtil.nextLine();
 
 		// 재료션택
-		System.out.println("빵을 선택해주세요");
+		System.out.println("빵을 선택해주세요(숫자입력)");
 		System.out.println("1.화이트\t 2.파마산");
 		int input1 = ScanUtil.nextInt();
 		String bread = null;
@@ -443,7 +443,7 @@ public class OrderService {
 			bread = "B002";
 		}
 
-		System.out.println("치즈를 선택해주세요");
+		System.out.println("치즈를 선택해주세요(숫자입력)");
 		System.out.println("1.아메리칸\t 2.슈레드 ");
 		int input2 = ScanUtil.nextInt();
 		String cheese = null;
@@ -453,7 +453,7 @@ public class OrderService {
 			cheese = "C002";
 		}
 
-		System.out.println("야채를 선택해주세요");
+		System.out.println("야채를 선택해주세요(숫자입력)");
 		System.out.println("1.양상추\t 2.토마토");
 		int input3 = ScanUtil.nextInt();
 		String vegetable = null;
@@ -463,7 +463,7 @@ public class OrderService {
 			vegetable = "V002";
 		}
 
-		System.out.println("소스를 선택해주세요");
+		System.out.println("소스를 선택해주세요(숫자입력)");
 		System.out.println("1.머스타드\t 2.칠리");
 		int input4 = ScanUtil.nextInt();
 		String source = null;
@@ -474,7 +474,7 @@ public class OrderService {
 		}
 
 		// 수량 입력, 가격 생성
-		System.out.println("수량을 입력해주세요");
+		System.out.println("수량을 입력해주세요(숫자입력)");
 		int qty = ScanUtil.nextInt();
 		
 		List<Map<String, Object>> menuPrice = orderDao.menuPrice(menu);
@@ -491,7 +491,7 @@ public class OrderService {
 
 		// 장바구니번호 출력
 		cartNoSelect(Controller.loginUser.get("MEM_ID"));
-		System.out.println("장바구니번호를 입력해주세요");
+		System.out.println("장바구니번호를 입력해주세요(숫자입력)");
 		int cartNo = ScanUtil.nextInt();
 
 		// 카트테이블에 재료정보 입력
@@ -509,15 +509,20 @@ public class OrderService {
 		case 2:
 			// 주문번호 생성
 			orderTableInsert(buyerid, Controller.loginUser.get("MEM_ID"));
-
+        
 			// 주문번호 출력
 			memberOrderNoList(buyerid);
-			System.out.println("주문번호를 입력해주세요");
+			System.out.println("주문번호를 입력해주세요(숫자입력)");
 			String orderNo = ScanUtil.nextLine();
 			// ORDER테이블에 ORDER_PRICE 업데이트
 			orderTableUpdate(price, orderNo);
 			// 카트테이블에서 ADD_INGR/ INFO_ORDER로 입력
 			infoOrderInsert(Controller.loginUser.get("MEM_ID"));
+			
+			//주문정보번호 추가
+			addInfoOrder1();
+			addInfoOrder2();
+			
 			addIngrInsert();
 			// 최종 고객 주문목록 출력
 			finalOrderList(Controller.loginUser.get("MEM_ID"), orderNo);
@@ -536,6 +541,16 @@ public class OrderService {
 
 	
     
+
+	private void addInfoOrder2() {
+		int result = orderDao.addInfoOrder2();
+		
+	}
+
+	private void addInfoOrder1() {
+		int result = orderDao.addInfoOrder1();
+		
+	}
 
 	private void finalOrderList(Object member, String orderNo) {
 		List<Map<String, Object>> orderList2 = orderDao.menuGu(member,orderNo);
@@ -592,7 +607,7 @@ public class OrderService {
 
 		// 가맹점 출력
 		buyerList();
-		System.out.println("가맹점을 입력해주세요");
+		System.out.println("가맹점을 입력해주세요(글자입력)");
 
 		String buyer = ScanUtil.nextLine();
 
@@ -602,13 +617,13 @@ public class OrderService {
 		// 메인메뉴선택
 		String menuGu = "SL";
 		menuNmList(menuGu);
-		System.out.println("메뉴를 입력해주세요");
+		System.out.println("메뉴를 입력해주세요(글자입력)");
 
 		String menu = ScanUtil.nextLine();
 
 		// 재료션택
 			
-		System.out.println("치즈를 선택해주세요");
+		System.out.println("치즈를 선택해주세요(숫자입력)");
 		
 		System.out.println("1.아메리칸\t 2.슈레드 ");
 		int input2 = ScanUtil.nextInt();
@@ -619,7 +634,7 @@ public class OrderService {
 			cheese = "C002";
 		}
 
-		System.out.println("야채를 선택해주세요");
+		System.out.println("야채를 선택해주세요(숫자입력)");
 		System.out.println("1.양상추\t 2.토마토");
 		int input3 = ScanUtil.nextInt();
 		String vegetable = null;
@@ -629,7 +644,7 @@ public class OrderService {
 			vegetable = "V002";
 		}
 
-		System.out.println("소스를 선택해주세요");
+		System.out.println("소스를 선택해주세요(숫자입력)");
 		System.out.println("1.머스타드\t 2.칠리");
 		int input4 = ScanUtil.nextInt();
 		String source = null;
@@ -640,13 +655,15 @@ public class OrderService {
 		}
 
 		// 수량 입력, 가격 생성
-		System.out.println("수량을 입력해주세요");
+		System.out.println("수량을 입력해주세요(숫자입력)");
 		int qty = ScanUtil.nextInt();
 
 		List<Map<String, Object>> menuPrice = orderDao.menuPrice(menu);
 		int menuprice = ((BigDecimal) menuPrice.get(0).get("MENU_PRICE")).intValue();
 
 		int price = menuprice * qty;
+		
+		
 
 		// 장바구니 테이블에 넣기
 		List<Map<String, Object>> menuNo = orderDao.menuNo(menu);
@@ -676,12 +693,17 @@ public class OrderService {
 
 			// 주문번호 출력
 			memberOrderNoList(buyerid);
-			System.out.println("주문번호를 입력해주세요");
+			System.out.println("주문번호를 입력해주세요(숫자입력)");
 			String orderNo = ScanUtil.nextLine();
 			// ORDER테이블에 ORDER_PRICE 업데이트
 			orderTableUpdate(price, orderNo);
 			// 카트테이블에서 ADD_INGR/ INFO_ORDER로 입력
 			infoOrderInsert(Controller.loginUser.get("MEM_ID"));
+			
+			//주문정보번호 추가
+			addInfoOrder1();
+			addInfoOrder2();
+			
 			addIngrInsert();
 			// 최종 고객 주문목록 출력
 			finalOrderList(Controller.loginUser.get("MEM_ID"), orderNo);
@@ -703,7 +725,7 @@ public class OrderService {
 
 		// 가맹점 출력
 		buyerList();
-		System.out.println("가맹점을 입력해주세요");
+		System.out.println("가맹점을 입력해주세요(글자입력)");
 
 		String buyer = ScanUtil.nextLine();
 
@@ -713,12 +735,12 @@ public class OrderService {
 		// 메인메뉴선택
 		String menuGu = "WR";
 		menuNmList(menuGu);
-		System.out.println("메뉴를 입력해주세요");
+		System.out.println("메뉴를 입력해주세요(글자입력)");
 
 		String menu = ScanUtil.nextLine();
 		
 		// 수량 입력, 가격 생성
-		System.out.println("수량을 입력해주세요");
+		System.out.println("수량을 입력해주세요(숫자입력)");
 		int qty = ScanUtil.nextInt();
 
 		List<Map<String, Object>> menuPrice = orderDao.menuPrice(menu);
@@ -747,12 +769,17 @@ public class OrderService {
 
 			// 주문번호 출력
 			memberOrderNoList(buyerid);
-			System.out.println("주문번호를 입력해주세요");
+			System.out.println("주문번호를 입력해주세요(숫자입력)");
 			String orderNo = ScanUtil.nextLine();
 			// ORDER테이블에 ORDER_PRICE 업데이트
 			orderTableUpdate(price, orderNo);
 			// 카트테이블에서 ADD_INGR/ INFO_ORDER로 입력
 			infoOrderInsert(Controller.loginUser.get("MEM_ID"));
+			
+			//주문정보번호 추가
+			addInfoOrder1();
+			addInfoOrder2();
+			
 			addIngrInsert();
 			// 최종 고객 주문목록 출력
 			finalOrderList(Controller.loginUser.get("MEM_ID"), orderNo);

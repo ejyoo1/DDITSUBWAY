@@ -496,9 +496,10 @@ public class OrderDao {
 	
 	// 카트테이블에서 ADD_INGR로 입력
 	public int addIngrInsert() {
-		String sql = "INSERT INTO ADD_INGR(ADD_INGR_NO, INFO_ORDER_NO, INGR_NO)\r\n"
-				+ "   SELECT ADD_INGR_NO_SEQ.NEXTVAL, (SELECT MAX(INFO_ORDER_NO) FROM INFO_ORDER), INGR_NO\r\n"
-				+ "   FROM   CART_ADD_INGR A WHERE A.CART_NO = (SELECT B.CART_NO FROM CART B WHERE B.CART_NO = A.CART_NO)";
+		String sql = "INSERT INTO ADD_INGR(ADD_INGR_NO, INFO_ORDER_NO, INGR_NO)"
+				+ "   SELECT ADD_INGR_NO_SEQ.NEXTVAL,A.INFO_ORDER_NO, B.INGR_NO"
+				+ "   FROM   INFO_ORDER A, CART_ADD_INGR B "
+				+ "   WHERE  A.INFO_ORDER_NO = B.INFO_ORDER_NO";
 		return jdbc.update(sql);
 	}
     
@@ -579,6 +580,20 @@ public class OrderDao {
 		List<Object> param = new ArrayList<>();
 		param.add(menu);
 		return jdbc.selectList(sql, param);
+	}
+
+	public int addInfoOrder1() {
+		String sql = "UPDATE CART_ADD_INGR A "
+				+ "   SET    A.INFO_ORDER_NO = (SELECT (MAX(B.INFO_ORDER_NO)-1) FROM INFO_ORDER B) "
+				+ "   WHERE  A.CART_NO = (SELECT MIN(C.CART_NO) FROM CART C)";
+		return jdbc.update(sql);
+	}
+
+	public int addInfoOrder2() {
+		String sql = "UPDATE CART_ADD_INGR A "
+				+ "   SET    A.INFO_ORDER_NO = (SELECT (MAX(B.INFO_ORDER_NO)) FROM INFO_ORDER B) "
+				+ "   WHERE  A.CART_NO = (SELECT MAX(C.CART_NO) FROM CART C)";
+		return jdbc.update(sql);
 	}
 
 	
