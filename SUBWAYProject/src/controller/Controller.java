@@ -2,7 +2,6 @@ package controller;
 
 import java.util.Map;
 
-import service.BoardService;
 import service.EventService;
 import service.FrancService;
 import service.InquiryMenu;
@@ -33,7 +32,6 @@ public class Controller {
 	public static Map<String, Object> loginUser;
 	
 	private UserService userService = UserService.getInstance();
-	private BoardService boardService = BoardService.getInstance();
 	private LoginMainMenuService loginMainMenuService = LoginMainMenuService.getInstance();
 	private MenuService menuService = MenuService.getInstance();
 	private NotiService noticeService = NotiService.getInstance();
@@ -64,7 +62,6 @@ public class Controller {
 				case View.EVENT_LIST_INFO: view = eventService.eventInfo(); break;
 				case View.INQUIRY_MENU: view = inquiryMenu.inquiry(); break;
 				
-				case View.BOARD_LIST: view = boardService.boardList(); break;
 			}
 		}
 	}
