@@ -226,12 +226,13 @@ public class MyService {
 		
 		Map<String, Object> User;
 		int info_order_no;
+		Map<String, Object> param;
 		
 		while (true) {
 			System.out.print("☞ 조회할 게시글 번호 입력>");
 			info_order_no = ScanUtil.nextInt();
 
-			Map<String, Object> param = new HashMap<>();
+			param = new HashMap<>();
 			param.put("INFO_ORDER_NO", info_order_no);
 
 			User = myDao.orderReadDetail(param);
