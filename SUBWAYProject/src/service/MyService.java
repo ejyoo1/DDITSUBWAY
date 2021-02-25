@@ -223,13 +223,24 @@ public class MyService {
 
 	// 고객 주문내역 상세조회
 	public int orderRead() {
-		System.out.print("☞ 조회할 게시글 번호 입력>");
-		int info_order_no = ScanUtil.nextInt();
+		
+		Map<String, Object> User;
+		int info_order_no;
+		
+		while (true) {
+			System.out.print("☞ 조회할 게시글 번호 입력>");
+			info_order_no = ScanUtil.nextInt();
 
-		Map<String, Object> param = new HashMap<>();
-		param.put("INFO_ORDER_NO", info_order_no);
+			Map<String, Object> param = new HashMap<>();
+			param.put("INFO_ORDER_NO", info_order_no);
 
-		Map<String, Object> User = myDao.orderReadDetail(param);
+			User = myDao.orderReadDetail(param);
+			if (User == null) {
+				System.out.println("잘못 입력하셨습니다.");
+			} else {
+				break;
+			}
+		}
 		// 게시글 내용 출력
 		System.out.println("■■■■■■■■■■■■■■■■■■주문내역 상세조회■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■ 주문정보번호 : " + User.get("주문정보번호"));
@@ -259,6 +270,7 @@ public class MyService {
 		}
 		return View.MYPAGE_MENU;
 	}
+
 
 	// 가맹점주문내역확인
 	public int storeOrderList() {
@@ -293,13 +305,24 @@ public class MyService {
 
 	// 가맹점 주문내역 상세조회
 	public int orderRead2() {
-		System.out.print("☞ 조회할 게시글 번호 입력>");
-		int in_order_no = ScanUtil.nextInt();
-
-		Map<String, Object> param = new HashMap<>();
-		param.put("INFO_ORDER_NO", in_order_no);
-
-		Map<String, Object> User = myDao.orderReadDetail2(param);
+		Map<String, Object> User;
+		int in_order_no;
+		Map<String, Object> param;
+		
+		while(true){
+			System.out.print("☞ 조회할 게시글 번호 입력>");
+			in_order_no = ScanUtil.nextInt();
+	
+			param = new HashMap<>();
+			param.put("INFO_ORDER_NO", in_order_no);
+	
+			User = myDao.orderReadDetail2(param);
+			if(User==null){
+				System.out.println("잘못 입력하셨습니다.");
+			}else{
+				break;
+			}
+		}
 		// 게시글 내용 출력
 		System.out.println("■■■■■■■■■■■■■■■■■■주문내역 상세조회■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■ 주문정보번호 : " + User.get("주문정보번호"));
@@ -326,7 +349,7 @@ public class MyService {
 		default: System.out.println("잘못 입력하셨습니다."); break;
 		}
 		return View.MYPAGE_MENU;
-	}
+}
 
 	
 	// 관리자 1대1문의 조회
@@ -360,14 +383,23 @@ public class MyService {
 
 	// 1대1문의 상세조회 
 	public int inquiryReadDelete() {
-		System.out.print("☞ 조회할 게시글 번호 입력>");
-		int inquiry_no = ScanUtil.nextInt();
-
-		Map<String, Object> param = new HashMap<>();
-		param.put("INQUIRY_NO", inquiry_no);
+		Map<String, Object> inquiry;
+		int inquiry_no;
 		
-		// 게시글 내용 출력
-		Map<String, Object> inquiry = myDao.selectInquiry(param);
+		while(true){
+			System.out.print("☞ 조회할 게시글 번호 입력>");
+			inquiry_no = ScanUtil.nextInt();
+			Map<String, Object> param = new HashMap<>();
+			param.put("INQUIRY_NO", inquiry_no);
+			
+			// 게시글 내용 출력
+			inquiry = myDao.selectInquiry(param); 
+			if(inquiry==null){
+				System.out.println("잘못 입력하셨습니다.");
+			}else{
+				break;
+			}
+		}
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■ 문의 번호 : " + inquiry.get("INQUIRY_NO"));
 		System.out.println("■ 문의 제목: " + inquiry.get("INQUIRY_TITLE"));
