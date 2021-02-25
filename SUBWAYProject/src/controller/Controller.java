@@ -61,7 +61,8 @@ public class Controller {
 				case View.NOTICE_LIST_INFO: view = noticeService.notiInfo(); break;
 				case View.EVENT_LIST_INFO: view = eventService.eventInfo(); break;
 				case View.INQUIRY_MENU: view = inquiryMenu.inquiry(); break;
-				
+				case View.ORDER_MEMBER_REG: view = orderService.memberOrderReg(); break;
+				case View.ORDER_MEMBER_LIST: view = orderService.memberOrderList(Controller.loginUser.get("MEM_ID")); break;
 			}
 		}
 	}

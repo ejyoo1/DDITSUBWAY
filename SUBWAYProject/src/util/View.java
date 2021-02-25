@@ -17,5 +17,6 @@ public class View {
 	public static final int EVENT_LIST_INFO = 13;//이벤트 상세 페이지
 	public static final int INQUIRY_MENU = 14; //1대1문의 페이지
 	public static final int MENU_MANA = 41;
-	
+	public static final int ORDER_MEMBER_REG = 50;
+	public static final int ORDER_MEMBER_LIST = 51;
 }
