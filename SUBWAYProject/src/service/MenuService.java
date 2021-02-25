@@ -181,14 +181,14 @@ public class MenuService {
 			int selMenuNum = ((BigDecimal)selMenuList.get(deNum-1).get("MENU_NO")).intValue();
 			Map<String, Object> selectslDe = menuDao.selectsallDet(selMenuNum);
 
-			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 			System.out.println("메뉴번호 \t 메뉴이름 \t\t 메뉴 기본재료 \t\t\t 메뉴가격");
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			System.out.println(selectslDe.get("MENU_GU_SEQ")
 				+ "\t" + selectslDe.get("MENU_NM")
 				+ "\t" + selectslDe.get("MENU_INGR")
 				+ "\t" + selectslDe.get("MENU_PRICE"));
-			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 			//break;
 		
 		}
