@@ -96,7 +96,7 @@ public class NotiService {
 			
 //			공지사항 등록, 공지사항 상세조회, 이전으로 이동 페이지 설정
 			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-			System.out.println("1. 공지사항 등록\t2. 공지사항 상세 조회\t3. 이전으로(메인 메뉴 페이지 이동)");
+			System.out.println("1.공지사항 등록     2.공지사항 상세 조회     3.이전으로(메인 메뉴 페이지 이동)");
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			System.out.print("☞ 입력 > ");
 			int userInput = ScanUtil.nextInt();
@@ -141,6 +141,7 @@ public class NotiService {
 		
 //		고객, 가맹점 상세 조회 메뉴 출력
 		if(Controller.loginUser.get("LOGIN_CODE").equals(1) || Controller.loginUser.get("LOGIN_CODE").equals(2)) {
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 			System.out.println("1.이전으로(공지사항 홈)");
 			System.out.print ("☞ 입력 > ");
 			int userInput = ScanUtil.nextInt ();
@@ -150,6 +151,7 @@ public class NotiService {
 			}
 //		관리자 상세 조회 메뉴 출력
 		}else if (Controller.loginUser.get("LOGIN_CODE").equals(3)) {
+			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 			System.out.println("1.공지사항 수정     2.공지사항 삭제     3.이전으로(공지사항 홈)");
 			System.out.print ("☞ 입력 > ");
 			int userInput = ScanUtil.nextInt ();
