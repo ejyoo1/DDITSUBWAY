@@ -34,7 +34,6 @@ public class VerifiedUtil {
 		String regex1 = "[a-zA-Z0-9-_]{5,20}+";//아이디 정규식 : 특수문자 -_만
 		Pattern p = Pattern.compile (regex1);
 		Matcher m = p.matcher (userId);
-		System.out.println ("아이디 정규식 결과 : " + m.matches());
 		return m.matches();		
 	}
 	
@@ -43,7 +42,6 @@ public class VerifiedUtil {
 		String regex1 = "^\\d{3}-\\d{3,4}-\\d{4}$";//전화번호 정규식
 		Pattern p = Pattern.compile (regex1);
 		Matcher m = p.matcher (userNumber);
-		System.out.println ("전화번호 정규식 결과 : " + m.matches());
 		return m.matches();
 	}
 	
@@ -52,7 +50,6 @@ public class VerifiedUtil {
 		String regex1 = "^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";//이메일 정규식
 		Pattern p = Pattern.compile (regex1);
 		Matcher m = p.matcher (userEmail);
-		System.out.println ("이메일 정규식 결과 : " + m.matches());
 		return m.matches();
 	}
 	
@@ -61,7 +58,17 @@ public class VerifiedUtil {
 			String regex1 = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$";//날짜 정규식 
 			Pattern p = Pattern.compile (regex1);
 			Matcher m = p.matcher (userDate);
-			System.out.println ("날짜 정규식 결과 : " + m.matches());
+			return m.matches();
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean verifiedRegNo(String memREGNO) {
+		if(!memREGNO.equals("")) {
+			String regex1 = "([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))";//생년월일 정규식
+			Pattern p = Pattern.compile (regex1);
+			Matcher m = p.matcher (memREGNO);
 			return m.matches();
 		}else {
 			return false;
