@@ -196,7 +196,7 @@ public class MyService {
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■주문내역 ■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-		System.out.println("   주문정보전호     메뉴이름     가맹점명     고객주문날짜     총주문금액");
+		System.out.println("   주문정보번호     메뉴이름     가맹점명     고객주문날짜     총주문금액");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for (Map<String, Object> User : userOrderList) {
 			System.out.print(User.get("주문정보번호") + "     ");

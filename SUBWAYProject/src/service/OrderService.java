@@ -150,7 +150,6 @@ public class OrderService {
 	
 	// 점주 주문등록 승인
 	public void buyerOrderRegAccept() {
-		System.out.println("■■■■■■■■■■■■■■■■■■■미등록 주문목록■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		list: while (true) {
 			// 점주 미등록 주문리스트 출력
 			notAcceptOrderList();
@@ -188,9 +187,9 @@ public class OrderService {
 	//점주 미등록 주문리스트
 	public void notAcceptOrderList() {
 		List<Map<String, Object>> orderList = orderDao.notAcceptOrderList();
-		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■■■미등록 주문목록■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("주문번호     가맹점명     메뉴이름     고개주문일자     가격");
-		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for(Map<String, Object> list : orderList) {
 			System.out.println(list.get("ORDER_NO")
 					+ "\t" + list.get("BUYER_NAME")
@@ -207,8 +206,9 @@ public class OrderService {
 	//점주 미등록 주문리스트 상세 조회
 	public void notAcceptOrderDetail() {
 		List<Map<String, Object>> orderList = orderDao.notAcceptOrderDetail();
-		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+		System.out.println("■■■■■■■■■■■■■■■■■■■■미등록 주문 상세조회■■■■■■■■■■■■■■■■■■■■■■■");
+		System.out.println("주문번호     가맹점명     메뉴이름     재료     수량     고객주문일자     점주승인일자     가격     ");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for (Map<String, Object> list : orderList) {
 			System.out.println(list.get("ORDER_NO") 
 					+ "\t" + list.get("BUYER_NAME") 
@@ -226,7 +226,7 @@ public class OrderService {
 	
 	//점주 등록 승인
 	public void regUpdate() {
-		System.out.println("등록승인할 주문번호를 입력해주세요.");
+		System.out.print("☞ 등록승인할 주문번호를 입력해주세요. > ");
 		String orderNo = ScanUtil.nextLine();
 		int orderReg = orderDao.regUpdate(orderNo);
 		System.out.println(orderReg + "개의 주문리스트가 등록되었습니다.");
@@ -237,7 +237,6 @@ public class OrderService {
 	//점주 주문등록 삭제 
 	public void buyerOrderRegDelete() {
 		list: while (true) {
-
 			// 점주 삭제할 주문리스트 출력
 			deleteOrderList(Controller.loginUser.get("BUYER_ID"));
             
@@ -245,13 +244,14 @@ public class OrderService {
 			int input = ScanUtil.nextInt();
 			switch (input) {
 			case 1: // 점주 주문등록 삭제
-				System.out.println("☞ 삭제할 리스트의 주문번호를 입력해주세요.  > ");
+				System.out.print("☞ 삭제할 리스트의 주문번호를 입력해주세요.  > ");
 				String orderNo = ScanUtil.nextLine();
-				System.out.println("☞ 삭제할 리스트의 주문정보번호를 입력해주세요.  > ");
+				System.out.print("☞ 삭제할 리스트의 주문정보번호를 입력해주세요.  > ");
 				int orderInfoNo = ScanUtil.nextInt();
 				deleteOrder(orderNo);
 				deleteAddIngr(orderInfoNo);
 				deleteInfoOrder(orderInfoNo);
+				System.out.println("삭제가 완료되었습니다.");
 				break;
 			case 2:
 				break list;
@@ -330,7 +330,7 @@ public class OrderService {
 		
 			List<Map<String, Object>> orderList = orderDao.memberOrderList(member); // 주문목록 조회
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-			System.out.println("주문번호     가맹점명     메뉴이름");
+			System.out.println("주문번호     가맹점명     메뉴이름     고객주문일자     가격");
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			for(Map<String, Object> list : orderList) {
 				System.out.println(list.get("ORDER_NO")
