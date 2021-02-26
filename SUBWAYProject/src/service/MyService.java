@@ -34,7 +34,7 @@ public class MyService {
 			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 			System.out.println("■■■■■■■■■■■■■■■■■■■■■■마이페이지■■■■■■■■■■■■■■■■■■■■■■");
 			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-			System.out.println("1.내정보 수정     2.주문 내역 확인     3.1:1 문의 작성     4.이전으로(메인 메뉴 페이지 이동)");
+			System.out.println("1.내정보 수정\t2.주문 내역 확인\t3.1:1 문의 작성\t4.이전으로(메인 메뉴 페이지 이동)");
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			System.out.print("☞ 입력 > ");
 			int input = ScanUtil.nextInt();
@@ -52,7 +52,7 @@ public class MyService {
 			System.out.println("■■■■■■■■■■■■■■■■■■■■■■마이페이지■■■■■■■■■■■■■■■■■■■■■■");
 			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-			System.out.println("1.내정보 수정     2. 주문 내역 확인     3. 1:1 문의 작성     4.이전으로");
+			System.out.println("1.내정보 수정\t2. 주문 내역 확인\t3. 1:1 문의 작성\t4.이전으로");
 			System.out.print("☞ 입력>");
 			int input = ScanUtil.nextInt();
 			switch (input) {
@@ -89,14 +89,14 @@ public class MyService {
 		} else {
 			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■현재 정보■■■■■■■■■■■■■■■■■■■■■■■■■");
 			List<Map<String, Object>> userList = myDao.selectUserList();
-			System.out.println("회원명     생년월일     전화번호     우편번호     주소");
+			System.out.println("회원명\t생년월일\t전화번호\t우편번호\t주소");
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			for (Map<String, Object> User : userList) {
-				System.out.print(User.get("MEM_NM") + "     ");
-				System.out.print(User.get("MEM_REGNO") + "     ");
-				System.out.print(User.get("MEM_NUMBER") +"     ");
-				System.out.print(User.get("MEM_ZIP") + "     ");
-				System.out.print(User.get("MEM_ADD") + "     ");
+				System.out.print(User.get("MEM_NM") + "\t");
+				System.out.print(User.get("MEM_REGNO") + "\t");
+				System.out.print(User.get("MEM_NUMBER") +"\t");
+				System.out.print(User.get("MEM_ZIP") + "\t");
+				System.out.print(User.get("MEM_ADD") + "\t");
 				System.out.println();
 			}
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
@@ -150,13 +150,13 @@ public class MyService {
 			System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■현재 정보■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 			List<Map<String, Object>> storeList = myDao.selectStoreList();
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-			System.out.println("가맹점 명            가맹점 전화번호                 가맹점 우편번호            가맹점 주소");
+			System.out.println("가맹점 명\t가맹점 전화번호\t가맹점 우편번호\t가맹점 주소");
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 			for (Map<String, Object> Store : storeList) {
-				System.out.print(Store.get("BUYER_NAME") + "     ");
-				System.out.print(Store.get("BUYER_COMTEL") + "     ");
-				System.out.print(Store.get("BUYER_ZIP") + "     ");
-				System.out.print(Store.get("BUYER_ADD") + "     ");
+				System.out.print(Store.get("BUYER_NAME") + "\t");
+				System.out.print(Store.get("BUYER_COMTEL") + "\t");
+				System.out.print(Store.get("BUYER_ZIP") + "\t");
+				System.out.print(Store.get("BUYER_ADD") + "\t");
 				System.out.println();
 			}
 			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
@@ -196,20 +196,20 @@ public class MyService {
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■주문내역 ■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-		System.out.println("   주문정보번호     메뉴이름     가맹점명     고객주문날짜     총주문금액");
+		System.out.println("주문정보번호\t메뉴이름\t가맹점명\t고객주문날짜\t총주문금액");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for (Map<String, Object> User : userOrderList) {
-			System.out.print(User.get("주문정보번호") + "     ");
-			System.out.print(User.get("메뉴이름") + "     ");
-			System.out.print(User.get("가맹점명") + "     ");
-			System.out.print(User.get("고객주문날짜") + "     ");
-			System.out.print(User.get("총주문금액") + "      ");
+			System.out.print(User.get("주문정보번호") + "\t");
+			System.out.print(User.get("메뉴이름") + "\t");
+			System.out.print(User.get("가맹점명") + "\t");
+			System.out.print(User.get("고객주문날짜") + "\t");
+			System.out.print(User.get("총주문금액") + "\t");
 			System.out.println();
 		}
 		// 게시물을 가지고 사용자가 어떤 행위를 할지 결정한다.
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		System.out.println("1. 상세조회     2. 이전으로(마이페이지 메뉴)");
+		System.out.println("1.상세조회\t2.이전으로(마이페이지 메뉴)");
 		System.out.print("☞ 입력>");
 		int input = ScanUtil.nextInt();
 		switch (input) {
@@ -285,20 +285,20 @@ public class MyService {
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■주문내역 ■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-		System.out.println("     주문정보번호     메뉴이름     가맹점명     고객 주문 날짜     총주문금액");
+		System.out.println("주문정보번호\t메뉴이름\t가맹점명\t고객 주문 날짜\t총주문금액");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for (Map<String, Object> Store : storeOrderList) {
-			System.out.print(Store.get("주문정보번호") + "     ");
-			System.out.print(Store.get("메뉴이름") + "     ");
-			System.out.print(Store.get("가맹점명") + "     ");
-			System.out.print(Store.get("고객주문날짜") + "     ");
-			System.out.print(Store.get("총주문금액") + "     ");
+			System.out.print(Store.get("주문정보번호") + "\t");
+			System.out.print(Store.get("메뉴이름") + "\t");
+			System.out.print(Store.get("가맹점명") + "\t");
+			System.out.print(Store.get("고객주문날짜") + "\t");
+			System.out.print(Store.get("총주문금액") + "\t");
 			System.out.println();
 		}
 		// 게시물을 가지고 사용자가 어떤 행위를 할지 결정한다.
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		System.out.println("1. 상세조회     2. 이전으로(마이페이지 메뉴)");
+		System.out.println("1.상세조회\t2.이전으로(마이페이지 메뉴)");
 		System.out.print("☞ 입력>");
 		int input = ScanUtil.nextInt();
 		switch (input) {
@@ -365,17 +365,17 @@ public class MyService {
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■고객 센터 관리 ■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-		System.out.println("문의 번호     문의 제목      문의 작성일자");
+		System.out.println("문의 번호\t문의 제목\t문의 작성일자");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		for (Map<String, Object> inquiry : inquiryList) {
-			System.out.print(inquiry.get("INQUIRY_NO") + "     ");
-			System.out.print(inquiry.get("INQUIRY_TITLE") + "     ");
-			System.out.print(inquiry.get("INQUIRY_REG_DATE") + "     ");
+			System.out.print(inquiry.get("INQUIRY_NO") + "\t");
+			System.out.print(inquiry.get("INQUIRY_TITLE") + "\t");
+			System.out.print(inquiry.get("INQUIRY_REG_DATE") + "\t");
 			System.out.println();
 		}
 		// 게시물을 가지고 사용자가 어떤 행위를 할지 결정한다.
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-		System.out.println("1. 문의 상세 조회     2. 이전으로(마이페이지 메뉴)");
+		System.out.println("1.문의 상세 조회\t2.이전으로(마이페이지 메뉴)");
 		System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 		System.out.print("☞ 입력 > ");
 		int input = ScanUtil.nextInt();
@@ -417,7 +417,7 @@ public class MyService {
 		
 		// 이 게시글을 사용하여 사용자가 어떤 행위를 할지 결정한다.
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-		System.out.println("1. 1:1 문의삭제     2.이전으로(마이페이지 메뉴)");
+		System.out.println("1. 1:1 문의삭제\t2.이전으로(마이페이지 메뉴)");
 		System.out.print("☞ 입력>");;
 		int input = ScanUtil.nextInt();
 		switch (input) {
